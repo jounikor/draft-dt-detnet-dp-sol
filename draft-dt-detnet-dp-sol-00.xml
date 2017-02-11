@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!ENTITY rfc2119 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY rfc3031 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3031.xml">
+<!ENTITY rfc3032 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3032.xml">
+<!ENTITY rfc3985 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3985.xml">
+<!ENTITY rfc4023 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4023.xml">
+<!ENTITY rfc4385 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4385.xml">
+<!ENTITY rfc4446 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4446.xml">
+<!ENTITY rfc4447 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4447.xml">
+<!ENTITY rfc4448 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4448.xml">
+<!ENTITY rfc4553 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4553.xml">
+<!ENTITY rfc4664 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4664.xml">
+<!ENTITY rfc4817 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4817.xml">
+<!ENTITY rfc4875 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4875.xml">
+<!ENTITY rfc5086 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5086.xml">
+<!ENTITY rfc5087 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5087.xml">
+<!ENTITY rfc5254 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5254.xml">
+<!ENTITY rfc5129 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5129.xml">
+<!ENTITY rfc5305 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5305.xml">
+<!ENTITY rfc5331 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5331.xml">
+<!ENTITY rfc5332 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5332.xml">
+<!ENTITY rfc5440 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5440.xml">
+<!ENTITY rfc5462 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5462.xml">
+<!ENTITY rfc5586 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5586.xml">
+<!ENTITY rfc5659 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5659.xml">
+<!ENTITY rfc5921 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5921.xml">
+<!ENTITY rfc5960 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5960.xml">
+<!ENTITY rfc6073 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6073.xml">
+<!ENTITY rfc6275 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6275.xml">
+<!ENTITY rfc6371 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6371.xml">
+<!ENTITY rfc6373 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6373.xml">
+<!ENTITY rfc6378 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6378.xml">
+<!ENTITY rfc6426 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6426.xml">
+<!ENTITY rfc6437 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6437.xml">
+<!ENTITY rfc6540 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6540.xml">
+<!ENTITY rfc6564 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6564.xml">
+<!ENTITY rfc6621 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6621.xml">
+<!ENTITY rfc6658 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6658.xml">
+<!ENTITY rfc6718 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6718.xml">
+<!ENTITY rfc6733 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6733.xml">
+<!ENTITY rfc6790 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6790.xml">
+<!ENTITY rfc7271 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7271.xml">
+<!ENTITY rfc7348 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7348.xml">
+<!ENTITY rfc7426 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7426.xml">
+<!ENTITY rfc7432 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7432.xml">
+<!ENTITY rfc7510 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7510.xml">
+
+<!ENTITY I-D.ietf-detnet-dp-alt PUBLIC "" "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-detnet-dp-alt.xml">
+<!ENTITY I-D.ietf-detnet-problem-statement PUBLIC "" "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-detnet-problem-statement.xml">
+<!ENTITY I-D.ietf-detnet-architecture PUBLIC "" "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-detnet-architecture.xml">
+<!ENTITY I-D.ietf-mpls-residence-time SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-mpls-residence-time">
+
+
+]>
+
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<?rfc toc="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes"?>
+<?rfc iprnotified="no"?>
+<?rfc strict="yes"?>
+<?rfc compact="yes"?>
+<?rfc subcompact="yes"?>
+<rfc category="info"
+     docName="draft-ietf-detnet-dp-sol-00"
+         ipr="trust200902"
+         submissionType="IETF">
+  <front>
+    <title abbrev="DetNet data plane protocol">
+     DetNet Data Plane Protocol</title>
+
+  <author role="editor" fullname="Jouni Korhonen" initials="J." surname="Korhonen">
+   <organization abbrev="Broadcom">Broadcom</organization>
+   <address>
+    <postal>
+     <street>3151 Zanker Road</street>
+     <city>San Jose</city>
+     <code>95134</code>
+     <region>CA</region>
+     <country>USA</country>
+    </postal>
+    <email>jouni.nospam@gmail.com</email>
+   </address>
+  </author>
+
+  <author fullname="Donald Fauntleroy Duck" initials="D. F." surname="Duck">
+   <organization abbrev="Royal Bros.">Royal Bros.</organization>
+   <address>
+    <postal>
+     <street>13 Paradise Road</street>
+     <city>Duckburg</city>
+     <region>Calisota</region>
+     <country>USA</country>
+    </postal>
+   </address>
+  </author>
+  <date />
+  <workgroup>DetNet</workgroup>
+
+  <abstract>
+  <t>
+   This document specifies a PseudoWire-based Determnistic Networking data plane
+   protocol solutoon. The data plane protocol runs over either IP or MPLS Packet
+   Switched Networks.
+  </t>
+  </abstract>
+
+  
+  </front>
+
+ <middle>
+ <section title="Introduction" anchor="sec_intro">
+  <t>
+   This document specifies a Deterministic Networking (DetNet) data plane protocol. The
+   solution is based on PseudoWires (PW) <xref target="RFC3985"/> and makes use
+   of the multi-segment (MS-PW) <xref target="RFC6073"/> to map DetNet Relays and
+   Edge Nodes <xref target="I-D.ietf-detnet-architecture"/><xref target="I-D.ietf-detnet-dp-alt"/> 
+   to PW architecture. The PW-based data plane can be run over either an IP or
+   MPLS <xref target="RFC4448"/><xref target="RFC6658"/> Packet Switched Network (PSN).
+  </t>
+  <t>
+   For the purpose of DetNet data plane this document specifically specifies the
+   PW encapsulation for DetNet flows, a DetNet Control Word (CW), a DetNet label,
+   how MS-PW derived DetNet Relay and Edge nodes work, and as a specific new
+   PW feature how the Frame Replication and Elimination for Redundancy (FRER) is
+   implemented using PWs. This document does not define the associated control
+   plane functions, or operations and management (O&amp;M).
+  </t>
+ </section>
+
+ <section title="Terminology">
+  <t>
+   This document uses the terminology established in the DetNet architecture
+   <xref target="I-D.ietf-detnet-architecture"/> and the DetNet Data Plane
+   Solution Alternatives <xref target="I-D.ietf-detnet-dp-alt"/>.
+  </t>
+ </section>
+
+ <section title="Requirements notation">
+  <t>
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL"
+   "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY",
+   and "OPTIONAL" in this document are to be interpreted as
+   described in <xref target="RFC2119"/>.
+  </t>
+ </section>
+
+<section title="DetNet Data Plane Overview" anchor="sec_dt_dp">
+ <t>
+   A "Deterministic Network" will be composed of DetNet enabled nodes i.e., End
+   Systems, Edge Nodes, Relay Nodes and collectively deliver DetNet
+   services.  DetNet enabled nodes are interconnected via Transit Nodes
+   (i.e., routers) which support DetNet, but are not DetNet service
+   aware.  Transit nodes see DetNet nodes as end points.   
+   All DetNet enabled nodes are connect to
+   sub-networks, where a point-to-point link is also considered as a
+   simple sub-network. These 
+   sub-networks will provide DetNet compatible service for support of DetNet
+   traffic.  Examples of sub-networks include IEEE 802.1TSN and 
+   OTN.  Of course, multi-layer DetNet systems may also be possible, where
+   one DetNet appears as a sub-network, and provides service to, a higher layer
+   DetNet system. A simple DetNet concept network is shown in <xref
+   target="fig_detnet"/>.
+ </t>
+<figure anchor="fig_detnet" align="center"
+title="A Simple DetNet Enabled Network">
+<artwork align="center"><![CDATA[
+ 
+TSN              Edge          Transit        Relay        DetNet
+End System       Node            Node         Node         End System
+
++---------+    +.........+                                 +---------+
+|  Appl.  |<---:Svc Proxy:-- End to End Service ---------->|  Appl.  |
++---------+    +---------+                   +---------+   +---------+
+|   TSN   |    |TSN| |Svc|<-- DetNet flow ---: Service :-->| Service |
++---------+    +---+ +---+    +---------+    +---------+   +---------+
+|Transport|    |Trp| |Trp|    |Transport|    |Trp| |Trp|   |Transport|
++-------.-+    +-.-+ +-.-+    +--.----.-+    +-.-+ +-.-+   +---.-----+
+        :  Link  :    /  ,-----.  \   :  Link  :    /  ,-----.  \
+        +........+    +-[  Sub  ]-+   +........+    +-[  Sub  ]-+
+                        [Network]                     [Network] 
+                         `-----'                       `-----'
+]]></artwork>
+</figure>
+
+
+<section title="Example DetNet Service Scenarios" anchor="sec_dt_dp_svc">
+<t>
+  In an attempt to illustrate a DetNet date plane, this document uses the
+  Multi-Segment Pseudowire Emulation Edge-to-Edge (PWE3) <xref
+  target="RFC6073"/> reference model shown in <xref target="fig_pw_detnet"/> as
+  the foundation for different DetNet data plane deployment options and how
+  layering could work.  Other reference models are possible but not covered in
+  this document. Note that other technologies can be also used to implement
+  DetNet, Multi-Segment PW is only used here to illustrate functions, features
+  and layering from the perspective of the architecture.
+ </t> 
+  
+<figure anchor="fig_pw_detnet" align="center" 
+title="Pseudo Wire switching reference model">
+<artwork><![CDATA[
+      Native  |<--------Multi-Segment Pseudowire----->|  Native
+      Service |         PSN              PSN          |  Service
+       (AC)   |     |<-Tunnel->|     |<-Tunnel->|     |  (AC)
+        |     V     V     1    V     V     2    V     V   |
+        |     +-----+          +-----+          +---- +   |
++---+   |     |T-PE1|==========|S-PE1|==========|T-PE2|   |    +---+
+|   |---|-----|........PW1...........|...PW3..........|---|----|   |
+|CE1|   |     |     |          |     |          |     |   |    |CE2|
+|   |---------|........PW2...........|...PW4..........|--------|   |
++---+   |     |     |==========|     |==========|     |   |    +---+
+    ^         +-----+          +-----+          +-----+        ^
+    |     Provider Edge 1         ^        Provider Edge 3     |
+    |                             |                            |
+    |                     PW switching point                   |
+    |                                                          |
+    |<------------------- Emulated Service ------------------->|
+]]></artwork>
+</figure>
+
+ <t>
+  <xref target="fig_8021_detnet"/> illustrates how DetNet can provide services
+  for IEEE 802.1TSN end systems over a DetNet enabled network.  The edge nodes
+  insert and remove required DetNet data plane encapsulation.  The 'X' in
+  the edge and relay nodes represents a potential DetNet flow packet
+  replication and elimination point.  This conceptually parallels L2VPN
+  services, and could leverage existing related solutions as discussed
+  below.
+ </t>
+
+<figure align="center" anchor="fig_8021_detnet"
+ title="IEEE 802.1TSN over DetNet">
+<artwork><![CDATA[
+       TSN    |<----- End to End DetNet Service ----->|  TSN
+      Service |        Transit          Transit       | Service
+TSN    (AC)   |     |<-Tunnel->|     |<-Tunnel->|     |  (AC)     TSN
+End     |     V     V     1    V     V     2    V     V   |       End
+System  |     +-----+          +-----+          +---- +   |    System
++---+   |     |T-PE1|==========|S-PE1|==========|T-PE2|   |    +---+
+|   |---|-----|.X_..DetNet Flow1..X..|...DF3........X.|---|----|   |
+|CE1|   |     |  \  |          |     |          |  /  |   |    |CE2|
+|   |         |...X_...DF2........X..|...DF4......X_..|        |   |
++---+         |     |==========|     |==========|     |        +---+
+    ^         +-----+          +-----+          +-----+        ^
+    |        Edge Node        Relay Node       Edge Node       |
+    |                                                          |
+    |<--------------- Emulated TSN Service ------------------->|
+]]></artwork>
+</figure>
+
+ <t>
+  <xref target="fig_native_detnet"/> illustrates how end to end native DetNet
+  service can be provided. In this case, the end systems are able to send and
+  receive native DetNet flows.  For example, as PseudoWire (PW) encapsulated
+  IP.  Like earlier the 'X' in the end systems, edge and relay nodes represents
+  potential DetNet flow packet replication and elimination points. Here the
+  relay nodes may change the underlying transport, for example replacing IP
+  with MPLS or tunneling IP over MPLS (e.g., via L3VPNs), or simply
+  interconnect network domains.
+ </t>
+
+<figure align="center" anchor="fig_native_detnet"
+ title="Native DetNet">
+<artwork><![CDATA[
+       DetNet                                           DetNet
+       Service         Transit          Transit        Service
+DetNet   |          |<-Tunnel->|     |<-Tunnel->|         |    DetNet
+End      |          V     1    V     V     2    V         |    End
+System   |    +-----+          +-----+          +-----+   |    System
++---+    |    |S-PE1|==========|S-PE2|==========|S-PE3|   |    +---+
+|  X....DFa.....X_.......DF1.......X_....DF3........X.....DFa...X  |
+|CE1|=========|  \  |          |  /  |          |  /  |========|CE2|
+|   |    |    |   \......DF2.....X_......DF4....../   |   |    |   |
++---+         |     |==========|     |==========|     |        +---+
+    ^         +-----+          +-----+          +-----+        ^
+    |        Relay Node       Relay Node       Relay Node      |
+    |                                                          |
+    |<------------- End to End DetNet Service ---------------->|
+]]></artwork>
+</figure>
+</section>
+</section>
+
+<!-- ================================================================= -->
+
+<section title="Data plane solution alternatives">
+    <t>
+      MPLS supports the equivalent of both the DetNet Service and DetNet
+      Transport layers, and provides a very rich set of mechanisms that can be
+      reused directly, and perhaps augmented in certain cases, to deliver DetNet
+      services. At the DetNet Transport layer, MPLS provides forwarding,
+    </t>
+<figure anchor="fig_mpls_clients" align="center"
+title="MPLS-based Services">
+<artwork align="center"><![CDATA[
+   PW-Based               EVPN Labeled                 IP
+   Services                  Services                Transport
+ |------------|  |-----------------------------|  |------------|
+
+   Emulated       EVPN over LSP   EVPN w/ ESI ID        IP
+   Service
+                                  +------------+
+                                  |  Payload   |
+ +------------+   +------------+  +------------+             (Service)
+ | PW Payload |   |  Payload   |  |ESI Lbl(S=1)|
+ +------------+   +------------+  +------------+  +------------+
+ |PW Lbl(S=1) |   |VPN Lbl(S=1)|  |VPN Lbl(S=0)|  |     IP     |
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ |LSP Lbl(S=0)|   |LSP Lbl(S=0)|  |LSP Lbl(S=0)|  |LSP Lbl(S=1)|
+ +------------+   +------------+  +------------+  +------------+
+       .                .               .               .
+       .                .               .               .    (Transport)
+       .                .               .               .
+
+~~~~~~~~~~~ denotes DetNet Service <-> DetNet Transport layer boundary
+]]></artwork>
+</figure>
+    <t>
+      MPLS can be controlled in a number of ways including via a control
+      plane, via the management plane, or via centralized controller
+      (SDN) based approaches. MPLS also provides standard control plane
+    </t>
+
+  <section title="Pseudo Wire Emulation Edge-to-Edge (PWE3)" anchor="sec_alt_pwe">
+    <t>
+     Pseudo Wire Emulation Edge-to-Edge (PWE3) <xref target="RFC3985"/> or
+     simply PseudoWires (PW) provide means of emulating the essential attributes
+     and behaviour of a telecommunications service over a packet switched
+     network (PSN) using IP or MPLS transport.  In addition to traditional
+     telecommunications services such as T1 line or Frame Relay, PWs also
+     provide transport for Ethernet service <xref target="RFC4448"/> and for
+     generic packet service <xref target="RFC6658"/>.  <xref target="fig_pwe3_stack"/>
+     illustrate the reference PWE3 stack model.
+    </t>
+    <figure title="PWE3 protocol stack reference model" anchor="fig_pwe3_stack">
+    <artwork align="center"><![CDATA[
++-----------+                                  +-----------+
+|  Emulated |                                  |  Emulated |
+|  Service  |                                  |  Service  |
+|           |<======= Emulated Service =======>|           |
++-----------+                                  +-----------+
+| Payload   |<=== Multi-segment Pseudowire ===>| Payload   |
+|  Encap.   |            DetNet CW             |  Encap.   |
+|           |         e2e  DetNet Label        |           | 
++-----------+            +--------+            +-----------+
+| PW Demux  |<PW Segment>|PW Demux|<PW Segment>| PW Demux  |
+|           | PW Label X |        | PW Label Y |           |
++-----------+            +--------+            +-----------+
+|PSN Tunnel,|<PSN Tunnel>|  PSN   |<PSN Tunnel>|PSN Tunnel,|
+| PSN & PHY |            |Physical|            | PSN & PHY |
+| Layers    |            | Layers |            |  Layers   |
++----+------+            +---+----+            +-----+-----+
+     |          __________   |   __________          |
+     |         /          \  |  /          \         |
+     +========/    PSN     \=+=/    PSN     \========+
+              \  domain 1  /   \  domain 2  /
+               \__________/     \__________/
+   ]]>
+    </artwork></figure>
+   
+    <figure title="DetNet Control Word" anchor="fig_detnet_cw">
+    <artwork align="center"><![CDATA[
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|0 0 0 0|                  Sequence Number                      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+]]>
+    </artwork></figure>
+
+    <figure title="Encapsulation of DetNet flow in a PW with MPLS(-TP) PSN" anchor="fig_pw_mpls">
+    <artwork align="center"><![CDATA[
++-------------------------------+
+|                               |
+|          DetNet Flow          |
+|        Payload  Packet        |  n octets
+|                               |
++-------------------------------+
+|      DetNet Control Word      |  4 octets
++-------------------------------+
+|       e2e DetNet label        |  4 octets
++-------------------------------+
+|          PW Label             |  4 octets
++-------------------------------+
+|   Server MPLS Tunnel Label(s) |  n*4 octets (four octets per label)
++-------------------------------+
+]]>
+    </artwork></figure>
+    
+    <figure title="Encapsulation of DetNet flow in a PW with IP PSN" anchor="fig_pw_ip">
+    <artwork align="center"><![CDATA[
++-------------------------------+
+|                               |
+|          DetNet Flow          |
+|        Payload  Packet        |  n octets
+|                               |
++-------------------------------+
+|      DetNet Control Word      |  4 octets
++-------------------------------+
+|       e2e DetNet label        |  4 octets
++-------------------------------+
+|          PW Label             |  4 octets
++-------------------------------+
+|      Optional UDP Header      |  0 or 8 octets
++-------------------------------+
+|      IPv4 or IPv6 Header      |  20, 40 or more octets
++-------------------------------+
+]]>
+    </artwork></figure>
+
+    
+    <figure title="Replication and elimination example" anchor="fig_detnet_ex1">
+    <artwork align="center"><![CDATA[
+
+
+
+           Payload
+           DetNet CW+SN
+           DetNet Label
+	   PW1 Label 66            Payload                    
+	        ...                DetNet CW+SN       Payload     
+           PSN Label 88            DetNet Label       DetNet CW+SN
++-----+ //====~~~~~=====\\ +-----+ PW3 Label 68       DetNet Label +-----+
+|T-PE1|//      PW1       \\|S-PE1| PSN Label 90  php  PW3 Label 68 |T-PE2|
+|    /|                    |\    |              +---+              |     |
+|  ?< |                    | >?<-|==============|LSR|==============|->?< |
+|    \|                    |/    |     PW3      +---+     PW3      |     |
+|     |\\      PW2       //|     |                                 |     |
++-----+ \\====~~~~~=====// +-----+                                 +-----+
+	   Payload     
+	   DetNet CW+SN
+	   DetNet Label
+	   PW2 Label 67
+                ...    
+           PSN Label 89
+]]>
+</artwork></figure>
+   
+  </section>
+
+  <section title="PE reference model">
+   <section title="T-PE processing clarifications">
+    
+    
+    <figure title="DetNet Edge Node as a T-PE" anchor="fig_detnet_edge">
+    <artwork align="center"><![CDATA[
+            +---------------------------------------+
+            |       DetNet-aware T-PE Device        |
+            +---------------------------------------+   Egress/
+            |             | Forwarder |             |   Ingress 
+            |  LSR        |           |    Single   | PW Instance
+Client PSN  |  Function   X <-*-----> X PW Instance X<---------->
+LSPs        |             |   | Repl. |             |            
+<---------->X             |   | Elim. +-------------+ Duplicate           
+            |             |   :       |             |   Egress
+            |             |   .       |    Single   | PW Instance
+            |             |       +-> X PW Instance X<---------->
+            |             |       |   |             |            
+            +-------------+       |   +-------------+   Egress/ 
+            |             |       |   |             |   Ingress         
+Client AC   |    NSP      | Repl. |   |    Single   | PW Instance           
+<---------->X             X <-----*-> X PW Instance X<---------->
+            |             | Elim.     |             |            
+            +-------------+           +-------------+   Egress/  
+            |             |           |             |   Ingress         
+Client AC   |    NSP      |           |    Single   | PW Instance           
+<---------->X             X <-------> X PW Instance X<---------->
+            |             |           |             |            
+            +---------------------------------------+            
+]]>
+    </artwork></figure>
+  </section>
+
+   </section>
+   
+   
+   <section title="S-PE processing clarifications">
+    <t>
+     The PW-based DetNet data plane solution overloads a S-PE with
+     a DetNet Relay function. This implies the S-PE is aware of
+     DetNet flows and may operate upon those. <xref target="fig_detnet_relay"/>
+     illustrates the overall S-PE device functions.
+    </t>
+    <t>
+     DetNet-aware S-PE participates to the frame replication and
+     duplication elimination. This processing is done within an
+     extended forwarder function.
+    </t>
+    <t>
+     The DetNet-aware forwarder selects the egress segment PW based on the
+     DetNet label.  The mapping of DetNet label to egress PW label may be statically
+     or dynamically configured. Additionally the DetNet-aware forwarder 
+     does duplicate frame elimination based on the DetNet label and DetNet
+     Control Word combination. The frame replication is also done in
+     the DetNet-aware forwarder. During elimination and the replication
+     process both DetNet CW sequence number and DetNet label MUST be
+     preserved and copied to the egress PW.
+    </t>
+
+    <figure title="DetNet Relay Node as a S-PE" anchor="fig_detnet_relay">
+    <artwork align="center"><![CDATA[
+            +---------------------------------------+
+            |       DetNet-aware S-PE Device        |
+            +---------------------------------------+
+  Ingress   |             | Forwarder |             |   Egress  
+PW instance |   Single    |           |    Single   | PW Instance
+----------->X PW Instance X --*-----> X PW Instance X----------->
+            |             |   | Elim. |             |            
+            +-------------+   |       +-------------+ Duplicate           
+  Ingress   |             |   |       |             |   Egress
+PW instance |   Single    |   |       |    Single   | PW Instance
+----------->X PW Instance X --+   +-> X PW Instance X----------->
+            |             |       |   |             |            
+            +-------------+       |   +-------------+           
+  Ingress   |             |       |   |             |   Egress          
+PW instance |   Single    | Repl. |   |    Single   | PW Instance           
+----------->X PW Instance X ------*-> X PW Instance X----------->
+            |             |           |             |            
+            +-------------+           +-------------+            
+  Ingress   |             |           |             |   Egress          
+PW instance |   Single    |           |    Single   | PW Instance           
+----------->X PW Instance X --------> X PW Instance X----------->
+            |             |           |             |            
+            +---------------------------------------+            
+]]>
+    </artwork></figure>
+  </section>
+
+
+    
+</section>
+
+
+
+<!-- ===================================================================== -->
+
+
+<section title="Security considerations">
+  <t>
+   This document probably has security considerations.
+  </t>
+</section>
+
+
+<section anchor="iana" title="IANA Considerations">
+  <t>TBD.
+  </t>
+</section>
+
+<section anchor="acks" title="Acknowledgements">
+  <t>The author(s) ACK and NACK.
+  </t>
+  <t> The following people were part of the DetNet Data Plane Protocol Design Team:
+  <list style="bullets">
+   <t>Jouni Korhonen</t>
+   <t>J&aacute;nos Farkas</t>
+   <t>Norman Finn</t>
+   <t>Bal&aacute;zs Varga</t>
+   <t>Loa Andersson</t>
+   <t>Tal Mizrahi</t>
+   <t>David Mozes</t>
+   <t>Yuanlong Jiang</t>
+  </list></t>
+  <t>
+   The DetNet chairs serving during the DetNet Data Plane Protocol Design Team:
+   <list style="bullets">
+    <t>Lou Berger</t>
+    <t>Pat Thaler</t>
+   </list></t>
+</section>
+</middle>
+
+<back>
+  <references title="Normative References">
+   &rfc3985;
+   &rfc3031;
+   &rfc6073;
+   &rfc4448;
+   &rfc6658;
+   &rfc4023;
+   &rfc7510;
+   &rfc2119;
+  </references>
+  <references title="Informative References">
+   &rfc3032;
+   &rfc4385;
+   &rfc5921;
+   &I-D.ietf-detnet-dp-alt;
+   &I-D.ietf-detnet-architecture;
+   &I-D.ietf-detnet-problem-statement;
+   &I-D.ietf-mpls-residence-time;
+
+  </references>
+ <section title="Examples of combined DetNet Service and Transport layers" anchor="sec_comb">
+ </section>
+ </back>
+</rfc>
+
