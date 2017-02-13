@@ -100,9 +100,9 @@
 
   <abstract>
   <t>
-   This document specifies a PseudoWire-based Determnistic Networking data plane
-   protocol solutoon. The data plane protocol runs over either IP or MPLS Packet
-   Switched Networks.
+   This document specifies a PseudoWire-based Determnistic Networking data
+   plane protocol solutoon. The data plane protocol runs over either IP or MPLS
+   Packet Switched Networks.
   </t>
   </abstract>
 
@@ -112,20 +112,22 @@
  <middle>
  <section title="Introduction" anchor="sec_intro">
   <t>
-   This document specifies a Deterministic Networking (DetNet) data plane protocol. The
-   solution is based on PseudoWires (PW) <xref target="RFC3985"/> and makes use
-   of the multi-segment (MS-PW) <xref target="RFC6073"/> to map DetNet Relays and
-   Edge Nodes <xref target="I-D.ietf-detnet-architecture"/><xref target="I-D.ietf-detnet-dp-alt"/> 
-   to PW architecture. The PW-based data plane can be run over either an IP or
-   MPLS <xref target="RFC4448"/><xref target="RFC6658"/> Packet Switched Network (PSN).
+   This document specifies a Deterministic Networking (DetNet) data plane
+   protocol. The solution is based on PseudoWires (PW) <xref target="RFC3985"/>
+   and makes use of the multi-segment (MS-PW) <xref target="RFC6073"/> to map
+   DetNet Relays and Edge Nodes <xref
+   target="I-D.ietf-detnet-architecture"/><xref
+   target="I-D.ietf-detnet-dp-alt"/> to PW architecture. The PW-based data
+   plane can be run over either an IP or MPLS <xref target="RFC4448"/><xref
+   target="RFC6658"/> Packet Switched Network (PSN).
   </t>
   <t>
-   For the purpose of DetNet data plane this document specifically specifies the
-   PW encapsulation for DetNet flows, a DetNet Control Word (CW), a DetNet label,
-   how MS-PW derived DetNet Relay and Edge nodes work, and as a specific new
-   PW feature how the Frame Replication and Elimination for Redundancy (FRER) is
-   implemented using PWs. This document does not define the associated control
-   plane functions, or operations and management (O&amp;M).
+   For the purpose of DetNet data plane this document specifically specifies
+   the PW encapsulation for DetNet flows, a DetNet Control Word (CW), a DetNet
+   label, how MS-PW derived DetNet Relay and Edge nodes work, and as a specific
+   new PW feature how the Frame Replication and Elimination for Redundancy
+   (FRER) is implemented using PWs. This document does not define the
+   associated control plane functions, or operations and management (O&amp;M).
   </t>
  </section>
 
@@ -137,7 +139,7 @@
   </t>
  </section>
 
- <section title="Requirements notation">
+ <section title="Requirements language">
   <t>
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL"
    "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY",
@@ -267,7 +269,7 @@ System   |    +-----+          +-----+          +-----+   |    System
   <t>
    [Ed. describe here the issue with backward compatibility with existing
     technologies that use 16 bit sequence numbers. Alteratively we could
-    define the SN as 16 bit or 28 bit and keep that as a configuarion knob.]
+    define the SN as 16 or 28 bit value and keep that as a configuarion knob.]
   </t>
 </section>
 
@@ -288,6 +290,17 @@ System   |    +-----+          +-----+          +-----+   |    System
   <t>
    [Ed. so if the DetNet flow does not want/need FREF could we just eliminate
    detnet cw in that case?]
+  </t>
+  <t>
+   [Ed. Thinking of the DetNet label.. MAYBE we should just define a DetNet
+   Control Word that keeps inside the e2e flow identification information what
+   we now use the Detnet label for or change the ordering of the DetNet CW and
+   the DetNet label. This would IMHO be a bit more cleaner approach - following
+   the RFC5087 - and call it e.g., DetNet Adaptation Layer.  The current with
+   DetNet label between the PW label and the CW does not seem to fit nicely
+   into the existing PW architecture. On the other hand DetNet label could be used
+   within the pipeline as an internal next-hop indicator.. I welcome discussion
+   here..] 
   </t>
 
   <section title="Encasulation for MPLS PSN">
@@ -331,18 +344,35 @@ System   |    +-----+          +-----+          +-----+   |    System
 +-------------------------------+
 |      Optional UDP Header      |  0 or 8 octets
 +-------------------------------+
-|      IPv4 or IPv6 Header      |  20, 40 or more octets
-+-------------------------------+
+|      IPv4 or IPv6 Header      |  20 or 40 (or more octets
++-------------------------------+  with extension headers)
 ]]>
     </artwork></figure>
   </section>
  </section>
 
   <section title="PE reference model considerations">
+   <section title="Forwarded clarifications">
+    <t>
+     [Ed. The Detnet-aware "extended forwarder" does the heavy lifting on maintaining
+     the sequence numbers associated with the DetNet labels. Extended forwarder is also
+     responsible for frame replication and duplicate elimination. See the excerpt from
+     RFC3985 Section 4.2.1. about forwarder's functions. We extend that to FRER:
+     <list style="none">
+     <t>
+       Some applications have to forward payload elements selectively from
+       one or more ACs to one or more PWs.  In such cases, there will also be
+       a need to perform the inverse function on PWE3-PDUs received by a PE
+       from the PSN.  This is the function of the forwarder.
+     </t></list>   
+     ]
+    </t>
+   </section>
+   
    <section title="T-PE processing clarifications" anchor="sec_t_pe">
     <t>
      The PW-based DetNet data plane solution overloads the T-PE with 
-     a DetNet Edge Node function. This implies the T-PE is aware of the
+     a DetNet Edge Node function. This implies the T-PE is aware of
      DetNet flows and may need to operate upon those. <xref target="fig_detnet_edge"/>
      illustrates the overall T-PE device functions. The figure shows both
      physical attachment circuit (AC) (e.g., Ethernet <xref target="RFC4448"/>)
@@ -380,10 +410,10 @@ Client AC   |    NSP      |           |    Single   | PW Instance
   
     <t>
      DetNet-aware T-PE participates to the frame replication and duplication
-     elimination. This processing is done within an extended forwarder
+     elimination. Required processing is done within an extended forwarder
      function. In the case the native service processing (NSP) is IEEE 802.1CB
      <xref target="IEEE8021CB"/> capable the frame replication and duplicate
-     elimination MAY [Ed: SHOULD, MUST?] entirely be done in the NSP.
+     elimination MAY [Ed: SHOULD, MUST?] entirely be done in the NSP. 
     </t>
     <t>
      The DetNet-aware extended forwarder selects the egress segment PW based on
@@ -455,14 +485,6 @@ PW instance |   Single    |           |    Single   | PW Instance
 ]]>
     </artwork></figure>
   </section>
-  
-  <section title="Forwarded clarifications">
-   <t>
-    [Ed. The Detnet-aware "extended forwarder" does the heavy lifting on maintaining
-    the sequence numbers associated with the DetNet labels. Extended forwarder is also
-    responsible for frame replication and duplicate elimination]
-   </t>
-  </section>
  </section>
 </section>
 
@@ -481,9 +503,10 @@ PW instance |   Single    |           |    Single   | PW Instance
  
  <section title="Time-synchronization">
   <t>
-   [Ed. discribe a bit of issues and deployment considerations related
-   to time-synchronization within DetNet. Scope time-synchronization
-   outside data plane solution.]
+   [Ed. discribe a bit of issues and deployment considerations related to
+   time-synchronization within DetNet. Refer to DT discussion and the slides
+   that summarize different approaches and rough synchronization performance
+   numbers.  Finally, scope time-synchronization solution outside data plane.]
   </t>
  </section>
 </section>
