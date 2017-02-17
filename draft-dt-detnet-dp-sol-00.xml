@@ -247,30 +247,19 @@ System   |    +-----+          +-----+          +-----+   |    System
 
  <section title="DetNet Control Word">
   <t>
-   The DetNet control word is based on the the control word defined
-   fro Ethernet over MPLS networks in <xref target="RFC4448"/>. The
-   DetNet control word is illustrated in <xref target="fig_detnet_cw"/>.
+   The DetNet control word (d-CW) is identical to the control word defined for
+   Ethernet over MPLS networks in <xref target="RFC4448"/>. The DetNet control
+   word is illustrated in <xref target="fig_detnet_cw"/>.
   </t>
     <figure title="DetNet Control Word" anchor="fig_detnet_cw">
     <artwork align="center"><![CDATA[
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|0 0 0 0|                   Sequence Number                     |
+|0 0 0 0|  reserved - set to 0  |   16 bit Sequence Number      |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]>
     </artwork></figure>
-  <t>
-   The DetNet control word extendes the sequence number space from
-   16 bits to 28 bits. A larger sequence number space is needed with
-   high speed links to prevent the sequence number rolling over too
-   soon to prevent ambuguities during a duplicate packet detection process.
-  </t>
-  <t>
-   [Ed. describe here the issue with backward compatibility with existing
-    technologies that use 16 bit sequence numbers. Alteratively we could
-    define the SN as 16 or 28 bit value and keep that as a configuarion knob.]
-  </t>
 </section>
 
  <section title="DetNet encapsulation">
@@ -279,28 +268,21 @@ System   |    +-----+          +-----+          +-----+   |    System
    single encapsulation that can be used over both MPLS and IP packet switched
    Networks (PSN). The DetNet data plane encapsulation consists of a 
    <list style="symbols">
-    <t>DetNet control word: contains sequencing information for 
+    <t>DetNet control word (d-CW): contains sequencing information for 
      frame replication and duplicate elimination purposes. There is a separate
      sequence number space per each DetNet label.</t>
-    <t>DetNet label: end to end label that identifies the DetNet flow. The DetNet
-     label is unique across all DetNet flows between two DetNet aware nodes that
-     terminate the end to end flow.</t>
+    <t>PseudoWire Label (d-PW): a standard PW label that identifies a PW Instance
+     within a T-PE or S-PE device.</t>
+    <t>DetNet topology overlay label (L-label): a label used  between DetNet aware
+     T-PE or S-PE devices.</t>
    </list>
+   In a case of MPLS-based PSN, the tunnel labels between LSRs are referred as
+   T-lables.
   </t>
   <t>
-   [Ed. so if the DetNet flow does not want/need FREF could we just eliminate
-   detnet cw in that case?]
-  </t>
-  <t>
-   [Ed. Thinking of the DetNet label.. MAYBE we should just define a DetNet
-   Control Word that keeps inside the e2e flow identification information what
-   we now use the Detnet label for or change the ordering of the DetNet CW and
-   the DetNet label. This would IMHO be a bit more cleaner approach - following
-   the RFC5087 - and call it e.g., DetNet Adaptation Layer.  The current with
-   DetNet label between the PW label and the CW does not seem to fit nicely
-   into the existing PW architecture. On the other hand DetNet label could be used
-   within the pipeline as an internal next-hop indicator.. I welcome discussion
-   here..] 
+   [Ed. the encapsulation is still in flux. Somw rearrangement has been done
+    to be more PW architecture compliant. One of the issues is still whether
+    the d-PW label can actually be global throughout the DetNet domain.]
   </t>
 
   <section title="Encasulation for MPLS PSN">
@@ -315,9 +297,9 @@ System   |    +-----+          +-----+          +-----+   |    System
 +-------------------------------+
 |      DetNet Control Word      |  4 octets
 +-------------------------------+
-|       e2e DetNet label        |  4 octets
-+-------------------------------+
 |          PW Label             |  4 octets
++-------------------------------+
+| DetNet topology overlay Label |  4 octets
 +-------------------------------+
 |   Server MPLS Tunnel Label(s) |  n*4 octets (four octets per label)
 +-------------------------------+
@@ -338,9 +320,9 @@ System   |    +-----+          +-----+          +-----+   |    System
 +-------------------------------+
 |      DetNet Control Word      |  4 octets
 +-------------------------------+
-|       e2e DetNet label        |  4 octets
-+-------------------------------+
 |          PW Label             |  4 octets
++-------------------------------+
+| DetNet topology overlay Label |  4 octets
 +-------------------------------+
 |      Optional UDP Header      |  0 or 8 octets
 +-------------------------------+
@@ -349,10 +331,24 @@ System   |    +-----+          +-----+          +-----+   |    System
 ]]>
     </artwork></figure>
   </section>
+
+  <section title="PW-Label assignment and distribution">
+   <t>
+    [Ed. Describe here details of the PW-labels.. to be decided whether they 
+     are global throughpout the DetNEt domain, or each x-PE device may have
+     they own label space. The latter would need additional considerations to
+     index/identify the DetNet flow.. maybe something similar to segment
+     routing anycast label algorithms..?]
+   </t>
+  </section>
  </section>
 
   <section title="PE reference model considerations">
    <section title="Forwarded clarifications">
+    <t>
+     [Ed. To be revisited.. the comments and text below are most likely out of
+     date regarding the latest discussions in the DT.]
+    </t>
     <t>
      [Ed. The Detnet-aware "extended forwarder" does the heavy lifting on maintaining
      the sequence numbers associated with the DetNet labels. Extended forwarder is also
@@ -369,21 +365,22 @@ System   |    +-----+          +-----+          +-----+   |    System
     </t>
    </section>
    
-   <section title="T-PE processing clarifications" anchor="sec_t_pe">
+   <section title="T-DetNet-PE processing clarifications" anchor="sec_t_pe">
     <t>
-     The PW-based DetNet data plane solution overloads the T-PE with 
-     a DetNet Edge Node function. This implies the T-PE is aware of
-     DetNet flows and may need to operate upon those. <xref target="fig_detnet_edge"/>
-     illustrates the overall T-PE device functions. The figure shows both
-     physical attachment circuit (AC) (e.g., Ethernet <xref target="RFC4448"/>)
-     connecting to the PE, and a packet service connecting to the PE via an embedded
-     label switch router (LSR) function <xref target="RFC6658"/>.
+     The PW-based DetNet data plane solution overloads the T-PE with a DetNet
+     Edge Node function. Such T-PE is referred as T-DetNet-PE and implies the
+     T-PE is also aware of DetNet flows and may need to operate upon those.
+     <xref target="fig_detnet_edge"/> illustrates the overall T-PE device
+     functions. The figure shows both physical attachment circuit (AC) (e.g.,
+     Ethernet <xref target="RFC4448"/>) connecting to the PE, and a packet
+     service connecting to the PE via an embedded label switch router (LSR)
+     function <xref target="RFC6658"/>.
     </t>
     
     <figure title="DetNet Edge Node as a T-PE" anchor="fig_detnet_edge">
     <artwork align="center"><![CDATA[
             +---------------------------------------+
-            |       DetNet-aware T-PE Device        |
+            |          T-DetNEt-PE Device           |
             +---------------------------------------+   Egress/
             |             | Forwarder |             |   Ingress 
             |  LSR        |           |    Single   | PW Instance
@@ -433,12 +430,12 @@ Client AC   |    NSP      |           |    Single   | PW Instance
    </section>
    
    
-   <section title="S-PE processing clarifications" anchor="sec_s_pe">
+   <section title="S-DetNetPE processing clarifications" anchor="sec_s_pe">
     <t>
-     The PW-based DetNet data plane solution overloads a S-PE with
-     a DetNet Relay function. This implies the S-PE is aware of
-     DetNet flows and may operate upon those. <xref target="fig_detnet_relay"/>
-     illustrates the overall S-PE device functions.
+     The PW-based DetNet data plane solution overloads a S-PE with a DetNet
+     Relay function. Such S-PE device is referred as S-DetNEt-PE and implies
+     the S-PE is also aware of DetNet flows and may operate upon those. <xref
+     target="fig_detnet_relay"/> illustrates the overall S-DetNet-PE device functions.
     </t>
     <t>
      DetNet-aware S-PE participates to the frame replication and
@@ -453,14 +450,14 @@ Client AC   |    NSP      |           |    Single   | PW Instance
      Control Word combination. The frame replication is also done in
      the DetNet-aware forwarder. During elimination and the replication
      process both DetNet CW sequence number and DetNet label MUST be
-     preserved and copied to the egress PW. The PW instance MUST NOT
+     preserved and copied to the egress PW. The PW instance MUST NOT..
 
     </t>
 
     <figure title="DetNet Relay Node as a S-PE" anchor="fig_detnet_relay">
     <artwork align="center"><![CDATA[
             +---------------------------------------+
-            |       DetNet-aware S-PE Device        |
+            |           S-DetNet-PE Device          |
             +---------------------------------------+
   Ingress   |             | Forwarder |             |   Egress  
 PW instance |   Single    |           |    Single   | PW Instance
@@ -484,6 +481,15 @@ PW instance |   Single    |           |    Single   | PW Instance
             +---------------------------------------+            
 ]]>
     </artwork></figure>
+  </section>
+  
+  <section title="Frame replication and elimination considerations">
+   <t>
+    [Ed. Describe the elimination and replication procedure here in more
+     detail. This is going to take place in PW instance and consists of
+     two step operation: 1) eliminate and 2) replicate if necessary.]
+   </t>
+  
   </section>
  </section>
 </section>
@@ -586,7 +592,8 @@ PW instance |   Single    |           |    Single   | PW Instance
  <section title="Example of DetNet data plane operation" anchor="sec_comb">
   <t>
    [Ed. Simplified example of DetNet data plane and how labels etc work in a case of 
-    MPLS-based PSN and utilizing FRER.]
+    MPLS-based PSN and utilizing FRER. The figure is out of date and pending DT
+    decisions on the label handling..]
   </t>
     <figure title="Replication and elimination example" anchor="fig_detnet_ex1">
     <artwork align="center"><![CDATA[
