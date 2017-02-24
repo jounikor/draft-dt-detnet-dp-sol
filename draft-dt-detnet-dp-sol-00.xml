@@ -61,7 +61,7 @@
 <?rfc iprnotified="no"?>
 <?rfc strict="yes"?>
 <?rfc compact="yes"?>
-<?rfc subcompact="yes"?>
+<?rfc subcompact="no"?>
 <rfc category="info"
      docName="draft-ietf-detnet-dp-sol-00"
          ipr="trust200902"
@@ -106,7 +106,7 @@
   </t>
   </abstract>
 
-  
+
   </front>
 
  <middle>
@@ -136,6 +136,21 @@
    This document uses the terminology established in the DetNet architecture
    <xref target="I-D.ietf-detnet-architecture"/> and the DetNet Data Plane
    Solution Alternatives <xref target="I-D.ietf-detnet-dp-alt"/>.
+  </t>
+  <t>
+   The following terms are also used in this document:
+   <list style="hanging" hangIndent="14">
+    <t hangText="T-DetNet-PE">A DetNet aware PseudoWire Terminating Provider Edge (T-PE).
+     In the context of this document T-DetNet-PE is referred as T-PE.</t>
+    <t hangText="S-DetNet-PE">A DetNet aware PseudoWire Switching Provider Edge (S-PE).
+     In the context of this document S-DetNet-PE is referred as S-PE.</t>
+    <t hangText="T-Label">A hop-by-hop tunnel label layer between laber switch routers (LSR).</t>
+    <t hangText="d-PW Label">A PseudoWire label that is used to identify DetNet flows.</t>
+    <t hangText="v-PW Label">A virtual label that within a label information base (LIB) or
+     label forwarding information base (LFIB) groups one or more d-PW labels to a single
+     label for a node internal use. The v-PW can be one of the grouped d-PW labels, or
+     a label value that is unique within the LFIB and never seen on-wire.</t>
+   </list>
   </t>
  </section>
 
@@ -170,7 +185,7 @@ End System       Node            Node         Node         End System
 +-------.-+    +-.-+ +-.-+    +--.----.-+    +-.-+ +-.-+   +---.-----+
         :  Link  :    /  ,-----.  \   :  Link  :    /  ,-----.  \
         +........+    +-[  Sub  ]-+   +........+    +-[  Sub  ]-+
-                        [Network]                     [Network] 
+                        [Network]                     [Network]
                          `-----'                       `-----'
 ]]></artwork>
 </figure>
@@ -266,9 +281,9 @@ System   |    +-----+          +-----+          +-----+   |    System
   <t>
    The DetNet data plane follows PW encapsulation. This document specifies a
    single encapsulation that can be used over both MPLS and IP packet switched
-   Networks (PSN). The DetNet data plane encapsulation consists of a 
+   Networks (PSN). The DetNet data plane encapsulation consists of a
    <list style="symbols">
-    <t>DetNet control word (d-CW): contains sequencing information for 
+    <t>DetNet control word (d-CW): contains sequencing information for
      frame replication and duplicate elimination purposes. There is a separate
      sequence number space per each DetNet label.</t>
     <t>PseudoWire Label (d-PW): a standard PW label that identifies a PW Instance
@@ -309,7 +324,7 @@ System   |    +-----+          +-----+          +-----+   |    System
    </section>
 
    <section title="Encapsulation for IP PSN">
-    
+
     <figure title="Encapsulation of DetNet flow in a PW with IP PSN" anchor="fig_pw_ip">
     <artwork align="center"><![CDATA[
 +-------------------------------+
@@ -334,7 +349,7 @@ System   |    +-----+          +-----+          +-----+   |    System
 
   <section title="PW-Label assignment and distribution">
    <t>
-    [Ed. Describe here details of the PW-labels.. to be decided whether they 
+    [Ed. Describe here details of the PW-labels.. to be decided whether they
      are global throughpout the DetNEt domain, or each x-PE device may have
      they own label space. The latter would need additional considerations to
      index/identify the DetNet flow.. maybe something similar to segment
@@ -360,11 +375,11 @@ System   |    +-----+          +-----+          +-----+   |    System
        one or more ACs to one or more PWs.  In such cases, there will also be
        a need to perform the inverse function on PWE3-PDUs received by a PE
        from the PSN.  This is the function of the forwarder.
-     </t></list>   
+     </t></list>
      ]
     </t>
    </section>
-   
+
    <section title="T-DetNet-PE processing clarifications" anchor="sec_t_pe">
     <t>
      The PW-based DetNet data plane solution overloads the T-PE with a DetNet
@@ -376,41 +391,41 @@ System   |    +-----+          +-----+          +-----+   |    System
      service connecting to the PE via an embedded label switch router (LSR)
      function <xref target="RFC6658"/>.
     </t>
-    
+
     <figure title="DetNet Edge Node as a T-PE" anchor="fig_detnet_edge">
     <artwork align="center"><![CDATA[
             +---------------------------------------+
             |          T-DetNEt-PE Device           |
             +---------------------------------------+   Egress/
-            |             | Forwarder |             |   Ingress 
+            |             | Forwarder |             |   Ingress
             |  LSR        |           |    Single   | PW Instance
 Client PSN  |  ("Packet   X <-*-----> X PW Instance X<---------->
-LSPs        |    NSP")    |   | Repl. |             |            
-<---------->X             |   | Elim. +-------------+ Duplicate           
+LSPs        |    NSP")    |   | Repl. |             |
+<---------->X             |   | Elim. +-------------+ Duplicate
             |             |   :       |             |   Egress
             |             |   .       |    Single   | PW Instance
             |             |       +-> X PW Instance X<---------->
-            |             |       |   |             |            
-            +-------------+       |   +-------------+   Egress/ 
-            |             |       |   |             |   Ingress         
-Client AC   |    NSP      | Repl. |   |    Single   | PW Instance           
+            |             |       |   |             |
+            +-------------+       |   +-------------+   Egress/
+            |             |       |   |             |   Ingress
+Client AC   |    NSP      | Repl. |   |    Single   | PW Instance
 <---------->X             X <-----*-> X PW Instance X<---------->
-            |             | Elim.     |             |            
-            +-------------+           +-------------+   Egress/  
-            |             |           |             |   Ingress         
-Client AC   |    NSP      |           |    Single   | PW Instance           
+            |             | Elim.     |             |
+            +-------------+           +-------------+   Egress/
+            |             |           |             |   Ingress
+Client AC   |    NSP      |           |    Single   | PW Instance
 <---------->X             X <-------> X PW Instance X<---------->
-            |             |           |             |            
-            +---------------------------------------+            
+            |             |           |             |
+            +---------------------------------------+
 ]]>
     </artwork></figure>
-  
+
     <t>
      DetNet-aware T-PE participates to the frame replication and duplication
      elimination. Required processing is done within an extended forwarder
      function. In the case the native service processing (NSP) is IEEE 802.1CB
      <xref target="IEEE8021CB"/> capable the frame replication and duplicate
-     elimination MAY [Ed: SHOULD, MUST?] entirely be done in the NSP. 
+     elimination MAY [Ed: SHOULD, MUST?] entirely be done in the NSP.
     </t>
     <t>
      The DetNet-aware extended forwarder selects the egress segment PW based on
@@ -428,8 +443,8 @@ Client AC   |    NSP      |           |    Single   | PW Instance
      also assigns a DetNet label.
     </t>
    </section>
-   
-   
+
+
    <section title="S-DetNetPE processing clarifications" anchor="sec_s_pe">
     <t>
      The PW-based DetNet data plane solution overloads a S-PE with a DetNet
@@ -445,7 +460,7 @@ Client AC   |    NSP      |           |    Single   | PW Instance
     <t>
      The DetNet-aware forwarder selects the egress segment PW based on the
      DetNet label.  The mapping of DetNet label to egress PW label may be statically
-     or dynamically configured. Additionally the DetNet-aware forwarder 
+     or dynamically configured. Additionally the DetNet-aware forwarder
      does duplicate frame elimination based on the DetNet label and DetNet
      Control Word combination. The frame replication is also done in
      the DetNet-aware forwarder. During elimination and the replication
@@ -459,37 +474,37 @@ Client AC   |    NSP      |           |    Single   | PW Instance
             +---------------------------------------+
             |           S-DetNet-PE Device          |
             +---------------------------------------+
-  Ingress   |             | Forwarder |             |   Egress  
+  Ingress   |             | Forwarder |             |   Egress
 PW instance |   Single    |           |    Single   | PW Instance
 ----------->X PW Instance X --*-----> X PW Instance X----------->
-            |             |   | Elim. |             |            
-            +-------------+   |       +-------------+ Duplicate           
+            |             |   | Elim. |             |
+            +-------------+   |       +-------------+ Duplicate
   Ingress   |             |   |       |             |   Egress
 PW instance |   Single    |   |       |    Single   | PW Instance
 ----------->X PW Instance X --+   +-> X PW Instance X----------->
-            |             |       |   |             |            
-            +-------------+       |   +-------------+           
-  Ingress   |             |       |   |             |   Egress          
-PW instance |   Single    | Repl. |   |    Single   | PW Instance           
+            |             |       |   |             |
+            +-------------+       |   +-------------+
+  Ingress   |             |       |   |             |   Egress
+PW instance |   Single    | Repl. |   |    Single   | PW Instance
 ----------->X PW Instance X ------*-> X PW Instance X----------->
-            |             |           |             |            
-            +-------------+           +-------------+            
-  Ingress   |             |           |             |   Egress          
-PW instance |   Single    |           |    Single   | PW Instance           
+            |             |           |             |
+            +-------------+           +-------------+
+  Ingress   |             |           |             |   Egress
+PW instance |   Single    |           |    Single   | PW Instance
 ----------->X PW Instance X --------> X PW Instance X----------->
-            |             |           |             |            
-            +---------------------------------------+            
+            |             |           |             |
+            +---------------------------------------+
 ]]>
     </artwork></figure>
   </section>
-  
+
   <section title="Frame replication and elimination considerations">
    <t>
     [Ed. Describe the elimination and replication procedure here in more
      detail. This is going to take place in PW instance and consists of
      two step operation: 1) eliminate and 2) replicate if necessary.]
    </t>
-  
+
   </section>
  </section>
 </section>
@@ -500,13 +515,13 @@ PW instance |   Single    |           |    Single   | PW Instance
    [Ed. Discuss the CoS.. and how that is archieved when using MPLS or IP PSN.]
   </t>
  </section>
- 
+
  <section title="Quality of Service">
   <t>
    [Ed. Elaborate the QoS issues here..]
   </t>
  </section>
- 
+
  <section title="Time-synchronization">
   <t>
    [Ed. discribe a bit of issues and deployment considerations related to
@@ -591,41 +606,65 @@ PW instance |   Single    |           |    Single   | PW Instance
   </references>
  <section title="Example of DetNet data plane operation" anchor="sec_comb">
   <t>
-   [Ed. Simplified example of DetNet data plane and how labels etc work in a case of 
+   [Ed. Simplified example of DetNet data plane and how labels etc work in a case of
     MPLS-based PSN and utilizing FRER. The figure is out of date and pending DT
     decisions on the label handling..]
   </t>
     <figure title="Replication and elimination example" anchor="fig_detnet_ex1">
     <artwork align="center"><![CDATA[
-           Payload
-           DetNet CW+SN
-           DetNet Label
-	   PW1 Label 66            Payload                    
-	        ...                DetNet CW+SN       Payload     
-           PSN Label 88            DetNet Label       DetNet CW+SN
-+-----+ //====~~~~~=====\\ +-----+ PW3 Label 68       DetNet Label +-----+
-|T-PE1|//      PW1       \\|S-PE1| PSN Label 90  php  PW3 Label 68 |T-PE2|
-|    /|                    |\    |              +---+              |     |
-|  ?< |                    | >?<-|==============|LSR|==============|->?< |
-|    \|                    |/    |     PW3      +---+     PW3      |     |
-|     |\\      PW2       //|     |                                 |     |
-+-----+ \\====~~~~~=====// +-----+                                 +-----+
-	   Payload     
-	   DetNet CW+SN
-	   DetNet Label
-	   PW2 Label 67
-                ...    
-           PSN Label 89
+E1 <----+       +-----S-PE1----R3-----S-PE3-----+       +----> E3 
+         \     /        |             / |        \     /
+          \   R1        |            /  |        R7   /
+           \ /          |           /   |          \ /
+          T-PE1         |         R4    |         T-PE2
+           / \          |         /     |          / \
+          /   R2        |  +-----+      |        R6   \
+         /     \        | /             |        /     \
+E2 <----+       +-----S-PE2---R5------S-PE4-----+       +----> E4
 ]]>
 </artwork></figure>
 
- 
- 
+    <figure title="LFIB contents" anchor="fig_lfib2">
+    <artwork align="center"><![CDATA[
++========+================+===============+================================+
+|        |                |  Elimination  |     Forwarding Semantics       |
+| Device | Incoming-Label |---------------|--------------------------------|
+|        |                | Virtual-label | Outgoing-Label | Outgoing-Link |
++========+================+===============+================+===============+
+| T-PE1  | N/A (from AC)  |               |                | T-PE1->R1     |
+|        |                |               |                | T-PE1->R2     |
++========+================+===============+================+===============+
+| T-PE2  |                |               |                | T-PE2->E3     |
+|        |                |               |                | T-PE2->E4     |
++========+================+===============+================+===============+
+| S-PE1  |                |               |                |               |
++========+================+===============+================+===============+
+| S-PE2  |                |               |                |               |
++========+================+===============+================+===============+
+| S-PE3  |                |               |                |               |
++========+================+===============+================+===============+
+| S-PE4  |                |               |                |               |
++========+================+===============+================+===============+
+| R1     |                |     N/A       |                |               |
++========+================+===============+================+===============+
+| R2     |                |     N/A       |                |               |
++========+================+===============+================+===============+
+| R3     |                |     N/A       |                |               |
++========+================+===============+================+===============+
+| R4     |                |     N/A       |                |               |
++========+================+===============+================+===============+
+| R5     |                |     N/A       |                |               |
++========+================+===============+================+===============+
+| R6     |                |     N/A       |                |               |
++========+================+===============+================+===============+
+| R7     |                |     N/A       |                |               |
++========+================+===============+================+===============+
+]]></artwork></figure>
+
  </section>
- 
+
  <section title="Example of pinned paths using IP PSN">
  </section>
 
  </back>
 </rfc>
-
