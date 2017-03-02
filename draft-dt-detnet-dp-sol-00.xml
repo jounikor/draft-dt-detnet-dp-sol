@@ -145,6 +145,10 @@
     <t hangText="S-DetNet-PE">A DetNet aware PseudoWire Switching Provider Edge (S-PE).
      In the context of this document S-DetNet-PE is referred as S-PE.</t>
     <t hangText="T-Label">A hop-by-hop tunnel label layer between laber switch routers (LSR).</t>
+    <t hangText="L-Label">A DetNet topology overlay label that is used between DetNet aware
+     T-PE or S-PE devices.</t>
+    <t hangText="d-ID">An identity label that uniquely identifies a T-DetNet-PE node in
+     a DetNet network domain.</t>
     <t hangText="d-PW Label">A PseudoWire label that is used to identify DetNet flows.</t>
     <t hangText="v-PW Label">A virtual label that within a label information base (LIB) or
      label forwarding information base (LFIB) groups one or more d-PW labels to a single
