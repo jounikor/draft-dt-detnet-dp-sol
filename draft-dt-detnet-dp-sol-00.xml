@@ -144,13 +144,13 @@
      In the context of this document T-DetNet-PE is referred as T-PE.</t>
     <t hangText="S-DetNet-PE">A DetNet aware PseudoWire Switching Provider Edge (S-PE).
      In the context of this document S-DetNet-PE is referred as S-PE.</t>
-    <t hangText="T-Label">A hop-by-hop tunnel label layer between laber switch routers (LSR).</t>
+    <t hangText="T-Label">A hop-by-hop tunnel label layer between label switch routers (LSR).</t>
     <t hangText="L-Label">A DetNet topology overlay label that is used between DetNet aware
      T-PE or S-PE devices.</t>
     <t hangText="d-ID">An identity label that uniquely identifies a T-DetNet-PE node in
-     a DetNet network domain.</t>
+     a DetNet domain.</t>
     <t hangText="f-ID">A DetNet flow identity that uniquely identifies a DetNet flow in
-     a DetNet network domain.</t>
+     a DetNet domain.</t>
     <t hangText="d-PW Label">A PseudoWire label that is used to identify DetNet flows.</t>
     <t hangText="v-PW Label">A virtual label that within a label information base (LIB) or
      label forwarding information base (LFIB) groups one or more d-PW labels to a single
@@ -280,7 +280,7 @@ System   |    +-----+          +-----+          +-----+   |    System
  </t>
 
  <t>
- Each node (T-PE, S-PE and P) use a local-ID of the detnet-(compound)-flow in order to accomplish its role during transport. Recognizing the flow-ID is more relaxed for T-PE and S-PE nodes, as they are fully aware of both the DetNet service and transport layers. The DetNet role of intermediate "P" nodes is limited to ensure congestion protection from the above listed DetNet functions. However P nodes can usually recognize only "t-label" and cannot consider the whole label stack for flow recognition. Therefore identifing each individual DetNet flow on a P node may not be achieved in some network scenarios.
+ Each node (T-PE, S-PE and P) use a local-ID of the detnet-(compound)-flow in order to accomplish its role during transport. Recognizing the flow-ID is more relaxed for T-PE and S-PE nodes, as they are fully aware of both the DetNet service and transport layers. The DetNet role of intermediate "P" nodes is limited to ensure congestion protection from the above listed DetNet functions. However P nodes can usually recognize only "T-label" and cannot consider the whole label stack for flow recognition. Therefore identifing each individual DetNet flow on a P node may not be achieved in some network scenarios.
  </t>
 
  <t>
@@ -358,7 +358,7 @@ System   |    +-----+          +-----+          +-----+   |    System
      T-PE or S-PE devices.</t>
    </list>
    In a case of MPLS-based PSN, the tunnel labels between LSRs are referred as
-   T-lables.
+   T-labels.
   </t>
   <t>
    [Ed. the encapsulation is still in flux. Somw rearrangement has been done
@@ -604,6 +604,18 @@ PW instance |   Single    |           |    Single   | PW Instance
    numbers.  Finally, scope time-synchronization solution outside data plane.]
   </t>
  </section>
+ 
+ <section title="Bidirectional traffic">
+  <t>
+   Some DetNet applications generate bidirectional traffic and may require symmetric
+   flows. There are already mechanisms that can be used to create bidirectional
+   tunnels at the transport network level, such as MPLS-TP. The data plane solution
+   SHOULD allow establishing bidirectional symmetric flows. Control plane mechanisms
+   would need to also support this, though this is out of scope of this document.
+   [Summary of existing mechanisms to create bidirectional tunnels that can be used.]
+  </t>
+ </section>
+
 </section>
 
 
@@ -635,6 +647,7 @@ PW instance |   Single    |           |    Single   | PW Instance
    <t>Tal Mizrahi</t>
    <t>David Mozes</t>
    <t>Yuanlong Jiang</t>
+   <t>Carlos J. Bernardos</t>
   </list></t>
   <t>
    The DetNet chairs serving during the DetNet Data Plane Protocol Design Team:
