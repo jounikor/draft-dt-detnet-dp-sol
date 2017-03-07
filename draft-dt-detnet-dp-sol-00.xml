@@ -149,6 +149,8 @@
      T-PE or S-PE devices.</t>
     <t hangText="d-ID">An identity label that uniquely identifies a T-DetNet-PE node in
      a DetNet network domain.</t>
+    <t hangText="f-ID">A DetNet flow identity that uniquely identifies a DetNet flow in
+     a DetNet network domain.</t>
     <t hangText="d-PW Label">A PseudoWire label that is used to identify DetNet flows.</t>
     <t hangText="v-PW Label">A virtual label that within a label information base (LIB) or
      label forwarding information base (LFIB) groups one or more d-PW labels to a single
@@ -279,7 +281,26 @@ System   |    +-----+          +-----+          +-----+   |    System
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]>
     </artwork></figure>
-</section>
+ </section>
+
+ <section title="DetNet flow identity word">
+  <t>
+   The DetNet flow identity word (f-ID) identifies a DetNet flow uniquely within
+   a DetNet domain. The f-ID is also associated with the sequence number
+   carried on DetNet control word and used also for FRER purposes.
+  </t>
+    <figure title="DetNet flow identity word" anchor="fig_detnet_fi">
+    <artwork align="center"><![CDATA[
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|  reserved     |               24 bit flow identity            |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+]]>
+    </artwork></figure>
+ </section>
+
+
 
  <section title="DetNet encapsulation">
   <t>
@@ -313,12 +334,14 @@ System   |    +-----+          +-----+          +-----+   |    System
 |          DetNet Flow          |
 |        Payload  Packet        |  n octets
 |                               |
++-------------------------------+           -+
+|      DetNet flow identity     |  4 octets  |
++-------------------------------+            +-> PW encapsulation
+|      DetNet Control Word      |  4 octets  |
++-------------------------------+           -+
+|          PW Label             |  4 octets --> PW demultiplexer
 +-------------------------------+
-|      DetNet Control Word      |  4 octets
-+-------------------------------+
-|          PW Label             |  4 octets
-+-------------------------------+
-| DetNet topology overlay Label |  4 octets
+| DetNet topology overlay Label |  4 octets (optinal)
 +-------------------------------+
 |   Server MPLS Tunnel Label(s) |  n*4 octets (four octets per label)
 +-------------------------------+
@@ -336,12 +359,14 @@ System   |    +-----+          +-----+          +-----+   |    System
 |          DetNet Flow          |
 |        Payload  Packet        |  n octets
 |                               |
++-------------------------------+           -+
+|      DetNet flow identity     |  4 octets  |
++-------------------------------+            +-> PW encapsulation
+|      DetNet Control Word      |  4 octets  |
++-------------------------------+           -+
+|          PW Label             |  4 octets --> PW demultiplexer
 +-------------------------------+
-|      DetNet Control Word      |  4 octets
-+-------------------------------+
-|          PW Label             |  4 octets
-+-------------------------------+
-| DetNet topology overlay Label |  4 octets
+| DetNet topology overlay Label |  4 octets (optional)
 +-------------------------------+
 |      Optional UDP Header      |  0 or 8 octets
 +-------------------------------+
@@ -358,6 +383,10 @@ System   |    +-----+          +-----+          +-----+   |    System
      they own label space. The latter would need additional considerations to
      index/identify the DetNet flow.. maybe something similar to segment
      routing anycast label algorithms..?]
+   </t>
+   <t>
+    [Ed. describe here also the d-ID approach.. i.e., the flow identity
+     is actually an identity label in the stack..]
    </t>
   </section>
  </section>
