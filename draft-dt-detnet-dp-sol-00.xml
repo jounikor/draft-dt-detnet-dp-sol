@@ -257,6 +257,47 @@ System   |    +-----+          +-----+          +-----+   |    System
     |<------------- End to End DetNet Service ---------------->|
 ]]></artwork>
 </figure>
+
+<section title="DetNet data plane solution requirements">
+ <t>
+ Two major groups of scenarios can be distinguished which require flow identification during transport:
+ </t>
+
+ <t>	1, DetNet function related scenarios:
+	<list style="symbols">
+		<t>	congestion protection: usage of allocated resources (queuing, policing, shaping).</t>
+		<t>	explicit routes: select/apply the flow specific path.</t>
+		<t>	service protection: recognize compound / member flows for replication an elimination.</t>
+	</list>
+ </t>
+ <t>	2, OAM function related scenarios:
+	<list style="symbols">
+		<t> troubleshooting (e.g., identify misbehaving flows, etc.)</t>
+		<t> recognize flow(s) for analytics (e.g, increase counters, etc.)</t>
+		<t> correlate events with flows (e.g., volume above threshold, etc.)</t>
+		<t> etc.</t>
+	</list>
+ </t>
+
+ <t>
+ Each node (T-PE, S-PE and P) use a local-ID of the detnet-(compound)-flow in order to accomplish its role during transport. Recognizing the flow-ID is more relaxed for T-PE and S-PE nodes, as they are fully aware of both the DetNet service and transport layers. The DetNet role of intermediate "P" nodes is limited to ensure congestion protection from the above listed DetNet functions. However P nodes can usually recognize only "t-label" and cannot consider the whole label stack for flow recognition. Therefore identifing each individual DetNet flow on a P node may not be achieved in some network scenarios.
+ </t>
+
+ <t>
+ On each node dealing with DetNet flows a local-ID is assumed which determines what local operation a packet goes through. Therefore local-IDs MUST be unique on each T-PE and S-PE nodes. Local-ID MUST be unambiguously bounded to the Flow-ID encoded in the DetNet packet. 
+ </t>
+  
+ <t>
+ DP solution MUST ensure that:
+	<list style="symbols">
+	<t> x-PE nodes are able to distinguish individual PWs going through and PWs need DetNet specific operation (e.g., FRER)</t>
+	<t> x-PE nodes does not have PW-label value collisions or can deal with it without major implementation difficulties</t>
+	<t> it is easy to distinguishing replica flows (required for OAM purposes)</t>
+	<t> label allocation works with both centralized control and distributed control (signaling)</t>
+	</list>
+ </t>
+</section>
+
 </section>
 
 <!-- ================================================================= -->
