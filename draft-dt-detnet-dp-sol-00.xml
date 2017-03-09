@@ -140,22 +140,25 @@
   <t>
    The following terms are also used in this document:
    <list style="hanging" hangIndent="14">
-    <t hangText="T-DetNet-PE">A DetNet aware PseudoWire Terminating Provider Edge (T-PE).
-     In the context of this document T-DetNet-PE is referred as T-PE.</t>
-    <t hangText="S-DetNet-PE">A DetNet aware PseudoWire Switching Provider Edge (S-PE).
-     In the context of this document S-DetNet-PE is referred as S-PE.</t>
+    <t hangText="DA-T-PE">A DetNet aware PseudoWire Terminating Provider Edge (T-PE).
+     In the context of this document DA-T-PE is referred as T-PE.</t>
+    <t hangText="DA-S-PE">A DetNet aware PseudoWire Switching Provider Edge (S-PE).
+     In the context of this document DA-S-PE is referred as S-PE.</t>
     <t hangText="T-Label">A hop-by-hop tunnel label layer between label switch routers (LSR).</t>
     <t hangText="L-Label">A DetNet topology overlay label that is used between DetNet aware
      T-PE or S-PE devices.</t>
-    <t hangText="d-ID">An identity label that uniquely identifies a T-DetNet-PE node in
-     a DetNet domain.</t>
+    <!--t hangText="d-ID">An identity label that uniquely identifies a DA-T-PE node in
+     a DetNet domain.</t-->
     <t hangText="f-ID">A DetNet flow identity that uniquely identifies a DetNet flow in
-     a DetNet domain.</t>
+     a DetNet domain. The floe-ID is part of the PseudoWire Encapsulation header.</t>
+    <t handText="local-ID">A DA-T-PE and DA-S-PE node internal construct that uniquelly
+     identifies a DetNet flow. The local-ID can equal to f-ID or be derived using other
+     means e.g., programming required label to local-ID mappings directly into the LFIB.</t>
     <t hangText="d-PW Label">A PseudoWire label that is used to identify DetNet flows.</t>
-    <t hangText="v-PW Label">A virtual label that within a label information base (LIB) or
+    <!--t hangText="v-PW Label">A virtual label that within a label information base (LIB) or
      label forwarding information base (LFIB) groups one or more d-PW labels to a single
      label for a node internal use. The v-PW can be one of the grouped d-PW labels, or
-     a label value that is unique within the LFIB and never seen on-wire.</t>
+     a label value that is unique within the LFIB and never seen on-wire.</t-->
    </list>
   </t>
  </section>
@@ -280,11 +283,22 @@ System   |    +-----+          +-----+          +-----+   |    System
  </t>
 
  <t>
- Each node (T-PE, S-PE and P) use a local-ID of the detnet-(compound)-flow in order to accomplish its role during transport. Recognizing the flow-ID is more relaxed for T-PE and S-PE nodes, as they are fully aware of both the DetNet service and transport layers. The DetNet role of intermediate "P" nodes is limited to ensure congestion protection from the above listed DetNet functions. However P nodes can usually recognize only "T-label" and cannot consider the whole label stack for flow recognition. Therefore identifing each individual DetNet flow on a P node may not be achieved in some network scenarios.
+  Each node (DA-T-PE, DA-S-PE and P) use a local-ID of the detnet-(compound)-flow in
+  order to accomplish its role during transport. Recognizing the flow-ID is more
+  relaxed for DA-T-PE and DA-S-PE nodes, as they are fully aware of both the DetNet
+  service and transport layers. The DetNet role of intermediate "P" nodes is
+  limited to ensure congestion protection from the above listed DetNet
+  functions. However P nodes can usually recognize only "T-label" and cannot
+  consider the whole label stack for flow recognition. Therefore identifing each
+  individual DetNet flow on a P node may not be achieved in some network
+  scenarios.
  </t>
 
  <t>
- On each node dealing with DetNet flows a local-ID is assumed which determines what local operation a packet goes through. Therefore local-IDs MUST be unique on each T-PE and S-PE nodes. Local-ID MUST be unambiguously bounded to the Flow-ID encoded in the DetNet packet. 
+  On each node dealing with DetNet flows a local-ID is assumed which determines
+  what local operation a packet goes through. Therefore local-IDs MUST be unique
+  on each DA-T-PE and DA-S-PE nodes. Local-ID MUST be unambiguously bounded to the
+  Flow-ID encoded in the DetNet packet. 
  </t>
   
  <t>
@@ -335,7 +349,7 @@ System   |    +-----+          +-----+          +-----+   |    System
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|  reserved     |               24 bit flow identity            |
+| TBD/reserved  |               24 bit flow identity            |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]>
     </artwork></figure>
@@ -375,11 +389,11 @@ System   |    +-----+          +-----+          +-----+   |    System
 |          DetNet Flow          |
 |        Payload  Packet        |  n octets
 |                               |
-+-------------------------------+           -+
-|      DetNet flow identity     |  4 octets  |
-+-------------------------------+            +-> PW encapsulation
-|      DetNet Control Word      |  4 octets  |
-+-------------------------------+           -+
++-------------------------------+           --+
+|      DetNet flow identity     |  4 octets   |
++-------------------------------+             +-> PW encapsulation
+|      DetNet Control Word      |  4 octets   |
++-------------------------------+           --+
 |          PW Label             |  4 octets --> PW demultiplexer
 +-------------------------------+
 | DetNet topology overlay Label |  4 octets (optinal)
@@ -400,11 +414,11 @@ System   |    +-----+          +-----+          +-----+   |    System
 |          DetNet Flow          |
 |        Payload  Packet        |  n octets
 |                               |
-+-------------------------------+           -+
-|      DetNet flow identity     |  4 octets  |
-+-------------------------------+            +-> PW encapsulation
-|      DetNet Control Word      |  4 octets  |
-+-------------------------------+           -+
++-------------------------------+           --+
+|      DetNet flow identity     |  4 octets   |
++-------------------------------+             +-> PW encapsulation
+|      DetNet Control Word      |  4 octets   |
++-------------------------------+           --+
 |          PW Label             |  4 octets --> PW demultiplexer
 +-------------------------------+
 | DetNet topology overlay Label |  4 octets (optional)
@@ -454,10 +468,10 @@ System   |    +-----+          +-----+          +-----+   |    System
     </t>
    </section>
 
-   <section title="T-DetNet-PE processing clarifications" anchor="sec_t_pe">
+   <section title="DA-T-PE processing clarifications" anchor="sec_t_pe">
     <t>
      The PW-based DetNet data plane solution overloads the T-PE with a DetNet
-     Edge Node function. Such T-PE is referred as T-DetNet-PE and implies the
+     Edge Node function. Such T-PE is referred as DA-T-PE and implies the
      T-PE is also aware of DetNet flows and may need to operate upon those.
      <xref target="fig_detnet_edge"/> illustrates the overall T-PE device
      functions. The figure shows both physical attachment circuit (AC) (e.g.,
@@ -469,7 +483,7 @@ System   |    +-----+          +-----+          +-----+   |    System
     <figure title="DetNet Edge Node as a T-PE" anchor="fig_detnet_edge">
     <artwork align="center"><![CDATA[
             +---------------------------------------+
-            |          T-DetNEt-PE Device           |
+            |             DA-T-PE Device            |
             +---------------------------------------+   Egress/
             |             | Forwarder |             |   Ingress
             |  LSR        |           |    Single   | PW Instance
@@ -524,7 +538,7 @@ Client AC   |    NSP      |           |    Single   | PW Instance
      The PW-based DetNet data plane solution overloads a S-PE with a DetNet
      Relay function. Such S-PE device is referred as S-DetNEt-PE and implies
      the S-PE is also aware of DetNet flows and may operate upon those. <xref
-     target="fig_detnet_relay"/> illustrates the overall S-DetNet-PE device functions.
+     target="fig_detnet_relay"/> illustrates the overall DA-S-PE device functions.
     </t>
     <t>
      DetNet-aware S-PE participates to the frame replication and
@@ -546,7 +560,7 @@ Client AC   |    NSP      |           |    Single   | PW Instance
     <figure title="DetNet Relay Node as a S-PE" anchor="fig_detnet_relay">
     <artwork align="center"><![CDATA[
             +---------------------------------------+
-            |           S-DetNet-PE Device          |
+            |             DA-S-PE Device            |
             +---------------------------------------+
   Ingress   |             | Forwarder |             |   Egress
 PW instance |   Single    |           |    Single   | PW Instance
