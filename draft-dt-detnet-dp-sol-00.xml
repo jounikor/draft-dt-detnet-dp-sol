@@ -111,7 +111,7 @@
 	</address>
 	</author>
  
-  <author fullname="Donald Fauntleroy Duck" initials="D. F." surname="Duck">
+  <!--author fullname="Donald Fauntleroy Duck" initials="D. F." surname="Duck">
    <organization abbrev="Royal Bros.">Royal Bros.</organization>
    <address>
     <postal>
@@ -121,7 +121,7 @@
      <country>USA</country>
     </postal>
    </address>
-  </author>
+  </author-->
   <date />
   <workgroup>DetNet</workgroup>
 
@@ -180,10 +180,8 @@
      identifies a DetNet flow. The local-ID can equal to flow-ID or be derived using other
      means e.g., programming required label to local-ID mappings directly into
      the label information base (LFIB).</t>
-    <t hangText="PW label Label">A PseudoWire label that is used to identify DetNet flows.</t>
-<!--VB    
-	<t hangText="PW Label">A PseudoWire label that is used to identify DetNet flow related PW Instances within a PE node.</t> 
--->
+	<t hangText="PW Label">A PseudoWire label that is used to identify DetNet
+     flow related PW Instances within a PE node.</t> 
 
    </list>
   </t>
@@ -245,24 +243,6 @@ TSN    (AC)   |     |<-Tunnel->|     |<-Tunnel->|     |  (AC)     TSN
 End     |     V     V     1    V     V     2    V     V   |       End
 System  |     +-----+          +-----+          +---- +   |    System
 +---+   |     |T-PE1|==========|S-PE1|==========|T-PE2|   |    +---+
-|   |---|-----|.X_..DetNet Flow1..X..|...DF3........X.|---|----|   |
-|CE1|   |     |  \  |          |     |          |  /  |   |    |CE2|
-|   |         |...X_...DF2........X..|...DF4......X_..|        |   |
-+---+         |     |==========|     |==========|     |        +---+
-    ^         +-----+          +-----+          +-----+        ^
-    |        Edge Node        Relay Node       Edge Node       |
-    |                                                          |
-    |<--------------- Emulated TSN Service ------------------->|
-
-
-			UPDATED FIGURE BELOW	
-	
-       TSN    |<----- End to End DetNet Service ----->|  TSN
-      Service |        Transit          Transit       | Service
-TSN    (AC)   |     |<-Tunnel->|     |<-Tunnel->|     |  (AC)     TSN
-End     |     V     V     1    V     V     2    V     V   |       End
-System  |     +-----+          +-----+          +---- +   |    System
-+---+   |     |T-PE1|==========|S-PE1|==========|T-PE2|   |    +---+
 |   |---|-----|.X_..DetNet Flow1._ _.|...DF3........X.|---|----|   |
 |CE1|   |     |  \  |          |  X  |          |  /  |   |    |CE2|
 |   |         |   \_...DF2......./ \.|...DF4....../   |        |   |
@@ -275,59 +255,20 @@ System  |     +-----+          +-----+          +---- +   |    System
 </artwork>
 </figure>
 
-<!--VB  FIGURE UPDATED - single X per PE node    -->
-
-
  <t>
-  <xref target="fig_native_detnet"/> illustrates how end to end native DetNet
-  service can be provided. In this case, the end systems are able to send and
-  receive native DetNet flows.  For example, as PseudoWire (PW) encapsulated
-  IP.  Like earlier the 'X' in the end systems, edge and relay nodes represents
-  potential DetNet flow packet replication and elimination points. Here the
-  relay nodes may change the underlying transport, for example replacing IP
-  with MPLS or tunneling IP over MPLS (e.g., via L3VPNs), or simply
-  interconnect network domains.
-  
-<!--VB
-  <xref target="fig_native_detnet"/> illustrates how end to end DetNet
-  service can be provided. In this case, the end systems are able to send and
-  receive DetNet flows.  For example, put application data in PseudoWire (PW) and encapsulated in
-  IP.  Like earlier the 'X' in the end systems, edge and relay nodes represents
-  potential DetNet flow packet replication and elimination points. Here the
-  relay nodes may change the underlying transport, for example replacing IP
-  with MPLS or tunneling IP over MPLS, or simply
-  interconnect network domains.
-  
-  Changes:
-  - 3. sentence: extended to clarify meaning.
-  - Last sentence: Deleting the L3VPNs example as legacy L3VPNs would not allow "X" points 
-  e.g., on S-PE2.
-  
--->
-  
+  <xref target="fig_native_detnet"/> illustrates how end to end DetNet service
+  can be provided. In this case, the end systems are able to send and receive
+  DetNet flows.  For example, put application data in PseudoWire (PW) and
+  encapsulated in IP.  Like earlier the 'X' in the end systems, edge and relay
+  nodes represents potential DetNet flow packet replication and elimination
+  points. Here the relay nodes may change the underlying transport, for example
+  replacing IP with MPLS or tunneling IP over MPLS, or simply interconnect
+  network domains.
  </t>
 
 <figure align="center" anchor="fig_native_detnet"
  title="Native DetNet">
 <artwork><![CDATA[
-       DetNet                                           DetNet
-       Service         Transit          Transit        Service
-DetNet   |          |<-Tunnel->|     |<-Tunnel->|         |    DetNet
-End      |          V     1    V     V     2    V         |    End
-System   |    +-----+          +-----+          +-----+   |    System
-+---+    |    |S-PE1|==========|S-PE2|==========|S-PE3|   |    +---+
-|  X....DFa.....X_.......DF1.......X_....DF3........X.....DFa...X  |
-|CE1|=========|  \  |          |  /  |          |  /  |========|CE2|
-|   |    |    |   \......DF2.....X_......DF4....../   |   |    |   |
-+---+         |     |==========|     |==========|     |        +---+
-    ^         +-----+          +-----+          +-----+        ^
-    |        Relay Node       Relay Node       Relay Node      |
-    |                                                          |
-    |<------------- End to End DetNet Service ---------------->|
-
-
-			UPDATED FIGURE BELOW	
-	
        DetNet                                           DetNet
        Service         Transit          Transit        Service
 DetNet   |          |<-Tunnel->|     |<-Tunnel->|         |    DetNet
@@ -345,12 +286,10 @@ System   |    +-----+          +-----+          +-----+   |    System
 ]]></artwork>
 </figure>
 
-<!--VB  FIGURE UPDATED - single X per PE node    -->
-
-
 <section title="DetNet data plane solution requirements">
  <t>
- Two major groups of scenarios can be distinguished which require flow identification during transport:
+ Two major groups of scenarios can be distinguished which require flow
+ identification during transport:
  </t>
 
  <t><list style="numbers">
