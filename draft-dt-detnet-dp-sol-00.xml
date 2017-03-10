@@ -98,13 +98,19 @@
    </address>
   </author>
   
-  <author fullname="Balazs Varga" initials="B." surname="Varga">
-   <organization abbrev="Ericsson">Ericsson</organization>
-   <address>
-    <email>balazs.a.varga@ericsson.com</email>
-   </address>
-  </author>
-  
+  <author fullname="Bal&aacute;zs Varga" initials="B." surname="Varga">
+	<organization>Ericsson</organization>
+	<address>
+	 <postal>
+	  <street>Konyves K&aacute;lm&aacute;n krt. 11/B</street>
+	  <city>Budapest</city>
+	  <country>Hungary</country>
+	  <code>1097</code>
+	 </postal>
+	 <email>balazs.a.varga@ericsson.com</email>
+	</address>
+	</author>
+ 
   <author fullname="Donald Fauntleroy Duck" initials="D. F." surname="Duck">
    <organization abbrev="Royal Bros.">Royal Bros.</organization>
    <address>
@@ -122,7 +128,7 @@
   <abstract>
   <t>
    This document specifies a PseudoWire-based Determnistic Networking data
-   plane protocol solutoon. The data plane protocol runs over either IP or MPLS
+   plane protocol solution. The data plane protocol runs over either IP or MPLS
    Packet Switched Networks.
   </t>
   </abstract>
@@ -175,6 +181,10 @@
      means e.g., programming required label to local-ID mappings directly into
      the label information base (LFIB).</t>
     <t hangText="PW label Label">A PseudoWire label that is used to identify DetNet flows.</t>
+<!--VB    
+	<t hangText="PW Label">A PseudoWire label that is used to identify DetNet flow related PW Instances within a PE node.</t> 
+-->
+
    </list>
   </t>
  </section>
@@ -243,8 +253,30 @@ System  |     +-----+          +-----+          +---- +   |    System
     |        Edge Node        Relay Node       Edge Node       |
     |                                                          |
     |<--------------- Emulated TSN Service ------------------->|
-]]></artwork>
+
+
+			UPDATED FIGURE BELOW	
+	
+       TSN    |<----- End to End DetNet Service ----->|  TSN
+      Service |        Transit          Transit       | Service
+TSN    (AC)   |     |<-Tunnel->|     |<-Tunnel->|     |  (AC)     TSN
+End     |     V     V     1    V     V     2    V     V   |       End
+System  |     +-----+          +-----+          +---- +   |    System
++---+   |     |T-PE1|==========|S-PE1|==========|T-PE2|   |    +---+
+|   |---|-----|.X_..DetNet Flow1._ _.|...DF3........X.|---|----|   |
+|CE1|   |     |  \  |          |  X  |          |  /  |   |    |CE2|
+|   |         |   \_...DF2......./ \.|...DF4....../   |        |   |
++---+         |     |==========|     |==========|     |        +---+
+    ^         +-----+          +-----+          +-----+        ^
+    |        Edge Node        Relay Node       Edge Node       |
+    |                                                          |
+    |<--------------- Emulated TSN Service ------------------->|
+]]>
+</artwork>
 </figure>
+
+<!--VB  FIGURE UPDATED - single X per PE node    -->
+
 
  <t>
   <xref target="fig_native_detnet"/> illustrates how end to end native DetNet
@@ -255,6 +287,24 @@ System  |     +-----+          +-----+          +---- +   |    System
   relay nodes may change the underlying transport, for example replacing IP
   with MPLS or tunneling IP over MPLS (e.g., via L3VPNs), or simply
   interconnect network domains.
+  
+<!--VB
+  <xref target="fig_native_detnet"/> illustrates how end to end DetNet
+  service can be provided. In this case, the end systems are able to send and
+  receive DetNet flows.  For example, put application data in PseudoWire (PW) and encapsulated in
+  IP.  Like earlier the 'X' in the end systems, edge and relay nodes represents
+  potential DetNet flow packet replication and elimination points. Here the
+  relay nodes may change the underlying transport, for example replacing IP
+  with MPLS or tunneling IP over MPLS, or simply
+  interconnect network domains.
+  
+  Changes:
+  - 3. sentence: extended to clarify meaning.
+  - Last sentence: Deleting the L3VPNs example as legacy L3VPNs would not allow "X" points 
+  e.g., on S-PE2.
+  
+-->
+  
  </t>
 
 <figure align="center" anchor="fig_native_detnet"
@@ -274,8 +324,29 @@ System   |    +-----+          +-----+          +-----+   |    System
     |        Relay Node       Relay Node       Relay Node      |
     |                                                          |
     |<------------- End to End DetNet Service ---------------->|
+
+
+			UPDATED FIGURE BELOW	
+	
+       DetNet                                           DetNet
+       Service         Transit          Transit        Service
+DetNet   |          |<-Tunnel->|     |<-Tunnel->|         |    DetNet
+End      |          V     1    V     V     2    V         |    End
+System   |    +-----+          +-----+          +-----+   |    System
++---+    |    |S-PE1|==========|S-PE2|==========|S-PE3|   |    +---+
+|  X....DFa.....X_.......DF1....._ _.....DF3........X.....DFa...X  |
+|CE1|=========|  \  |          |  X  |          |  /  |========|CE2|
+|   |    |    |   \......DF2...../ \.....DF4....../   |   |    |   |
++---+         |     |==========|     |==========|     |        +---+
+    ^         +-----+          +-----+          +-----+        ^
+    |        Relay Node       Relay Node       Relay Node      |
+    |                                                          |
+    |<------------- End to End DetNet Service ---------------->|
 ]]></artwork>
 </figure>
+
+<!--VB  FIGURE UPDATED - single X per PE node    -->
+
 
 <section title="DetNet data plane solution requirements">
  <t>
@@ -467,6 +538,7 @@ H      DetNet Control Word      H  4 octets   |
    <!--/section-->
 
    <t>
+   <!--VB needs update to clarify meaning -->
     When IP PSN is used the label stack it transport are only inspacted when the
     IP packet reaches its destination. 
    </t>
@@ -554,9 +626,40 @@ Client AC   |    NSP      |           |    Single   | PW Instance
 <---------->X             X <-------> X PW Instance X<---------->
             |             |           |             |
             +---------------------------------------+
+
+
+			UPDATED FIGURE BELOW
+			
+            +---------------------------------------+
+            |             DA-T-PE Device            |
+            +---------------------------------------+   Egress/
+            |             | Forwarder |             |   Ingress
+            |  LSR        |           |    Single   | PW Instance
+Client PSN  |  ("Packet   o <-X-----> o PW Instance o<---------->
+LSPs        |    NSP")    |   | Repl. |             |
+<---------->o             |   | Elim. +-------------+ Duplicate
+            |             |   :       |             |   Egress
+            |             |   .       |    Single   | PW Instance
+            |             |       +-> o PW Instance o<---------->
+            |             |       |   |             |
+            +-------------+       |   +-------------+   Egress/
+            |             |       |   |             |   Ingress
+Client AC   |    NSP      | Repl. |   |    Single   | PW Instance
+<---------->o             o <-----X-> o PW Instance o<---------->
+            |             | Elim.     |             |
+            +-------------+           +-------------+   Egress/
+            |             |           |             |   Ingress
+Client AC   |    NSP      |           |    Single   | PW Instance
+<---------->o             o <-------> o PW Instance o<---------->
+            |             |           |             |
+            +---------------------------------------+
 ]]>
     </artwork></figure>
 
+<!--VB Denote with X the FRER function to be consistent   -->
+
+	
+	
     <t>
      A DA-T-PE participates to the frame replication and duplication
      elimination. Required processing is done within an extended forwarder
@@ -632,8 +735,38 @@ PW instance |   Single    |           |    Single   | PW Instance
 ----------->X PW Instance X --------> X PW Instance X----------->
             |             |           |             |
             +---------------------------------------+
+
+			UPDATED FIGURE BELOW
+			
+            +---------------------------------------+
+            |             DA-S-PE Device            |
+            +---------------------------------------+
+  Ingress   |             | Forwarder |             |   Egress
+PW instance |   Single    |           |    Single   | PW Instance
+----------->o PW Instance o --X-----> o PW Instance o----------->
+            |             |   | Elim. |             |
+            +-------------+   |       +-------------+ Duplicate
+  Ingress   |             |   |       |             |   Egress
+PW instance |   Single    |   |       |    Single   | PW Instance
+----------->o PW Instance o --+   +-> o PW Instance o----------->
+            |             |       |   |             |
+            +-------------+       |   +-------------+
+  Ingress   |             |       |   |             |   Egress
+PW instance |   Single    | Repl. |   |    Single   | PW Instance
+----------->o PW Instance o ------X-> o PW Instance o----------->
+            |             |           |             |
+            +-------------+           +-------------+
+  Ingress   |             |           |             |   Egress
+PW instance |   Single    |           |    Single   | PW Instance
+----------->o PW Instance o --------> o PW Instance o----------->
+            |             |           |             |
+            +---------------------------------------+
 ]]>
     </artwork></figure>
+
+<!--VB Denote with X the FRER function to be consistent      -->
+
+
   </section>
 
   <section title="Frame replication and elimination considerations">
