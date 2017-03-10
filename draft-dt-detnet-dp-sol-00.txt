@@ -8,19 +8,18 @@ Intended status: Informational                              L. Andersson
 Expires: September 11, 2017                                     Y. Jiang
                                                                   Huawei
                                                                 B. Varga
+                                                               J. Farkas
                                                                 Ericsson
-                                                                 D. Duck
-                                                             Royal Bros.
                                                           March 10, 2017
 
 
-                       DetNet Data Plane Protocol
+                       DetNet Data Plane solution
                       draft-ietf-detnet-dp-sol-00
 
 Abstract
 
-   This document specifies a PseudoWire-based Determnistic Networking
-   data plane protocol solution.  The data plane protocol runs over
+   This document specifies a PseudoWire-based Deterministic Networking
+   data plane solution.  The data plane solution can be applied over
    either IP or MPLS Packet Switched Networks.
 
 Status of This Memo
@@ -50,15 +49,15 @@ Copyright Notice
    (http://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
 
 
 
 Korhonen, et al.       Expires September 11, 2017               [Page 1]
 
-Internet-Draft         DetNet data plane protocol             March 2017
+Internet-Draft         DetNet data plane solution             March 2017
 
 
-   to this document.  Code Components extracted from this document must
    include Simplified BSD License text as described in Section 4.e of
    the Trust Legal Provisions and are provided without warranty as
    described in the Simplified BSD License.
@@ -70,55 +69,54 @@ Table of Contents
    3.  Requirements language . . . . . . . . . . . . . . . . . . . .   3
    4.  DetNet data plane Overview  . . . . . . . . . . . . . . . . .   4
      4.1.  DetNet data plane solution requirements . . . . . . . . .   6
-   5.  DetNet data plane solution  . . . . . . . . . . . . . . . . .   7
+   5.  DetNet data plane solution  . . . . . . . . . . . . . . . . .   6
      5.1.  DetNet Control Word . . . . . . . . . . . . . . . . . . .   7
-     5.2.  DetNet flow identity word . . . . . . . . . . . . . . . .   8
+     5.2.  DetNet flow identity word . . . . . . . . . . . . . . . .   7
      5.3.  DetNet encapsulation  . . . . . . . . . . . . . . . . . .   8
-   6.  PE reference model considerations . . . . . . . . . . . . . .  11
-     6.1.  Forwarded clarifications  . . . . . . . . . . . . . . . .  11
+   6.  PE reference model considerations . . . . . . . . . . . . . .  10
+     6.1.  Forwarded clarifications  . . . . . . . . . . . . . . . .  10
      6.2.  DA-T-PE processing clarifications . . . . . . . . . . . .  11
      6.3.  DA-S-PE processing clarifications . . . . . . . . . . . .  13
-     6.4.  Frame replication and elimination considerations  . . . .  14
-   7.  Other DetNet considerations . . . . . . . . . . . . . . . . .  15
-     7.1.  Class of Service  . . . . . . . . . . . . . . . . . . . .  15
-     7.2.  Quality of Service  . . . . . . . . . . . . . . . . . . .  15
-     7.3.  Time-synchronization  . . . . . . . . . . . . . . . . . .  15
+   7.  Other DetNet considerations . . . . . . . . . . . . . . . . .  14
+     7.1.  Class of Service  . . . . . . . . . . . . . . . . . . . .  14
+     7.2.  Quality of Service  . . . . . . . . . . . . . . . . . . .  14
+     7.3.  Time-synchronization  . . . . . . . . . . . . . . . . . .  14
      7.4.  Bidirectional traffic . . . . . . . . . . . . . . . . . .  15
    8.  Control plane considerations  . . . . . . . . . . . . . . . .  15
      8.1.  PW Label assignment and distribution  . . . . . . . . . .  15
    9.  Security considerations . . . . . . . . . . . . . . . . . . .  15
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  16
-   11. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  16
+   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  15
+   11. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  15
    12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  16
      12.1.  Normative References . . . . . . . . . . . . . . . . . .  16
      12.2.  Informative References . . . . . . . . . . . . . . . . .  17
    Appendix A.  Example of DetNet data plane operation . . . . . . .  18
-   Appendix B.  Example of pinned paths using IP PSN . . . . . . . .  20
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  20
+   Appendix B.  Example of pinned paths using IP PSN . . . . . . . .  19
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  19
 
 1.  Introduction
 
    This document specifies a Deterministic Networking (DetNet) data
-   plane protocol.  The solution is based on PseudoWires (PW) [RFC3985]
+   plane solution.  The solution is based on PseudoWires (PW) [RFC3985]
    and makes use of the multi-segment (MS-PW) [RFC6073] to map DetNet
-   Relays and Edge Nodes
+   Relay and Edge Nodes
    [I-D.ietf-detnet-architecture][I-D.ietf-detnet-dp-alt] to PW
    architecture.  The PW-based data plane can be run over either an IP
    or MPLS [RFC4448][RFC6658] Packet Switched Network (PSN).
 
+   For the purpose of DetNet data plane, this document specifically
+   specifies the PW encapsulation for DetNet flows, a DetNet Control
 
 
 
 Korhonen, et al.       Expires September 11, 2017               [Page 2]
 
-Internet-Draft         DetNet data plane protocol             March 2017
+Internet-Draft         DetNet data plane solution             March 2017
 
 
-   For the purpose of DetNet data plane this document specifically
-   specifies the PW encapsulation for DetNet flows, a DetNet Control
    Word (CW), a DetNet label, how MS-PW derived DetNet Relay and Edge
-   nodes work, and as a specific new PW feature how the Frame
-   Replication and Elimination for Redundancy (FRER) is implemented
+   nodes work, and as a specific new PW feature how the Packet
+   Replication and Elimination for Redundancy (PRER) is implemented
    using PWs.  This document does not define the associated control
    plane functions, or operations and management (O&M).
 
@@ -145,17 +143,17 @@ Internet-Draft         DetNet data plane protocol             March 2017
                  DetNet aware T-PE or S-PE devices.
 
    flow-ID       A DetNet flow identity that uniquely identifies a
-                 DetNet flow in a DetNet domain.  The flow-ID is part of
-                 the PseudoWire Encapsulation header.
+                 DetNet flow in a DetNet network.  The flow-ID is part
+                 of the PseudoWire Encapsulation header.
 
    local-ID      A DA-T-PE and DA-S-PE node internal construct that
-                 uniquelly identifies a DetNet flow.  The local-ID can
-                 equal to flow-ID or be derived using other means e.g.,
+                 uniquely identifies a DetNet flow.  The local-ID can be
+                 equal to flow-ID or be derived using other means, e.g.,
                  programming required label to local-ID mappings
                  directly into the label information base (LFIB).
 
-   PW label Label  A PseudoWire label that is used to identify DetNet
-                 flows.
+   PW Label      A PseudoWire label that is used to identify DetNet flow
+                 related PW Instances within a PE node.
 
 3.  Requirements language
 
@@ -165,9 +163,11 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
 
 
+
+
 Korhonen, et al.       Expires September 11, 2017               [Page 3]
 
-Internet-Draft         DetNet data plane protocol             March 2017
+Internet-Draft         DetNet data plane solution             March 2017
 
 
 4.  DetNet data plane Overview
@@ -223,26 +223,8 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
 Korhonen, et al.       Expires September 11, 2017               [Page 4]
 
-Internet-Draft         DetNet data plane protocol             March 2017
+Internet-Draft         DetNet data plane solution             March 2017
 
-
-          TSN    |<----- End to End DetNet Service ----->|  TSN
-         Service |        Transit          Transit       | Service
-   TSN    (AC)   |     |<-Tunnel->|     |<-Tunnel->|     |  (AC)     TSN
-   End     |     V     V     1    V     V     2    V     V   |       End
-   System  |     +-----+          +-----+          +---- +   |    System
-   +---+   |     |T-PE1|==========|S-PE1|==========|T-PE2|   |    +---+
-   |   |---|-----|.X_..DetNet Flow1..X..|...DF3........X.|---|----|   |
-   |CE1|   |     |  \  |          |     |          |  /  |   |    |CE2|
-   |   |         |...X_...DF2........X..|...DF4......X_..|        |   |
-   +---+         |     |==========|     |==========|     |        +---+
-       ^         +-----+          +-----+          +-----+        ^
-       |        Edge Node        Relay Node       Edge Node       |
-       |                                                          |
-       |<--------------- Emulated TSN Service ------------------->|
-
-
-                           UPDATED FIGURE BELOW
 
           TSN    |<----- End to End DetNet Service ----->|  TSN
          Service |        Transit          Transit       | Service
@@ -262,43 +244,14 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
                     Figure 2: IEEE 802.1TSN over DetNet
 
-   Figure 3 illustrates how end to end native DetNet service can be
-   provided.  In this case, the end systems are able to send and receive
-   native DetNet flows.  For example, as PseudoWire (PW) encapsulated
-   IP.  Like earlier the 'X' in the end systems, edge and relay nodes
-   represents potential DetNet flow packet replication and elimination
-   points.  Here the relay nodes may change the underlying transport,
-   for example replacing IP with MPLS or tunneling IP over MPLS (e.g.,
-   via L3VPNs), or simply interconnect network domains.
-
-
-
-
-
-
-
-Korhonen, et al.       Expires September 11, 2017               [Page 5]
-
-Internet-Draft         DetNet data plane protocol             March 2017
-
-
-          DetNet                                           DetNet
-          Service         Transit          Transit        Service
-   DetNet   |          |<-Tunnel->|     |<-Tunnel->|         |    DetNet
-   End      |          V     1    V     V     2    V         |    End
-   System   |    +-----+          +-----+          +-----+   |    System
-   +---+    |    |S-PE1|==========|S-PE2|==========|S-PE3|   |    +---+
-   |  X....DFa.....X_.......DF1.......X_....DF3........X.....DFa...X  |
-   |CE1|=========|  \  |          |  /  |          |  /  |========|CE2|
-   |   |    |    |   \......DF2.....X_......DF4....../   |   |    |   |
-   +---+         |     |==========|     |==========|     |        +---+
-       ^         +-----+          +-----+          +-----+        ^
-       |        Relay Node       Relay Node       Relay Node      |
-       |                                                          |
-       |<------------- End to End DetNet Service ---------------->|
-
-
-                           UPDATED FIGURE BELOW
+   Figure 3 illustrates how end to end DetNet service can be provided.
+   In this case, the end systems are able to send and receive DetNet
+   flows.  For example, put application data in PseudoWire (PW) and
+   encapsulated in IP.  Like earlier the 'X' in the end systems, edge
+   and relay nodes represents potential DetNet flow packet replication
+   and elimination points.  Here the relay nodes may change the
+   underlying transport, for example replacing IP with MPLS or tunneling
+   IP over MPLS, or simply interconnect network segments.
 
           DetNet                                           DetNet
           Service         Transit          Transit        Service
@@ -317,6 +270,18 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
                           Figure 3: Native DetNet
 
+
+
+
+
+
+
+
+Korhonen, et al.       Expires September 11, 2017               [Page 5]
+
+Internet-Draft         DetNet data plane solution             March 2017
+
+
 4.1.  DetNet data plane solution requirements
 
    Two major groups of scenarios can be distinguished which require flow
@@ -328,15 +293,6 @@ Internet-Draft         DetNet data plane protocol             March 2017
           policing, shaping).
 
        *  Explicit routes: select/apply the flow specific path.
-
-
-
-
-
-Korhonen, et al.       Expires September 11, 2017               [Page 6]
-
-Internet-Draft         DetNet data plane protocol             March 2017
-
 
        *  Service protection: recognize compound / member flows for
           replication an elimination.
@@ -358,18 +314,29 @@ Internet-Draft         DetNet data plane protocol             March 2017
    nodes, as they are fully aware of both the DetNet service and
    transport layers.  The DetNet role of intermediate "P" nodes is
    limited to ensure congestion protection from the above listed DetNet
-   functions.  However P nodes can usually recognize only "T-label" and
+   functions.  However, P nodes can usually recognize only "T-label" and
    cannot consider the whole label stack for flow recognition.
-   Therefore identifing each individual DetNet flow on a P node may not
-   be achieved in some network scenarios.
+   Therefore, identifying each individual DetNet flow on a P node may
+   not be achieved in some network scenarios.
 
-   On each node dealing with DetNet flows a local-ID is assumed to
-   determine what local operation a packet goes through.  Therefore
+   On each node dealing with DetNet flows, a local-ID is assumed to
+   determine what local operation a packet goes through.  Therefore,
    local-IDs MUST be unique on each DA-T-PE and DA-S-PE nodes.  Local-ID
    MUST be unambiguously bound to the Flow-ID encoded in the DetNet
    packet.
 
 5.  DetNet data plane solution
+
+
+
+
+
+
+
+Korhonen, et al.       Expires September 11, 2017               [Page 6]
+
+Internet-Draft         DetNet data plane solution             March 2017
+
 
 5.1.  DetNet Control Word
 
@@ -386,25 +353,17 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
                        Figure 4: DetNet Control Word
 
-
-
-
-Korhonen, et al.       Expires September 11, 2017               [Page 7]
-
-Internet-Draft         DetNet data plane protocol             March 2017
-
-
 5.2.  DetNet flow identity word
 
    The DetNet flow identity word (flow-ID) identifies a DetNet flow
-   uniquely within a DetNet domain.  The flow-ID is also associated with
-   the sequence number carried in the DetNet control word and used also
-   for FRER purposes.
+   uniquely within a DetNet network.  The flow-ID is also associated
+   with the sequence number carried in the DetNet control word and used
+   also for PREF purposes.
 
       0                   1                   2                   3
       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |   reserved    |               24 bit flow identity            |
+     |   reserved  |D|               24 bit flow identity            |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
 
@@ -414,10 +373,26 @@ Internet-Draft         DetNet data plane protocol             March 2017
    specification.  It is assumed that each DA-T-PE node have either a
    preconfigured flow-ID number space or some dynamic control plane
    protocol is able to coordinate the allocation of the flow-IDs across
-   the DA-T-PE nodes.
+   the DA-T-PE nodes, or a central entity, e.g., a Software Defined
+   Networking controller.
+
+   The D bit defines the direction of the flow.  The value 0 means
+   'east' and the value 1 means 'west'.  The D bit can be used in ring
+   topologies to allow DetNet flows with the same flow-ID cross with or
+   without PREF processing taking place.  Whether a DA-*-PE checks for
+   the D bit is based on a local policy setting.  The support for D bit
+   is optional.  If a DA-*-PE does not support the D bit it MUST be
+   treated as 0.
 
    The reserved field in the flow-ID MUST be set to zero and ignored
    when received.
+
+
+
+Korhonen, et al.       Expires September 11, 2017               [Page 7]
+
+Internet-Draft         DetNet data plane solution             March 2017
+
 
 5.3.  DetNet encapsulation
 
@@ -427,11 +402,11 @@ Internet-Draft         DetNet data plane protocol             March 2017
    encapsulation consists of a
 
    o  DetNet control word (d-CW): contains sequencing information for
-      frame replication and duplicate elimination purposes.  There is a
+      packet replication and duplicate elimination purposes.  There is a
       separate sequence number space per each DetNet label.
 
-   o  DetNet flow-ID (f-ID): uniquelly identifies a DetNet flow within a
-      DetNet domain.  Multiple DetNet PWs with different PW labels may
+   o  DetNet flow-ID (f-ID): uniquely identifies a DetNet flow within a
+      DetNet network.  Multiple DetNet PWs with different PW labels may
       have the same f-ID, which then implies the PWs are actually
       subflows of one compound flow.
 
@@ -439,16 +414,9 @@ Internet-Draft         DetNet data plane protocol             March 2017
       a PW Instance within a (DA-)T-PE or (DA-)S-PE device.
 
    o  DetNet topology overlay label (L-label): an optional label used
-      between (DA-)T-PE or (DA-)S-PE nodes.  The chief use for L-labels
-      is to tunnel PWs through a PE node and therefore effectively
-      making a PE node to behave like a P node.
-
-
-
-Korhonen, et al.       Expires September 11, 2017               [Page 8]
-
-Internet-Draft         DetNet data plane protocol             March 2017
-
+      between (DA-)T-PE or (DA-)S-PE nodes.  The main use of L-labels is
+      to tunnel PWs through a PE node and therefore effectively making a
+      PE node to behave like a P node.
 
    In a case of MPLS-based PSN, the tunnel labels between LSRs are
    referred as T-labels.
@@ -458,8 +426,8 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
       [Editor's note: The current design has the DetNet flow-id as part
       of the every DetNet flow packet.  The flow-id identifies the flow
-      uniquelly within the DetNet domain and together with the sequence
-      number information from the DetNet control word is used for FRER
+      uniquely within the DetNet network and together with the sequence
+      number information from the DetNet control word is used for PREF
       purposes.  The flow-id makes is easy for the DA-*-PE node to
       associate different PWs into one compound flow and perform the
       elimination of duplicate packets.  The flow-id would point at the
@@ -468,31 +436,63 @@ Internet-Draft         DetNet data plane protocol             March 2017
       to associate multiple PWs into one DetNet flow just using the
       control plane provided information.  In this case different PWs
       (using any PW label) would be mapped internally within a node to a
-      local-ID, which again points at the intenal per DetNet flow
+      local-ID, which again points at the internal per DetNet flow
       received packets history construct.  The explicit in-band flow-id
       is easy from the processing and control plane point of view.  The
       local-ID approach does not need the in-band information (thus has
       less overhead) but requires more from the control plane and the
       mapping information has to be stored into the LFIB.  Current
+
+
+
+Korhonen, et al.       Expires September 11, 2017               [Page 8]
+
+Internet-Draft         DetNet data plane solution             March 2017
+
+
       design decision is the in-band flow-id but may be changed to
       local-ID if there is a strong reason to do the change.]
 
    Figure 6 illustrates a DetNet PseudoWire encapsulation using an MPLS
-   PSN.  Similarly Figure 7 illustrates the DetNet PseudoWire
-   encaosulation when IP PSN is used.  The encapsulation is uniform
+   PSN.  Similarly, Figure 7 illustrates the DetNet PseudoWire
+   encapsulation when IP PSN is used.  The encapsulation is uniform
    above the PSN.
 
-   Depending on the network topology the "overlay label" may be part of
-   the label stack.  This "L-label" has actually nothing specific to do
-   with DetNet but can be used to build overlay topologies over the
-   provider network in a same way virtual private networks (VPN) are
-   built.
+   Depending on the network topology the "overlay label" (L-label) may
+   be part of the label stack.  The L-label tunnels guarantee PW labels
+   remain unchanged between DA-*-PE nodes.  Furthermore, L-labels
+   tunnels allow selectively expose the PW label to DA-*-PE nodes, which
+   means some overlay topologies may just pass through specific DA-S-PEs
+   without any DetNet specific processing.
+
+     PWE3 Encapsulation                   DetNet PWE3 Encapsulation
+
+                                    +---------------------------------+
+   +---------------------+          |                                 |
+   |      Payload        |          |           DetNet Flow           |
+   /=====================\          |         Payload  Packet         |
+   H Payload Convergence H--+       |                                 |
+   H---------------------H  |       /=================================\
+   H       Timing        H  +--+    H    DetNet flow identity word    H
+   H---------------------H  |  +--->H---------------------------------H
+   H     Sequencing      H--+       H       DetNet Control Word       H
+   \=====================/          \=================================/
+   |  PW Demultiplexer   |--------->|            PW Label             |
+   +---------------------+          +---------------------------------+
+   |  PSN Convergence    |     +--->| Optional topology overlay Label |
+   +---------------------+     |    +---------------------------------+
+   |        PSN          |-----+--->|     Server MPLS Tunnel Label(s) |
+   +---------------------+          +---------------------------------+
+   |      Data-Link      |
+   +---------------------+
+   |       Physical      |
+   +---------------------+
 
 
+     Figure 6: Encapsulation of DetNet flow in a PW with MPLS(-TP) PSN
 
-
-
-
+   When IP PSN is used the label stack it transport are only inspected
+   when the IP packet reaches its destination.
 
 
 
@@ -503,74 +503,44 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
 Korhonen, et al.       Expires September 11, 2017               [Page 9]
 
-Internet-Draft         DetNet data plane protocol             March 2017
+Internet-Draft         DetNet data plane solution             March 2017
 
 
-    +-------------------------------+
-    |                               |
-    |          DetNet Flow          |
-    |        Payload  Packet        |  n octets
-    |                               |
-    /===============================\           --+
-    H      DetNet flow identity     H  4 octets   |
-    H-------------------------------H             +-> PW encapsulation
-    H      DetNet Control Word      H  4 octets   |
-    \===============================/           --+
-    |          PW Label             |  4 octets --> PW demultiplexer
-    +-------------------------------+
-    | DetNet topology overlay Label |  4 octets (optinal)
-    +-------------------------------+
-    |   Server MPLS Tunnel Label(s) |  n*4 octets
-    +-------------------------------+
+     PWE3 Encapsulation                   DetNet PWE3 Encapsulation
 
-
-     Figure 6: Encapsulation of DetNet flow in a PW with MPLS(-TP) PSN
-
-   When IP PSN is used the label stack it transport are only inspacted
-   when the IP packet reaches its destination.
-
-    +-------------------------------+
-    |                               |
-    |          DetNet Flow          |
-    |        Payload  Packet        |  n octets
-    |                               |
-    /===============================\           --+
-    H      DetNet flow identity     H  4 octets   |
-    H-------------------------------H             +-> PW encapsulation
-    H      DetNet Control Word      H  4 octets   |
-    \===============================/           --+
-    |          PW Label             |  4 octets --> PW demultiplexer
-    +-------------------------------+
-    | DetNet topology overlay Label |  4 octets (optional)
-    +-------------------------------+
-    |      Optional UDP Header      |  0 or 8 octets
-    +-------------------------------+
-    |      IPv4 or IPv6 Header      |  20 or 40 (or more octets
-    +-------------------------------+  with extension headers)
+                                    +---------------------------------+
+   +---------------------+          |                                 |
+   |      Payload        |          |           DetNet Flow           |
+   /=====================\          |         Payload  Packet         |
+   H Payload Convergence H--+       |                                 |
+   H---------------------H  |       /=================================\
+   H       Timing        H  +--+    H    DetNet flow identity word    H
+   H---------------------H  |  +--->H---------------------------------H
+   H     Sequencing      H--+       H       DetNet Control Word       H
+   \=====================/          \=================================/
+   |  PW Demultiplexer   |--------->|             PW Label            |
+   +---------------------+          +---------------------------------+
+   |  PSN Convergence    |     +--->| Optional Topology overlay Label |
+   +---------------------+     |    +---------------------------------+
+   |        PSN          |-----+    |       Optional UDP Header       |
+   +---------------------+     |    +---------------------------------+
+   |      Data-Link      |     +--->|       IPv4 or IPv6 header       |
+   +---------------------+          +---------------------------------+
+   |       Physical      |
+   +---------------------+
 
 
         Figure 7: Encapsulation of DetNet flow in a PW with IP PSN
-
-
-
-
-
-
-
-Korhonen, et al.       Expires September 11, 2017              [Page 10]
-
-Internet-Draft         DetNet data plane protocol             March 2017
-
 
 6.  PE reference model considerations
 
 6.1.  Forwarded clarifications
 
-   [Ed.  The Detnet-aware "extended forwarder" does the heavy lifting on
-   maintaining the sequence numbers associated with the DetNet labels.
-   Extended forwarder is also responsible for frame replication and
-   duplicate elimination.  See the excerpt from RFC3985 Section 4.2.1.
-   about forwarder's functions.  We extend that to FRER:
+   [Editor's note: The Detnet-aware "extended forwarder" does the heavy
+   lifting on maintaining the sequence numbers associated with the
+   DetNet labels.  Extended forwarder is also responsible for packet
+   replication and duplicate elimination.  See the excerpt from RFC3985
+   Section 4.2.1. about forwarder's functions.  We extend that to PREF:
 
       Some applications have to forward payload elements selectively
       from one or more ACs to one or more PWs.  In such cases, there
@@ -579,6 +549,45 @@ Internet-Draft         DetNet data plane protocol             March 2017
       forwarder.
 
    ]
+
+   The DetNet specific new functionality in a DA-*-PE PW processing is
+   the packet replication and duplication elimination (PREF).  This
+   functional is a part of the "extended" forwarder.  The PREF
+   processing is triggered by the LFIB actions i.e., not all PWs receive
+
+
+
+Korhonen, et al.       Expires September 11, 2017              [Page 10]
+
+Internet-Draft         DetNet data plane solution             March 2017
+
+
+   DetNet specific processing.  Basically the LFIB has to be extended
+   with a "PREF enabled" boolean configuration switch that is associated
+   with the normal label actions (e.g., swap, push, pop, ..).  The
+   output of the PREF elimination function is always a single packet.
+   The output of the PREF replication function is always one or more
+   packet (i.e., 1:M replication).  The replicated packets MUST share
+   the same DetNet PW control word sequence number and flow identity
+   word flow-id.
+
+   The complex part of the DetNet PREF processing is tracking the
+   history of received packets for multiple PWs.  These PWs do not have
+   the same PW label value while they still share the same PW sequence
+   number counter and the history information.  That is where the DetNet
+   encapsulation header flow-ID plays an important role and binds the
+   control word sequence number to the flow specific shared counter and
+   history information within the PREF function.
+
+   The DetNet flow word contains a D flag bit (see Section 5.2), which
+   makes the DA-*-PE node aware of the direction the flow-ID arrived
+   from.  If the node, based on the local policy, checks for the D bit
+   setting that effectively means the sequence number history has to be
+   doubled for each of such flows.  Whether a DA-*-PE supports the D bit
+   setting is optional.
+
+   [Editor's note: draw here an example of LFIB with the elimination
+   action.]
 
 6.2.  DA-T-PE processing clarifications
 
@@ -589,42 +598,25 @@ Internet-Draft         DetNet data plane protocol             March 2017
    functions.  The figure shows both physical attachment circuit (AC)
    (e.g., Ethernet [RFC4448]) connecting to the PE, and a packet service
    connecting to the PE via an embedded label switch router (LSR)
-   function [RFC6658].
+   function [RFC6658].  Whether traffic flow from from a client AC and
+   PSN LSP receives DetNet specific treatment is up to a local
+   configuration and policy.  A DA-T-PE can also serve as a normal T-PE.
 
-                 +---------------------------------------+
-                 |             DA-T-PE Device            |
-                 +---------------------------------------+   Egress/
-                 |             | Forwarder |             |   Ingress
-                 |  LSR        |           |    Single   | PW Instance
-     Client PSN  |  ("Packet   X <-*-----> X PW Instance X<---------->
-     LSPs        |    NSP")    |   | Repl. |             |
-     <---------->X             |   | Elim. +-------------+ Duplicate
-                 |             |   :       |             |   Egress
-                 |             |   .       |    Single   | PW Instance
-                 |             |       +-> X PW Instance X<---------->
-                 |             |       |   |             |
-                 +-------------+       |   +-------------+   Egress/
-                 |             |       |   |             |   Ingress
-     Client AC   |    NSP      | Repl. |   |    Single   | PW Instance
-     <---------->X             X <-----*-> X PW Instance X<---------->
-                 |             | Elim.     |             |
-                 +-------------+           +-------------+   Egress/
-                 |             |           |             |   Ingress
+
+
+
+
+
+
+
+
 
 
 
 Korhonen, et al.       Expires September 11, 2017              [Page 11]
 
-Internet-Draft         DetNet data plane protocol             March 2017
+Internet-Draft         DetNet data plane solution             March 2017
 
-
-     Client AC   |    NSP      |           |    Single   | PW Instance
-     <---------->X             X <-------> X PW Instance X<---------->
-                 |             |           |             |
-                 +---------------------------------------+
-
-
-                             UPDATED FIGURE BELOW
 
                  +---------------------------------------+
                  |             DA-T-PE Device            |
@@ -653,10 +645,10 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
                    Figure 8: DetNet Edge Node as a T-PE
 
-   A DA-T-PE participates to the frame replication and duplication
+   A DA-T-PE participates to the packet replication and duplication
    elimination.  Required processing is done within an extended
    forwarder function.  In the case the native service processing (NSP)
-   is IEEE 802.1CB [IEEE8021CB] capable the frame replication and
+   is IEEE 802.1CB [IEEE8021CB] capable, the packet replication and
    duplicate elimination MAY entirely be done in the NSP and bypassing
    the DetNet PW encapsulation and logic entirely.
 
@@ -666,22 +658,21 @@ Internet-Draft         DetNet data plane protocol             March 2017
    header available yet as it is the case with DA-S-PEs (see
    Section 6.3).  It is the responsibility of the extended forwarder
    within the DA-T-PE to push the DetNet encapsulation header (i.e., the
+   DetNet CW and the DetNet flow-ID) to the packet before forwarding it
+   to the appropriate egress PW instance(s).  The extended forwarder MAY
+   copy the sequencing information from the native packet into the
+   DetNet CW and vice versa.  If there is no existing sequencing
+   information available in the native packet or the forwarder chose not
+   to copy it from the native packet, then the extended forwarder MUST
+   maintain a sequence number counter for each DetNet flow (indexed by
+   the flow-ID).
 
 
 
 Korhonen, et al.       Expires September 11, 2017              [Page 12]
 
-Internet-Draft         DetNet data plane protocol             March 2017
+Internet-Draft         DetNet data plane solution             March 2017
 
-
-   DetNet CW and the DetNet flow-ID) to the packet before forwarding it
-   to the appropriate egress PW instance(s).  The extended forwarder MAY
-   copy the sequencing information from the native packet into the
-   DetNet CW and vice versa.  If there is no existing sequencing
-   information available in the native packet or the forwarded chose not
-   to copy it from the native packet, then the extended forwarded MUST
-   maintain a sequence number counter for each DetNet flow (indexed by
-   the flow-ID).
 
 6.3.  DA-S-PE processing clarifications
 
@@ -690,53 +681,54 @@ Internet-Draft         DetNet data plane protocol             March 2017
    implies the S-PE is also aware of DetNet flows and may operate upon
    those.  Figure 9 illustrates the overall DA-S-PE device functions.
 
-   A DA-S-PE participates to the frame replication and duplication
+   A DA-S-PE participates to the packet replication and duplication
    elimination.  This processing is done within an extended forwarder
-   function.
+   function.  Whether an ingress PW receives DetNet specific processing
+   depends on how the LFIB is programmed.  For some PWs the DA-S-PE can
+   act as a normal S-PE and for some apply the DetNet specific
+   processing.  It is also possible treat the DA-S-PE as a P router
+   using the L-label tunnels.  Again, this is entirely up to how the
+   LFIB has been programmed.
 
    The DetNet-aware forwarder selects the egress segment PW based on the
    PW label.  The mapping of ingress PW label to egress PW label may be
    statically or dynamically configured.  Additionally the DetNet-aware
    forwarder does duplicate frame elimination based on the DetNet flow-
-   ID and DetNet Control Word sequence number combination.  The frame
+   ID and DetNet Control Word sequence number combination.  The packet
    replication is also done within the DetNet-aware forwarder.  During
    elimination and the replication process both DetNet CW sequence
    number and DetNet flow-ID MUST be preserved and copied to the egress
-   PW.  [to be completed..]
+   PW.
 
-                 +---------------------------------------+
-                 |             DA-S-PE Device            |
-                 +---------------------------------------+
-       Ingress   |             | Forwarder |             |   Egress
-     PW instance |   Single    |           |    Single   | PW Instance
-     ----------->X PW Instance X --*-----> X PW Instance X----------->
-                 |             |   | Elim. |             |
-                 +-------------+   |       +-------------+ Duplicate
-       Ingress   |             |   |       |             |   Egress
-     PW instance |   Single    |   |       |    Single   | PW Instance
-     ----------->X PW Instance X --+   +-> X PW Instance X----------->
-                 |             |       |   |             |
-                 +-------------+       |   +-------------+
-       Ingress   |             |       |   |             |   Egress
-     PW instance |   Single    | Repl. |   |    Single   | PW Instance
-     ----------->X PW Instance X ------*-> X PW Instance X----------->
-                 |             |           |             |
-                 +-------------+           +-------------+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
 Korhonen, et al.       Expires September 11, 2017              [Page 13]
 
-Internet-Draft         DetNet data plane protocol             March 2017
+Internet-Draft         DetNet data plane solution             March 2017
 
-
-       Ingress   |             |           |             |   Egress
-     PW instance |   Single    |           |    Single   | PW Instance
-     ----------->X PW Instance X --------> X PW Instance X----------->
-                 |             |           |             |
-                 +---------------------------------------+
-
-                             UPDATED FIGURE BELOW
 
                  +---------------------------------------+
                  |             DA-S-PE Device            |
@@ -765,32 +757,11 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
                    Figure 9: DetNet Relay Node as a S-PE
 
-6.4.  Frame replication and elimination considerations
-
-   [Editor's note: Describe the elimination and replication procedure
-   here in more detail.  This is going to take place in PW instance and
-   consists of two step operation: 1) eliminate and 2) replicate if
-   necessary.]
-
-   [Editor's note: draw here an example of LFIB with the elimination
-   action.]
-
-
-
-
-
-
-
-Korhonen, et al.       Expires September 11, 2017              [Page 14]
-
-Internet-Draft         DetNet data plane protocol             March 2017
-
-
 7.  Other DetNet considerations
 
 7.1.  Class of Service
 
-   [Ed.  Discuss the CoS.. and how that is archieved when using MPLS or
+   [Ed.  Discuss the CoS.. and how that is archived when using MPLS or
    IP PSN.]
 
 7.2.  Quality of Service
@@ -799,11 +770,21 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
 7.3.  Time-synchronization
 
-   [Ed. discribe a bit of issues and deployment considerations related
-   to time-synchronization within DetNet.  Refer to DT discussion and
-   the slides that summarize different approaches and rough
-   synchronization performance numbers.  Finally, scope time-
+   [Editor's note: describe a bit of issues and deployment
+   considerations related to time-synchronization within DetNet.  Refer
+   to DT discussion and the slides that summarize different approaches
+   and rough synchronization performance numbers.  Finally, scope time-
    synchronization solution outside data plane.]
+
+
+
+
+
+
+Korhonen, et al.       Expires September 11, 2017              [Page 14]
+
+Internet-Draft         DetNet data plane solution             March 2017
+
 
 7.4.  Bidirectional traffic
 
@@ -819,7 +800,7 @@ Internet-Draft         DetNet data plane protocol             March 2017
 8.  Control plane considerations
 
    [Editor's note: discuss here what kind of enhancements are needed for
-   DetNet and specifically for FRER.]
+   DetNet and specifically for PREF.]
 
 8.1.  PW Label assignment and distribution
 
@@ -830,18 +811,6 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
    This document probably has security considerations.
 
-
-
-
-
-
-
-
-Korhonen, et al.       Expires September 11, 2017              [Page 15]
-
-Internet-Draft         DetNet data plane protocol             March 2017
-
-
 10.  IANA Considerations
 
    TBD.
@@ -850,7 +819,7 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
    The author(s) ACK and NACK.
 
-   The following people were part of the DetNet Data Plane Protocol
+   The following people were part of the DetNet Data Plane Solution
    Design Team:
 
       Jouni Korhonen
@@ -865,13 +834,21 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
       Tal Mizrahi
 
+
+
+
+Korhonen, et al.       Expires September 11, 2017              [Page 15]
+
+Internet-Draft         DetNet data plane solution             March 2017
+
+
       David Mozes
 
       Yuanlong Jiang
 
       Carlos J.  Bernardos
 
-   The DetNet chairs serving during the DetNet Data Plane Protocol
+   The DetNet chairs serving during the DetNet Data Plane Solution
    Design Team:
 
       Lou Berger
@@ -886,17 +863,6 @@ Internet-Draft         DetNet data plane protocol             March 2017
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <http://www.rfc-editor.org/info/rfc2119>.
-
-
-
-
-
-
-
-Korhonen, et al.       Expires September 11, 2017              [Page 16]
-
-Internet-Draft         DetNet data plane protocol             March 2017
-
 
    [RFC3031]  Rosen, E., Viswanathan, A., and R. Callon, "Multiprotocol
               Label Switching Architecture", RFC 3031,
@@ -923,6 +889,15 @@ Internet-Draft         DetNet data plane protocol             March 2017
               DOI 10.17487/RFC6073, January 2011,
               <http://www.rfc-editor.org/info/rfc6073>.
 
+
+
+
+
+Korhonen, et al.       Expires September 11, 2017              [Page 16]
+
+Internet-Draft         DetNet data plane solution             March 2017
+
+
    [RFC6658]  Bryant, S., Ed., Martini, L., Swallow, G., and A. Malis,
               "Packet Pseudowire Encapsulation over an MPLS PSN",
               RFC 6658, DOI 10.17487/RFC6658, July 2012,
@@ -945,14 +920,6 @@ Internet-Draft         DetNet data plane protocol             March 2017
               Zhuangyan, Z., and L. Berger, "DetNet Data Plane Protocol
               and Solution Alternatives", draft-ietf-detnet-dp-alt-00
               (work in progress), October 2016.
-
-
-
-
-Korhonen, et al.       Expires September 11, 2017              [Page 17]
-
-Internet-Draft         DetNet data plane protocol             March 2017
-
 
    [I-D.ietf-detnet-problem-statement]
               Finn, N. and P. Thubert, "Deterministic Networking Problem
@@ -977,6 +944,16 @@ Internet-Draft         DetNet data plane protocol             March 2017
               Encoding", RFC 3032, DOI 10.17487/RFC3032, January 2001,
               <http://www.rfc-editor.org/info/rfc3032>.
 
+
+
+
+
+
+Korhonen, et al.       Expires September 11, 2017              [Page 17]
+
+Internet-Draft         DetNet data plane solution             March 2017
+
+
    [RFC4385]  Bryant, S., Swallow, G., Martini, L., and D. McPherson,
               "Pseudowire Emulation Edge-to-Edge (PWE3) Control Word for
               Use over an MPLS PSN", RFC 4385, DOI 10.17487/RFC4385,
@@ -990,25 +967,8 @@ Internet-Draft         DetNet data plane protocol             March 2017
 Appendix A.  Example of DetNet data plane operation
 
    [Ed.  Simplified example of DetNet data plane and how labels etc work
-   in a case of MPLS-based PSN and utilizing FRER.  The figure is out of
-   date and pending DT decisions on the label handling..]
-
-
-
-
-
-
-
-
-
-
-
-
-
-Korhonen, et al.       Expires September 11, 2017              [Page 18]
-
-Internet-Draft         DetNet data plane protocol             March 2017
-
+   in the case of MPLS-based PSN and utilizing PREF.  The figure is out
+   of date and pending DT decisions on the label handling..]
 
                      +-----S-PE1-----------S-PE2-----+
                     /        |             / |        \
@@ -1045,25 +1005,9 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Korhonen, et al.       Expires September 11, 2017              [Page 19]
+Korhonen, et al.       Expires September 11, 2017              [Page 18]
 
-Internet-Draft         DetNet data plane protocol             March 2017
+Internet-Draft         DetNet data plane solution             March 2017
 
 
 +========+================+===============+================================+
@@ -1117,9 +1061,9 @@ Authors' Addresses
 
 
 
-Korhonen, et al.       Expires September 11, 2017              [Page 20]
+Korhonen, et al.       Expires September 11, 2017              [Page 19]
 
-Internet-Draft         DetNet data plane protocol             March 2017
+Internet-Draft         DetNet data plane solution             March 2017
 
 
    Loa Andersson
@@ -1143,11 +1087,13 @@ Internet-Draft         DetNet data plane protocol             March 2017
    Email: balazs.a.varga@ericsson.com
 
 
-   Donald Fauntleroy Duck
-   Royal Bros.
-   13 Paradise Road
-   Duckburg, Calisota
-   USA
+   Janos Farkas
+   Ericsson
+   Konyves Kalman krt. 11/B
+   Budapest  1097
+   Hungary
+
+   Email: janos.farkas@ericsson.com
 
 
 
@@ -1171,6 +1117,4 @@ Internet-Draft         DetNet data plane protocol             March 2017
 
 
 
-
-
-Korhonen, et al.       Expires September 11, 2017              [Page 21]
+Korhonen, et al.       Expires September 11, 2017              [Page 20]
