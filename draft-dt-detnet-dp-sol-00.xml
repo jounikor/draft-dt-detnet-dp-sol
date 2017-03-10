@@ -67,8 +67,8 @@
          ipr="trust200902"
          submissionType="IETF">
   <front>
-    <title abbrev="DetNet data plane protocol">
-     DetNet Data Plane Protocol</title>
+    <title abbrev="DetNet data plane solution">
+     DetNet Data Plane solution</title>
 
   <author role="editor" fullname="Jouni Korhonen" initials="J." surname="Korhonen">
    <organization abbrev="Broadcom">Broadcom</organization>
@@ -128,7 +128,7 @@
   <abstract>
   <t>
    This document specifies a PseudoWire-based Determnistic Networking data
-   plane protocol solution. The data plane protocol runs over either IP or MPLS
+   plane solution. The data plane solution can be applied over either IP or MPLS
    Packet Switched Networks.
   </t>
   </abstract>
@@ -140,16 +140,16 @@
  <section title="Introduction" anchor="sec_intro">
   <t>
    This document specifies a Deterministic Networking (DetNet) data plane
-   protocol. The solution is based on PseudoWires (PW) <xref target="RFC3985"/>
+   solution. The solution is based on PseudoWires (PW) <xref target="RFC3985"/>
    and makes use of the multi-segment (MS-PW) <xref target="RFC6073"/> to map
-   DetNet Relays and Edge Nodes <xref
+   DetNet Relay and Edge Nodes <xref
    target="I-D.ietf-detnet-architecture"/><xref
    target="I-D.ietf-detnet-dp-alt"/> to PW architecture. The PW-based data
    plane can be run over either an IP or MPLS <xref target="RFC4448"/><xref
    target="RFC6658"/> Packet Switched Network (PSN).
   </t>
   <t>
-   For the purpose of DetNet data plane this document specifically specifies
+   For the purpose of DetNet data plane, this document specifically specifies
    the PW encapsulation for DetNet flows, a DetNet Control Word (CW), a DetNet
    label, how MS-PW derived DetNet Relay and Edge nodes work, and as a specific
    new PW feature how the Frame Replication and Elimination for Redundancy
@@ -175,10 +175,10 @@
     <t hangText="L-Label">A DetNet topology overlay label that is used between DetNet aware
      T-PE or S-PE devices.</t>
     <t hangText="flow-ID">A DetNet flow identity that uniquely identifies a DetNet flow in
-     a DetNet domain. The flow-ID is part of the PseudoWire Encapsulation header.</t>
-    <t hangText="local-ID">A DA-T-PE and DA-S-PE node internal construct that uniquelly
-     identifies a DetNet flow. The local-ID can equal to flow-ID or be derived using other
-     means e.g., programming required label to local-ID mappings directly into
+     a DetNet network. The flow-ID is part of the PseudoWire Encapsulation header.</t>
+    <t hangText="local-ID">A DA-T-PE and DA-S-PE node internal construct that uniquely
+     identifies a DetNet flow. The local-ID can be equal to flow-ID or be derived using other
+     means, e.g., programming required label to local-ID mappings directly into
      the label information base (LFIB).</t>
 	<t hangText="PW Label">A PseudoWire label that is used to identify DetNet
      flow related PW Instances within a PE node.</t> 
@@ -263,7 +263,7 @@ System  |     +-----+          +-----+          +---- +   |    System
   nodes represents potential DetNet flow packet replication and elimination
   points. Here the relay nodes may change the underlying transport, for example
   replacing IP with MPLS or tunneling IP over MPLS, or simply interconnect
-  network domains.
+  network segments.
  </t>
 
 <figure align="center" anchor="fig_native_detnet"
@@ -315,15 +315,15 @@ System   |    +-----+          +-----+          +-----+   |    System
   relaxed for DA-T-PE and DA-S-PE nodes, as they are fully aware of both the DetNet
   service and transport layers. The DetNet role of intermediate "P" nodes is
   limited to ensure congestion protection from the above listed DetNet
-  functions. However P nodes can usually recognize only "T-label" and cannot
-  consider the whole label stack for flow recognition. Therefore identifing each
+  functions. However, P nodes can usually recognize only "T-label" and cannot
+  consider the whole label stack for flow recognition. Therefore, identifing each
   individual DetNet flow on a P node may not be achieved in some network
   scenarios.
  </t>
 
  <t>
-  On each node dealing with DetNet flows a local-ID is assumed to determine what
-  local operation a packet goes through. Therefore local-IDs MUST be unique on
+  On each node dealing with DetNet flows, a local-ID is assumed to determine what
+  local operation a packet goes through. Therefore, local-IDs MUST be unique on
   each DA-T-PE and DA-S-PE nodes. Local-ID MUST be unambiguously bound to the
   Flow-ID encoded in the DetNet packet. 
  </t>
@@ -366,7 +366,7 @@ System   |    +-----+          +-----+          +-----+   |    System
  <section title="DetNet flow identity word">
   <t>
    The DetNet flow identity word (flow-ID) identifies a DetNet flow uniquely within
-   a DetNet domain. The flow-ID is also associated with the sequence number
+   a DetNet network. The flow-ID is also associated with the sequence number
    carried in the DetNet control word and used also for FRER purposes.
   </t>
     <figure title="DetNet flow identity word" anchor="fig_detnet_fi">
@@ -382,7 +382,8 @@ System   |    +-----+          +-----+          +-----+   |    System
    The management and assignment of the flow-IDs is outside of this specification.
    It is assumed that each DA-T-PE node have either a preconfigured flow-ID
    number space or some dynamic control plane protocol is able to coordinate
-   the allocation of the flow-IDs across the DA-T-PE nodes.
+   the allocation of the flow-IDs across the DA-T-PE nodes, or a central entity,
+   e.g., a Software Defined Networking controller.
   </t>
   <t>
    The reserved field in the flow-ID MUST be set to zero and ignored when received.
@@ -399,13 +400,13 @@ System   |    +-----+          +-----+          +-----+   |    System
      frame replication and duplicate elimination purposes. There is a separate
      sequence number space per each DetNet label.</t>
     <t>DetNet flow-ID (f-ID): uniquelly identifies a DetNet flow within a DetNet
-     domain. Multiple DetNet PWs with different PW labels may have the same 
+     network. Multiple DetNet PWs with different PW labels may have the same 
      f-ID, which then implies the PWs are actually subflows of one compound
      flow.</t> 
     <t>PseudoWire Label (PW Label;): a standard PW label that identifies a PW Instance
      within a (DA-)T-PE or (DA-)S-PE device.</t>
     <t>DetNet topology overlay label (L-label): an optional label used  between
-     (DA-)T-PE or (DA-)S-PE nodes. The chief use for L-labels is to tunnel PWs
+     (DA-)T-PE or (DA-)S-PE nodes. The main use of L-labels is to tunnel PWs
      through a PE node and therefore effectively making a PE node to behave like
      a P node.</t>
    </list>
@@ -419,7 +420,7 @@ System   |    +-----+          +-----+          +-----+   |    System
     <t>
      [Editor's note: The current design has the DetNet flow-id as part of the
      every DetNet flow packet. The flow-id identifies the flow uniquelly within
-     the DetNet domain and together with the sequence number information from the
+     the DetNet network and together with the sequence number information from the
      DetNet control word is used for FRER purposes. The flow-id makes is easy for
      the DA-*-PE node to associate different PWs into one compound flow and
      perform the elimination of duplicate packets. The flow-id would point at the
@@ -440,7 +441,7 @@ System   |    +-----+          +-----+          +-----+   |    System
   
   <t>
    <xref target="fig_pw_mpls"/> illustrates a DetNet PseudoWire encapsulation
-   using an MPLS PSN. Similarly <xref target="fig_pw_ip"/> illustrates the
+   using an MPLS PSN. Similarly, <xref target="fig_pw_ip"/> illustrates the
    DetNet PseudoWire encaosulation when IP PSN is used. The encapsulation is
    uniform above the PSN.
   </t>
@@ -603,7 +604,7 @@ Client AC   |    NSP      |           |    Single   | PW Instance
      A DA-T-PE participates to the frame replication and duplication
      elimination. Required processing is done within an extended forwarder
      function. In the case the native service processing (NSP) is IEEE 802.1CB
-     <xref target="IEEE8021CB"/> capable the frame replication and duplicate
+     <xref target="IEEE8021CB"/> capable, the frame replication and duplicate
      elimination MAY entirely be done in the NSP and bypassing the DetNet PW
      encapsulation and logic entirely.
     </t>
@@ -618,8 +619,8 @@ Client AC   |    NSP      |           |    Single   | PW Instance
      the appropriate egress PW instance(s). The extended forwarder MAY copy the
      sequencing information from the native packet into the DetNet CW and vice
      versa. If there is no existing sequencing information available in the
-     native packet or the forwarded chose not to copy it from the native packet,
-     then the extended forwarded MUST maintain a sequence number counter for
+     native packet or the forwarder chose not to copy it from the native packet,
+     then the extended forwarder MUST maintain a sequence number counter for
      each DetNet flow (indexed by the flow-ID).
     </t>
    </section>
@@ -793,7 +794,7 @@ PW instance |   Single    |           |    Single   | PW Instance
 <section anchor="acks" title="Acknowledgements">
   <t>The author(s) ACK and NACK.
   </t>
-  <t> The following people were part of the DetNet Data Plane Protocol Design Team:
+  <t> The following people were part of the DetNet Data Plane Solution Design Team:
   <list style="bullets">
    <t>Jouni Korhonen</t>
    <t>J&aacute;nos Farkas</t>
@@ -806,7 +807,7 @@ PW instance |   Single    |           |    Single   | PW Instance
    <t>Carlos J. Bernardos</t>
   </list></t>
   <t>
-   The DetNet chairs serving during the DetNet Data Plane Protocol Design Team:
+   The DetNet chairs serving during the DetNet Data Plane Solution Design Team:
    <list style="bullets">
     <t>Lou Berger</t>
     <t>Pat Thaler</t>
@@ -849,7 +850,7 @@ PW instance |   Single    |           |    Single   | PW Instance
   </references>
  <section title="Example of DetNet data plane operation" anchor="sec_comb">
   <t>
-   [Ed. Simplified example of DetNet data plane and how labels etc work in a case of
+   [Ed. Simplified example of DetNet data plane and how labels etc work in the case of
     MPLS-based PSN and utilizing FRER. The figure is out of date and pending DT
     decisions on the label handling..]
   </t>
