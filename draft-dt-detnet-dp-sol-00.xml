@@ -201,7 +201,8 @@
    <list style="hanging" hangIndent="14">
     <t hangText="DA-T-PE">A DetNet aware PseudoWire Terminating Provider Edge (T-PE).</t>
     <t hangText="DA-S-PE">A DetNet aware PseudoWire Switching Provider Edge (S-PE).</t>
-    <t hangText="T-Label">A hop-by-hop tunnel label layer between label switch routers (LSR).</t>
+    <t hangText="T-Label">A hop-by-hop tunnel label layer between label
+     switching routers (LSR).</t>
     <t hangText="L-Label">A DetNet topology overlay label that is used between DA-*-PE
      devices.</t>
     <t hangText="flow-ID">A DetNet flow identity that uniquely identifies a DetNet flow in
@@ -212,6 +213,11 @@
      the label information base (LFIB).</t>
 	<t hangText="PW Label">A PseudoWire label that is used to identify DetNet
      flow related PW Instances within a PE node.</t> 
+    <t hangText="PREF">A Packet Replication and Elimination Function that does
+     the replication and elimination processig of DetNet flow packets in a DA-T-PE or 
+     DA-S-PE nodes. The replication part is essentially the existing 1+1
+     protection  mechanism. The elimination part reuses and extends the existing
+     PseudoWire sequence numbering of packets.</t>
 
    </list>
   </t>
@@ -622,7 +628,7 @@ H     Sequencing      H--+       H       DetNet Control Word       H
      target="fig_detnet_edge"/> illustrates the overall DA-T-PE device
      functions. The figure shows both physical attachment circuit (AC) (e.g.,
      Ethernet <xref target="RFC4448"/>) connecting to the PE, and a packet
-     service connecting to the PE via an embedded label switch router (LSR)
+     service connecting to the PE via an embedded label switching router (LSR)
      function <xref target="RFC6658"/>. Whether traffic flow from from a client
      AC and PSN LSP receives  DetNet specific treatment is up to a local
      configuration and policy. A DA-T-PE can also serve as a normal T-PE.
