@@ -123,6 +123,25 @@
 	 <email>janos.farkas@ericsson.com</email>
 	</address>
 	</author>
+
+    <author fullname="Carlos J. Bernardos"
+            initials="CJ."
+            surname="Bernardos">
+      <organization abbrev="UC3M">
+        Universidad Carlos III de Madrid
+      </organization>
+      <address>
+        <postal>
+          <street>Av. Universidad, 30</street>
+          <city>Leganes, Madrid</city>
+          <code>28911</code>
+          <country>Spain</country>
+        </postal>
+        <phone>+34 91624 6236</phone>
+        <email>cjbc@it.uc3m.es</email>
+        <uri>http://www.it.uc3m.es/cjbc/</uri>
+      </address>
+    </author>
  
   <!--author fullname="Donald Fauntleroy Duck" initials="D. F." surname="Duck">
    <organization abbrev="Royal Bros.">Royal Bros.</organization>
@@ -167,7 +186,7 @@
    label, how MS-PW derived DetNet Relay and Edge nodes work, and as a specific
    new PW feature how the Packet Replication and Elimination for Redundancy
    (PRER) is implemented using PWs. This document does not define the
-   associated control plane functions, or operations and management (O&amp;M).
+   associated control plane functions, or operations and management (OAM).
   </t>
  </section>
 
@@ -180,13 +199,11 @@
   <t>
    The following terms are also used in this document:
    <list style="hanging" hangIndent="14">
-    <t hangText="DA-T-PE">A DetNet aware PseudoWire Terminating Provider Edge (T-PE).
-     In the context of this document DA-T-PE is referred as T-PE.</t>
-    <t hangText="DA-S-PE">A DetNet aware PseudoWire Switching Provider Edge (S-PE).
-     In the context of this document DA-S-PE is referred as S-PE.</t>
+    <t hangText="DA-T-PE">A DetNet aware PseudoWire Terminating Provider Edge (T-PE).</t>
+    <t hangText="DA-S-PE">A DetNet aware PseudoWire Switching Provider Edge (S-PE).</t>
     <t hangText="T-Label">A hop-by-hop tunnel label layer between label switch routers (LSR).</t>
-    <t hangText="L-Label">A DetNet topology overlay label that is used between DetNet aware
-     T-PE or S-PE devices.</t>
+    <t hangText="L-Label">A DetNet topology overlay label that is used between DA-*-PE
+     devices.</t>
     <t hangText="flow-ID">A DetNet flow identity that uniquely identifies a DetNet flow in
      a DetNet network. The flow-ID is part of the PseudoWire Encapsulation header.</t>
     <t hangText="local-ID">A DA-T-PE and DA-S-PE node internal construct that uniquely
@@ -247,23 +264,24 @@ End System       Node            Node         Node         End System
    below.
   </t>
 
+<!-- CJBC: shouldn't DF{1,2,3,4] be the same DetNet Flow in the figure below? -->
   <figure align="center" anchor="fig_8021_detnet"
   title="IEEE 802.1TSN over DetNet">
   <artwork><![CDATA[
-       TSN    |<----- End to End DetNet Service ----->|  TSN
-      Service |        Transit          Transit       | Service
-TSN    (AC)   |     |<-Tunnel->|     |<-Tunnel->|     |  (AC)     TSN
-End     |     V     V     1    V     V     2    V     V   |       End
-System  |     +-----+          +-----+          +---- +   |    System
-+---+   |     |T-PE1|==========|S-PE1|==========|T-PE2|   |    +---+
-|   |---|-----|.X_..DetNet Flow1._ _.|...DF3........X.|---|----|   |
-|CE1|   |     |  \  |          |  X  |          |  /  |   |    |CE2|
-|   |         |   \_...DF2......./ \.|...DF4....../   |        |   |
-+---+         |     |==========|     |==========|     |        +---+
-    ^         +-----+          +-----+          +-----+        ^
-    |        Edge Node        Relay Node       Edge Node       |
-    |                                                          |
-    |<--------------- Emulated TSN Service ------------------->|
+     TSN    |<---------- End to End DetNet Service ------>|  TSN
+    Service |           Transit           Transit         | Service
+TSN  (AC)   |        |<-Tunnel->|        |<-Tnl->|        |  (AC)  TSN
+End    |    V        V     1    V        V   2   V        V   |    End
+System |    +--------+          +--------+       +--------+   |  System
++---+  |    |DA-T-PE1|==========|DA-S-PE1|=======|DA-T-PE2|   |   +---+
+|   |--|----|.X_____.|..DetNet..|.__ ___.|..DF3..|.____X_.|---|---|   |
+|CE1|  |    |  \     |  Flow 1  |   X    |       |    /   |   |   |CE2|
+|   |       |   \___.|...DF2....|._/ \__.|..DF4..|.__/    |       |   |
++---+       |        |==========|        |=======|        |       +---+
+    ^       +--------+          +--------+       +--------+       ^
+    |        Edge Node          Relay Node       Edge Node        |
+    |                                                             |
+    |<----- Emulated Time Sensitive Networking (TSN) Service ---->|
 ]]>
 </artwork>
 </figure>
@@ -279,23 +297,24 @@ System  |     +-----+          +-----+          +---- +   |    System
   network segments.
  </t>
 
+<!-- CJBC: shouldn't DF{1,2,3,4] be the same DetNet Flow in the figure below? -->
 <figure align="center" anchor="fig_native_detnet"
  title="Native DetNet">
 <artwork><![CDATA[
-       DetNet                                           DetNet
-       Service         Transit          Transit        Service
-DetNet   |          |<-Tunnel->|     |<-Tunnel->|         |    DetNet
-End      |          V     1    V     V     2    V         |    End
-System   |    +-----+          +-----+          +-----+   |    System
-+---+    |    |S-PE1|==========|S-PE2|==========|S-PE3|   |    +---+
-|  X....DFa.....X_.......DF1....._ _.....DF3........X.....DFa...X  |
-|CE1|=========|  \  |          |  X  |          |  /  |========|CE2|
-|   |    |    |   \......DF2...../ \.....DF4....../   |   |    |   |
-+---+         |     |==========|     |==========|     |        +---+
-    ^         +-----+          +-----+          +-----+        ^
-    |        Relay Node       Relay Node       Relay Node      |
+      DetNet                                             DetNet
+      Service          Transit          Transit          Service
+DetNet  |             |<-Tnl->|        |<-Tnl->|            | DetNet
+End     |             V   1   V        V   2   V            | End
+System  |    +--------+       +--------+       +--------+   | System
++---+   |    |DA-S-PE1|=======|DA-S-PE2|=======|DA-S-PE3|   |  +---+
+|  X...DFa...|.X_.....|..DF1..|.__ ___.|..DF3..|.___X__.|.DFa..|.X |
+|CE1|========|   \    |       |   X    |       |   /    |======|CE2|
+|   |   |    |    \_..|..DF2..|._/ \__.|..DF4..|._/     |   |  |   |
++---+        |        |=======|        |=======|        |      +---+
+    ^        +--------+       +--------+       +--------+      ^
+    |       Relay Node       Relay Node       Relay Node       |
     |                                                          |
-    |<------------- End to End DetNet Service ---------------->|
+    |<-- End to End Time Sensitive Networking (TSN) Service -->|
 ]]></artwork>
 </figure>
 
@@ -469,7 +488,7 @@ System   |    +-----+          +-----+          +-----+   |    System
   <t>
    Depending on the network topology the "overlay label" (L-label) may be part
    of the label stack. The L-label tunnels guarantee PW labels remain unchanged
-   between DA-*-PE nodes. Furthermore, L-labels tunnels allow selectively expose
+   between DA-*-PE nodes. Furthermore, L-labels tunnels allow selectively exposing
    the PW label to DA-*-PE nodes, which means some overlay topologies may just
    pass through specific DA-S-PEs without any DetNet specific processing. 
   </t>
@@ -477,7 +496,7 @@ System   |    +-----+          +-----+          +-----+   |    System
   
   <!--section title="Encasulation for MPLS PSN"-->
 
-    <figure title="Encapsulation of DetNet flow in a PW with MPLS(-TP) PSN" anchor="fig_pw_mpls">
+    <figure title="Encapsulation of a DetNet flow in a PW with MPLS(-TP) PSN" anchor="fig_pw_mpls">
     <artwork align="center"><![CDATA[
   PWE3 Encapsulation                   DetNet PWE3 Encapsulation
 
@@ -487,15 +506,15 @@ System   |    +-----+          +-----+          +-----+   |    System
 /=====================\          |         Payload  Packet         |
 H Payload Convergence H--+       |                                 |
 H---------------------H  |       /=================================\
-H       Timing        H  +--+    H    DetNet flow identity word    H
+H       Timing        H  +--+    H         DetNet Flow ID          H
 H---------------------H  |  +--->H---------------------------------H
 H     Sequencing      H--+       H       DetNet Control Word       H
 \=====================/          \=================================/
 |  PW Demultiplexer   |--------->|            PW Label             |
 +---------------------+          +---------------------------------+
-|  PSN Convergence    |     +--->| Optional topology overlay Label |
+|  PSN Convergence    |     +--->|        Optional L-label         |
 +---------------------+     |    +---------------------------------+
-|        PSN          |-----+--->|     Server MPLS Tunnel Label(s) |
+|         PSN         |-----+--->|         MPLS T-Label(s)         |
 +---------------------+          +---------------------------------+
 |      Data-Link      |
 +---------------------+
@@ -507,13 +526,13 @@ H     Sequencing      H--+       H       DetNet Control Word       H
 
    <t>
    <!--VB needs update to clarify meaning -->
-    When IP PSN is used the label stack it transport are only inspected when the
+   <!-- CJBC: agree, it is not clear, what do we mean by destination here? -->
+    When IP PSN is used, the label stack it transports is only inspected when the
     IP packet reaches its destination. 
    </t>
 
-
    <!--section title="Encapsulation for IP PSN"-->
-    <figure title="Encapsulation of DetNet flow in a PW with IP PSN" anchor="fig_pw_ip">
+    <figure title="Encapsulation of a DetNet flow in a PW with IP PSN" anchor="fig_pw_ip">
     <artwork align="center"><![CDATA[
   PWE3 Encapsulation                   DetNet PWE3 Encapsulation
 
@@ -523,7 +542,7 @@ H     Sequencing      H--+       H       DetNet Control Word       H
 /=====================\          |         Payload  Packet         |
 H Payload Convergence H--+       |                                 |
 H---------------------H  |       /=================================\
-H       Timing        H  +--+    H    DetNet flow identity word    H
+H       Timing        H  +--+    H         DetNet Flow ID          H
 H---------------------H  |  +--->H---------------------------------H
 H     Sequencing      H--+       H       DetNet Control Word       H
 \=====================/          \=================================/
@@ -676,7 +695,7 @@ Client AC   |    NSP      |           |    Single   | PW Instance
      elimination. This processing is done within an extended forwarder function.
      Whether an ingress PW receives DetNet specific processing depends on how
      the LFIB is programmed.  For some PWs the DA-S-PE can act as a normal S-PE
-     and for some apply the DetNet specific processing. It is also possible
+     and for some apply the DetNet specific processing. It is also possible to
      treat the DA-S-PE as a P router using the L-label tunnels. Again, this is
      entirely up to how the LFIB has been programmed.
     </t>
