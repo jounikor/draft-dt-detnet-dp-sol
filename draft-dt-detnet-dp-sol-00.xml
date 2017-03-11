@@ -873,25 +873,34 @@ PW instance |   Single    |           |    Single   | PW Instance
     MPLS-based PSN and utilizing PREF. The figure is out of date and pending DT
     decisions on the label handling..]
   </t>
+
     <figure title="Replication and elimination example" anchor="fig_detnet_ex1">
     <artwork align="center"><![CDATA[
-                +-----S-PE1-----------S-PE2-----+                 
-               /        |             / |        \      
-              /         |            /  |         \    
-             /          |           /   |          \  
-E1 <------T-PE1         |          /    |         T-PE2------> E3
-             \          |         /     |          /  
-              \         |  +-----+      |         /    
-               \        | /             |        /      
-               R1-----S-PE3-----------S-PE4-----R2               
-               /        | \             |        \      
-              /         |  \            |         \    
-             /          |   \           |          \  
-E2 <------T-PE3         |    \          |         T-PE4------> E4
-             \          |     \         |          /  
-              \         |      +-----+  |         /    
-               \        |             \ |        /      
-                +-----S-PE5-----------S-PE6-----+                
+      T1      ->R1----->DA-S-PE1---->R2---->DA-S-PE2--->R3
+      L1     /     L1            T2     L2           T3   \    L2
+      PW1   /      PW1           L2     PW1          L2    \   PW1
+     #seq  /       #seq          PW1    #seq         PW1    \  #seq
+     FID1 /        FID1          #seq   FID1         #seq    \ FID1
+         /                                           FID1     v
+E1-->DA-T-PE1                                            DA-T-PE2-->E3
+         \                                T5     T6           ^
+       T4 \        L2     L3              L4     L5          /
+       L2  \       PW1    PW2             PW1    PW2        /
+       PW1  \      #seq   #seq            #seq   #seq      /
+       #seq  \     FID1   FID2            FID1   FID2     /
+       FID1   =>R4------------->DA-S-PE2--------------->R5
+             /                    ^                       \    L5
+            /                      \    L9                 \   PW2
+           /                        \   PW2                 \  #seq
+          /                          \  #seq                 \ FID2
+         /                            \ FID2                  v
+E2-->DA-T-PE3                         R9<-    T10        DA-T-PE4-->E4
+         \                     T8         \   L9    T9        ^
+       T7 \      L6            L7     L7   \  PW2   L8       / L8
+       L6  \     PW2           PW2    PW2   \ #seq  PW2     /  PW2
+       PW2  \    #seq          #seq   #seq   \FID2  #seq   /   #seq
+       #seq  \   FID2          FID2   FID2    \     FID2  /    FID2
+       FID2   ->R6---->DA-S-PE2---->R7---->DA-S-PE6---->R8
 ]]>
 </artwork></figure>
 
