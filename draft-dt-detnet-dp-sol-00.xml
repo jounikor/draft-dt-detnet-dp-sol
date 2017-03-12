@@ -213,7 +213,7 @@
      the label information base (LFIB).</t>
 	<t hangText="PW Label">A PseudoWire label that is used to identify DetNet
      flow related PW Instances within a PE node.</t> 
-    <t hangText="PREF">A Packet Replication and Elimination Function that does
+    <t hangText="PREF">A Packet Replication and Elimination Function (PREF) that does
      the replication and elimination processig of DetNet flow packets in a DA-T-PE or 
      DA-S-PE nodes. The replication part is essentially the existing 1+1
      protection  mechanism. The elimination part reuses and extends the existing
@@ -634,7 +634,7 @@ H     Sequencing      H--+       H       DetNet Control Word       H
      configuration and policy. A DA-T-PE can also serve as a normal T-PE.
     </t>
 
-    <figure title="DetNet Edge Node as a T-PE" anchor="fig_detnet_edge">
+    <figure title="DetNet Edge Node as a DA-T-PE" anchor="fig_detnet_edge">
     <artwork align="center"><![CDATA[
             +---------------------------------------+
             |             DA-T-PE Device            |
@@ -716,7 +716,7 @@ Client AC   |    NSP      |           |    Single   | PW Instance
      be preserved and copied to the egress PW.
     </t>
 
-    <figure title="DetNet Relay Node as a S-PE" anchor="fig_detnet_relay">
+    <figure title="DetNet Relay Node as a DA-S-PE" anchor="fig_detnet_relay">
     <artwork align="center"><![CDATA[
             +---------------------------------------+
             |             DA-S-PE Device            |
