@@ -910,13 +910,11 @@ PW instance |   Single    |           |    Single   | PW Instance
    <reference anchor='I-D.sdt-detnet-security'>
     <front>
      <title>Deterministic Networking (DetNet) Security Considerations,
+		draft-sdt-detnet-security, work in progress
      </title>
      <author>
-      Mizrahi, T., Grossman, E., Hacker, A., Das, S.
-     </authr>
-     <annotation>
-      draft-sdt-detnet-security, work in progress
-     </annoation>
+      <organization>Mizrahi, T., Grossman, E., Hacker, A., Das, S.</organization>
+     </author>
      <date year='2017' />
     </front>
    </reference>
