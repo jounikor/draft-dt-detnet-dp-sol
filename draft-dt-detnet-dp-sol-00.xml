@@ -759,7 +759,7 @@ PW instance |   Single    |           |    Single   | PW Instance
   </t>
  </section>
 
- <section title="Time-synchronization">
+ <section title="Time synchronization">
   <t>
    [Editor's note: describe a bit of issues and deployment considerations
    related to time-synchronization within DetNet. Refer to DT discussion and the
@@ -767,6 +767,49 @@ PW instance |   Single    |           |    Single   | PW Instance
    performance numbers.  Finally, scope time-synchronization solution outside
    data plane.]
   </t>
+
+
+  <t>When DetNet is used, there is an underlying assumption that a clock
+  synchronization method is used, such as the Precision Time Protocol
+  (PTP) [IEEE1588]. In this case, there are a few possible approaches of
+  how synchronization protocol packets are forwarded and handled by the
+  network:</t>
+
+  <t><list style="symbols">
+
+    <t>PTP packets are sent as a normal DetNet flow: in this approach PTP
+    traffic is forwarded as a DetNet flow, and as such it is forwarded in a
+    way that allows a low delay variation. However, since intermediate nodes
+    do not take part in the synchronization protocol, this approach provides
+    a relatively low degree of accuracy.</t>
+
+    <t>PTP with on-path support: in this approach PTP packets are sent as
+    DetNet flows, and intermediate nodes take part in the protocol as
+    Transparent Clocks or Boundary Clocks [IEEE1588]. The on-path PTP
+    support by intermediate nodes provides a higher degree of accuracy than
+    the previous approach. The actual accuracy depends on whether all
+    intermediate nodes are PTP-capable, or only a subset of them.</t>
+  
+    <t>Time-as-a-service: in this approach accurate time is provided
+    as-a-service to the DetNet source and destination, as well as the
+    intermediate nodes. Since traffic between the source and destination is
+    sent over a provider network, if the provider supports
+    time-as-a-service, then accurate time can be provided to both the source
+    and the destination of DetNet traffic. This approach can potentially
+    provide the highest degree of accuracy.</t>
+
+  </list></t>
+
+  <t>It is expected that the latter approach will be the most common one,
+  as it provides the highest degree of accuracy, and creates a layer
+  separation between the DetNet data and the synchronization service.</t>
+
+  <t>It should be noted that in all three approaches it is not recommended
+  to use replication and elimination for synchronization packets; the
+  replication/elimination approach may in some cases reduce the
+  synchronization accuracy, since the observed path delay will be
+  bivalent.</t>
+
  </section>
  
  <section title="Bidirectional traffic">
@@ -806,7 +849,11 @@ PW instance |   Single    |           |    Single   | PW Instance
 
 <section title="Security considerations">
   <t>
-   This document probably has security considerations.
+   The security considerations of DetNet in general are discussed in
+   <xref target="I-D.ietf-detnet-architecture"/>
+   and <xref target="I-D.sdt-detnet-security"/>. Other security
+   considerations will be added in a future version of
+   this draft.
   </t>
 </section>
 
@@ -859,6 +906,33 @@ PW instance |   Single    |           |    Single   | PW Instance
    &I-D.ietf-detnet-architecture;
    &I-D.ietf-detnet-problem-statement;
    &I-D.ietf-mpls-residence-time;
+
+   <reference anchor='I-D.sdt-detnet-security'>
+    <front>
+     <title>Deterministic Networking (DetNet) Security Considerations,
+     </title>
+     <author>
+      Mizrahi, T., Grossman, E., Hacker, A., Das, S.
+     </authr>
+     <annotation>
+      draft-sdt-detnet-security, work in progress
+     </annoation>
+     <date year='2017' />
+    </front>
+   </reference>
+
+   <reference anchor='IEEE1588'>
+    <front>
+     <title>IEEE 1588 Standard for a Precision Clock Synchronization
+     Protocol for Networked Measurement and Control Systems Version 2
+     </title>
+     <author>
+      <organization>IEEE</organization>
+     </author>
+     <date year='2008' />
+    </front>
+   </reference>
+
    <reference anchor="IEEE8021CB"
      target="http://www.ieee802.org/1/files/private/cb-drafts/d2/802-1CB-d2-1.pdf">
     <front>
