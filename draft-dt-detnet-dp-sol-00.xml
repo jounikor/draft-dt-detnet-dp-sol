@@ -142,7 +142,20 @@
         <uri>http://www.it.uc3m.es/cjbc/</uri>
       </address>
     </author>
- 
+
+    <author fullname="Tal Mizrahi" initials="T."
+     surname="Mizrahi">
+     <organization>Marvell</organization>
+     <address>
+      <postal>
+       <street>6 Hamada st.</street>
+       <city>Yokneam</city>
+       <country>Israel</country>
+      </postal>
+      <email>talmi@marvell.com</email>
+     </address>
+    </author>
+  
   <!--author fullname="Donald Fauntleroy Duck" initials="D. F." surname="Duck">
    <organization abbrev="Royal Bros.">Royal Bros.</organization>
    <address>
@@ -184,8 +197,8 @@
    For the purpose of DetNet data plane, this document specifically specifies
    the PW encapsulation for DetNet flows, a DetNet Control Word (CW), a DetNet
    label, how MS-PW derived DetNet Relay and Edge nodes work, and as a specific
-   new PW feature how the Packet Replication and Elimination for Redundancy
-   (PRER) is implemented using PWs. This document does not define the
+   new PW feature how the Packet Replication and Elimination function
+   (PREF) is implemented using PWs. This document does not define the
    associated control plane functions, or operations and management (OAM).
   </t>
  </section>
@@ -399,6 +412,14 @@ System  |    +--------+       +--------+       +--------+   | System
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]>
     </artwork></figure>
+  <t>
+   [Editor's note: Shoudl we care about high speed links, here 16 bits of
+   sequence number wraps fast? For example, in a case of 100Gb/s link, 16 bits
+   of sequence number will wrap in ~6.6ms assuming 1250 octets of packets
+   and ~3.3ms for 625 octets packets. Both numbers mean quite long fiber
+   distances, though.]
+  </t>
+ 
  </section>
 
  <section title="DetNet flow identity word" anchor="sec_flow_id">
@@ -433,6 +454,9 @@ System  |    +--------+       +--------+       +--------+   | System
   </t>
   <t>
    The reserved field in the flow-ID MUST be set to zero and ignored when received.
+  </t>
+  <t>
+   [Editor's note: we need some configuration knob defined for this feature.]
   </t>
  </section>
 
@@ -586,16 +610,17 @@ H     Sequencing      H--+       H       DetNet Control Word       H
      ]
     </t>
    <t>
-    The DetNet specific new functionality in a DA-*-PE PW processing is the packet
-    replication and duplication elimination (PREF). This functional is a part of
-    the "extended" forwarder. The PREF processing is triggered by the LFIB
-    actions i.e., not all PWs receive DetNet specific processing. Basically the
-    LFIB has to be extended with a "PREF enabled" boolean configuration switch
-    that is associated with the normal label actions (e.g., swap, push, pop,
-    ..). The output of the PREF elimination function is always a single packet.
-    The output of the PREF replication function is always one or more packet
-    (i.e., 1:M replication). The replicated packets MUST share the same DetNet
-    PW control word sequence number and flow identity word flow-id.
+    The DetNet specific new functionality in a DA-*-PE PW processing is the
+    packet replication and duplication elimination function (PREF). This
+    functional is a part of the "extended" forwarder. The PREF processing is
+    triggered by the LFIB actions i.e., not all PWs receive DetNet specific
+    processing. Basically the LFIB has to be extended with a "PREF enabled"
+    boolean configuration switch that is associated with the normal label
+    actions (e.g., swap, push, pop, ..). The output of the PREF elimination
+    function is always a single packet.  The output of the PREF replication
+    function is always one or more packet (i.e., 1:M replication). The
+    replicated packets MUST share the same DetNet PW control word sequence
+    number and flow identity word flow-id.
    </t>
    <t>
     The complex part of the DetNet PREF processing is tracking the history of
@@ -610,8 +635,7 @@ H     Sequencing      H--+       H       DetNet Control Word       H
     target="sec_flow_id"/>), which makes the DA-*-PE node aware of the direction
     the flow-ID arrived from. If the node, based on the local policy, checks for
     the D bit setting that effectively means the sequence number history has to
-    be doubled for each of such flows. Whether a DA-*-PE supports the D bit
-    setting is optional.
+    contain also the D bit information.
    </t>
    <t>
     [Editor's note: draw here an example of LFIB with the elimination
@@ -749,13 +773,13 @@ PW instance |   Single    |           |    Single   | PW Instance
 <section title="Other DetNet considerations">
  <section title="Class of Service">
   <t>
-   [Ed. Discuss the CoS.. and how that is archived when using MPLS or IP PSN.]
+   [Editor's note: Discuss the CoS.. and how that is archived when using MPLS or IP PSN.]
   </t>
  </section>
 
  <section title="Quality of Service">
   <t>
-   [Ed. Elaborate the QoS issues here..]
+   [Editor's note: Elaborate the QoS issues here..]
   </t>
  </section>
 
