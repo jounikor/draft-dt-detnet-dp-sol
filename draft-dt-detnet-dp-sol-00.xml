@@ -991,11 +991,11 @@ E1-->DA-T-PE1                                            DA-T-PE2-->E3
        PW1  \      #seq   #seq            #seq   #seq      /
        #seq  \     FID1   FID2            FID1   FID2     /
        FID1   =>R4------------->DA-S-PE2--------------->R5
-             /                    ^                       \    L5
-            /                      \    L9                 \   PW2
-           /                        \   PW2                 \  #seq
-          /                          \  #seq                 \ FID2
-         /                            \ FID2                  v
+    T11      /                    ^                       \    L5
+    L3      /                      \    L9                 \   PW2
+    PW2    /                        \   PW2                 \  #seq
+    #seq  /                          \  #seq                 \ FID2
+    FID2 /                            \ FID2                  v
 E2-->DA-T-PE3                         R9<-    T10        DA-T-PE4-->E4
          \                     T8         \   L9    T9        ^
        T7 \      L6            L7     L7   \  PW2   L8       / L8
