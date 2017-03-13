@@ -63,7 +63,7 @@
 <?rfc compact="yes"?>
 <?rfc subcompact="no"?>
 <rfc category="info"
-     docName="draft-ietf-detnet-dp-sol-00"
+     docName="draft-dt-detnet-dp-sol-00"
          ipr="trust200902"
          submissionType="IETF">
   <front>
@@ -216,21 +216,28 @@
     <t hangText="DA-S-PE">A DetNet aware PseudoWire Switching Provider Edge (S-PE).</t>
     <t hangText="T-Label">A hop-by-hop tunnel label layer between label
      switching routers (LSR).</t>
-    <t hangText="L-Label">A DetNet topology overlay label that is used between DA-*-PE
+    <t hangText="L-Label">
+     A DetNet topology overlay label that is used between DA-*-PE
      devices.</t>
-    <t hangText="flow-ID">A DetNet flow identity that uniquely identifies a DetNet flow in
-     a DetNet network. The flow-ID is part of the PseudoWire Encapsulation header.</t>
-    <t hangText="local-ID">A DA-T-PE and DA-S-PE node internal construct that uniquely
-     identifies a DetNet flow. The local-ID can be equal to flow-ID or be derived using other
+    <t hangText="flow-ID">
+     A DetNet flow identity that uniquely identifies a DetNet flow in a DetNet
+     network. The flow-ID is part of the PseudoWire Encapsulation header.</t>
+    <t hangText="local-ID">
+     A DA-T-PE and DA-S-PE node internal construct that uniquely identifies a
+     DetNet flow. The local-ID can be equal to flow-ID or be derived using other
      means, e.g., programming required label to local-ID mappings directly into
      the label information base (LFIB).</t>
-	<t hangText="PW Label">A PseudoWire label that is used to identify DetNet
-     flow related PW Instances within a PE node.</t> 
-    <t hangText="PREF">A Packet Replication and Elimination Function (PREF) that does
-     the replication and elimination processig of DetNet flow packets in a DA-T-PE or 
-     DA-S-PE nodes. The replication part is essentially the existing 1+1
-     protection  mechanism. The elimination part reuses and extends the existing
-     PseudoWire sequence numbering of packets.</t>
+	<t hangText="PW Label">
+     A PseudoWire label that is used to identify DetNet flow related PW
+     Instances within a PE node.</t> 
+    <t hangText="PREF">
+     A Packet Replication and Elimination Function (PREF) does the replication
+     and elimination processig of DetNet flow packets in DA-T-PE or DA-S-PE
+     nodes. The replication function is essentially the existing 1+1 protection
+     mechanism. The elimination function reuses and extends the existing <xref
+     target="RFC3985"/> PseudoWire sequencing provided duplicate detection
+     mechanism to operate over multiple (separate) PseudoWires that are
+     sub-flows of a compound DetNet flow.</t>
 
    </list>
   </t>
@@ -488,24 +495,24 @@ System  |    +--------+       +--------+       +--------+   | System
    encapsulation header. 
    <list>
     <t>
-     [Editor's note: The current design has the DetNet flow-id as part of the
-     every DetNet flow packet. The flow-id identifies the flow uniquely within
-     the DetNet network and together with the sequence number information from the
-     DetNet control word is used for PREF purposes. The flow-id makes is easy for
-     the DA-*-PE node to associate different PWs into one compound flow and
-     perform the elimination of duplicate packets. The flow-id would point at the
-     node internal construct that holds the received packet history for each
-     DetNet flow of interest. However, it could also be possible
-     to associate multiple PWs into one DetNet flow just using the control plane
+     [Editor's note: The current design has the DetNet flow-ID as part of the
+     every DetNet flow packet. The flow-ID identifies the flow uniquely within
+     the DetNet network and together with the sequence number information from
+     the DetNet control word is used for PREF purposes. The flow-ID makes is
+     easy for the DA-*-PE node to associate different PWs into one compound flow
+     and perform the elimination of duplicate packets. The flow-ID would point
+     at the node internal construct that holds the received packet history for
+     each DetNet flow of interest. However, it could also be possible to
+     associate multiple PWs into one DetNet flow just using the control plane
      provided information. In this case different PWs (using any PW label) would
-     be mapped internally within a node to a local-ID, which again points at the
-     internal per DetNet flow received packets history construct. The explicit
-     in-band flow-id is easy from the processing and control plane  point of view.
-     The local-ID approach does not need the in-band information (thus has less
-     overhead) but requires more from the control plane and the mapping information
-     has to be stored into the LFIB. Current design decision is the
-     in-band flow-id but may be changed to local-ID if there is a strong reason
-     to do the change.]
+     be mapped internally within a node to a local-ID (or similar construct),
+     which again points at the internal per DetNet flow received packets history
+     construct. The explicit in-band flow-ID is easy from the processing and
+     control plane  point of view.  The local-ID approach does not need the
+     in-band information (thus has less overhead) but requires more from the
+     control plane and the mapping information has to be stored into the LFIB.
+     Current design decision is the in-band flow-ID but may be changed to
+     local-ID if there is a strong reason to do the change.]
     </t>
    </list></t>
   
@@ -528,7 +535,7 @@ System  |    +--------+       +--------+       +--------+   | System
 
     <figure title="Encapsulation of a DetNet flow in a PW with MPLS(-TP) PSN" anchor="fig_pw_mpls">
     <artwork align="center"><![CDATA[
-  PWE3 Encapsulation                   DetNet PWE3 Encapsulation
+ RFC3985 Encapsulation                  DetNet PW Encapsulation
 
                                  +---------------------------------+
 +---------------------+          |                                 |
@@ -555,16 +562,18 @@ H     Sequencing      H--'       H       DetNet Control Word       H
    <!--/section-->
 
    <t>
-   <!--VB needs update to clarify meaning -->
-   <!-- CJBC: agree, it is not clear, what do we mean by destination here? -->
-    When IP PSN is used, the label stack it transports is only inspected when the
-    IP packet reaches its destination. 
+    When IP PSN is used, the label stack it transports is only inspected when
+    the IP packet destination address equals to the IP address of a DA-*-PE or a
+    P node. Essentially there are one more IP tunnels between a number of DA-*-PE
+    and/or P nodes. The LFIB and the forwarding information base (FIB)
+    combination determines whether a PW gets terminated at the node or
+    forwarded to another node within a new IP tunnel.
    </t>
 
    <!--section title="Encapsulation for IP PSN"-->
     <figure title="Encapsulation of a DetNet flow in a PW with IP PSN" anchor="fig_pw_ip">
     <artwork align="center"><![CDATA[
-  PWE3 Encapsulation                   DetNet PWE3 Encapsulation
+ RRC3985 Encapsulation                  DetNet PW Encapsulation
 
                                  +---------------------------------+
 +---------------------+          |                                 |
@@ -692,7 +701,10 @@ Client AC   |    NSP      |           |    Single   | PW Instance
      function. In the case the native service processing (NSP) is IEEE 802.1CB
      <xref target="IEEE8021CB"/> capable, the packet replication and duplicate
      elimination MAY entirely be done in the NSP and bypassing the DetNet PW
-     encapsulation and logic entirely.
+     encapsulation and logic entirely, and thus is able to operate over
+     unmodified PW implementation and deployment. The NSP approach works only
+     between DA-T-PEs and cannot make use of DA-S-PEs (see <xref
+     target="sec_s_pe"/>).
     </t>
     <t>
      The DetNet-aware extended forwarder selects the egress segment PW based on
@@ -914,22 +926,14 @@ PW instance |   Single    |           |    Single   | PW Instance
 <back>
   <references title="Normative References">
    &rfc3985;
-   &rfc3031;
    &rfc6073;
    &rfc4448;
    &rfc6658;
-   &rfc4023;
-   &rfc7510;
    &rfc2119;
   </references>
   <references title="Informative References">
-   &rfc3032;
-   &rfc4385;
-   &rfc5921;
    &I-D.ietf-detnet-dp-alt;
    &I-D.ietf-detnet-architecture;
-   &I-D.ietf-detnet-problem-statement;
-   &I-D.ietf-mpls-residence-time;
 
    <reference anchor='I-D.sdt-detnet-security'>
     <front>
@@ -971,9 +975,9 @@ PW instance |   Single    |           |    Single   | PW Instance
   </references>
  <section title="Example of DetNet data plane operation" anchor="sec_comb">
   <t>
-   [Ed. Simplified example of DetNet data plane and how labels etc work in the case of
-    MPLS-based PSN and utilizing PREF. The figure is out of date and pending DT
-    decisions on the label handling..]
+   [Editor's note: Simplified example of DetNet data plane and how labels etc
+   work in the case of MPLS-based PSN and utilizing PREF. The figure is subject
+   to change depending on the further DT decisions on the label handling..]
   </t>
 
     <figure title="Replication and elimination example" anchor="fig_detnet_ex1">
@@ -1005,6 +1009,12 @@ E2-->DA-T-PE3                         R9<-    T10        DA-T-PE4-->E4
        FID2   ->R6---->DA-S-PE2---->R7---->DA-S-PE6---->R8
 ]]>
 </artwork></figure>
+
+
+  <t>
+   [Editor's note: the LFIB <xref target="fig_lfib2"/> content to be updated.]
+  </t>
+
 
     <figure title="LFIB contents" anchor="fig_lfib2">
     <artwork align="center"><![CDATA[
