@@ -178,8 +178,6 @@
    Packet Switched Networks.
   </t>
   </abstract>
-
-
   </front>
 
  <middle>
@@ -340,7 +338,7 @@ System  |    +--------+       +--------+       +--------+   | System
     ^        +--------+       +--------+       +--------+      ^
     |       Relay Node       Relay Node       Relay Node       |
     |                                                          |
-    |<-- End to End Time Sensitive Networking (TSN) Service -->|
+    |<--------------- End to End DetNet Service -------------->|
 ]]></artwork>
 </figure>
 
@@ -419,14 +417,6 @@ System  |    +--------+       +--------+       +--------+   | System
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]>
     </artwork></figure>
-  <t>
-   [Editor's note: Should w e care about high speed links, here 16 bits of
-   sequence number wraps fast? For example, in a case of 100Gb/s link, 16 bits
-   of sequence number will wrap in ~6.6ms assuming 1250 octets of packets
-   and ~3.3ms for 625 octets packets. Both numbers mean quite long fiber
-   distances, though.]
-  </t>
- 
  </section>
 
  <!-- section title="DetNet flow identity word" anchor="sec_flow_id">
@@ -480,12 +470,13 @@ System  |    +--------+       +--------+       +--------+   | System
      network. Multiple DetNet PWs with different PW labels may have the same 
      f-ID, which then implies the PWs are actually subflows of one compound
      flow.</t --> 
-    <t>PseudoWire Label (PW Label;): a standard PW label that identifies a PW Instance
+    <t>PseudoWire Label (PW Label): a standard PW label that identifies a PW Instance
      within a (DA-)T-PE or (DA-)S-PE device.</t>
     <t>DetNet topology overlay label (L-label): an optional label used  between
-     (DA-)T-PE or (DA-)S-PE nodes. The main use of L-labels is to tunnel PWs
+     (DA-)T-PE or (DA-)S-PE nodes. The main uses of L-labels are to tunnel PWs
      through a PE node and therefore effectively making a PE node to behave like
-     a P node.</t>
+     a P node, and distinguish between sub-flows of the same combound
+     DetNet flow if they appear on the same link for some reason.</t>
    </list>
    In a case of MPLS-based PSN, the tunnel labels between LSRs are referred as
    T-labels.
@@ -518,9 +509,9 @@ System  |    +--------+       +--------+       +--------+   | System
   
   <t>
    <xref target="fig_pw_mpls"/> illustrates a DetNet PseudoWire encapsulation
-   using an MPLS PSN. Similarly, <xref target="fig_pw_ip"/> illustrates the
-   DetNet PseudoWire encapsulation when IP PSN or native end to end DetNet service
-   is used. The encapsulation is uniform in both cases.
+   using an MPLS PSN. Similarly, <xref target="fig_native_ip"/> illustrates the
+   DetNet encapsulation when native end to end IP DetNet service
+   is used. 
   </t>
   <t>
    Depending on the network topology the "overlay label" (L-label) may be part
@@ -528,6 +519,16 @@ System  |    +--------+       +--------+       +--------+   | System
    between DA-*-PE nodes. Furthermore, L-labels tunnels allow selectively exposing
    the PW label to DA-*-PE nodes, which means some overlay topologies may just
    pass through specific DA-S-PEs without any DetNet specific processing. 
+  </t>
+
+  <t>
+   The MPLS encapsulation of the DetNet flow is primarily intended for the 
+   Layer-2 interconnect deployment cases (see <xref target="fig_8021_detnet"/>).
+   However, end to end DetNet service i.e., native DetNet deployment (see
+   <xref target="fig_native_detnet"/> is also possible if DetNet aware end
+   systems are capable of initiating and termination MPLS encapsulated PWs.
+   Furthermore, it is also possible use the the same encapsulation format with
+   the Packet PW over MPLS <xref target="RFC6658"/>.
   </t>
 
   
@@ -540,7 +541,7 @@ System  |    +--------+       +--------+       +--------+   | System
 +---------------------+
 |      Payload        |          +---------------------------------+
 /=====================\          |                                 |
-H Payload Convergence H--.       |         Payload  Packet         |
+H Payload Convergence H--.       |           DetNet Flow           |
 H---------------------H  |       |         Payload  Packet         |
 H       Timing        H  +-\     |                                 |
 H---------------------H  |  \    /=================================\
@@ -561,61 +562,26 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
    <!--/section-->
 
    <t>
-    When IP PSN is used, the label stack it transports is only inspected when
-    the IP packet destination address equals to the IP address of a DA-*-PE or a
-    P node. Essentially there are one more IP tunnels between a number of DA-*-PE
-    and/or P nodes. The LFIB and the forwarding information base (FIB)
-    combination determines whether a PW gets terminated at the node or
-    forwarded to another node within a new IP tunnel.
-   </t>
+       The native IP-based end to end DetNet flow is defined only for IPv6. 
+       ** FIX THIS TEXt **
 
-   <!--section title="Encapsulation for IP PSN"-->
-    <figure title="Encapsulation of a DetNet flow in a PW with IP PSN" anchor="fig_pw_ip">
-    <artwork align="center"><![CDATA[
- RRC3985 Encapsulation                  DetNet PW Encapsulation
-                                         (RFC7510 or RFC4023)
-+---------------------+
-|      Payload        |          +---------------------------------+
-/=====================\          |                                 |
-H Payload Convergence H--.       |           DetNet Flow           |
-H---------------------H  |       |         Payload  Packet         |
-H       Timing        H  +-\     |                                 |
-H---------------------H  |  \    /=================================\
-H     Sequencing      H--'   \-->H       DetNet Control Word       H
-\=====================/          \=================================/
-|  PW Demultiplexer   |--------->|             PW Label            |
-+---------------------+          +---------------------------------+
-|  PSN Convergence    |     .--->| Optional Topology overlay Label |
-+---------------------+     |    +---------------------------------+
-|        PSN          |-----+    |       Optional UDP Header       |
-+---------------------+     |    +---------------------------------+
-|      Data-Link      |     `--->|       IPv4 or IPv6 header       |
-+---------------------+          +---------------------------------+
-|       Physical      |
-+---------------------+
-]]>
-    </artwork></figure>
-    
-   <!--section title="Encapsulation for native Detnet IP flow "-->
-
-   <t>
-       The native end to end DetNet flow follows <xref target="RFC7510"/> and
-       <xref target="RFC4023"/> encapsulations, but is only supported for
-       IPv6. Essentially the encapsulation is no different from PWs with
-       IP PSN as shown in <xref target="fig_pw_ip"/>. However, in the native
-       Detnet flow case
-       the DetNet aware end hosts are responsible for adding and removing
-       the "DetNet shim". IPv6 is the only supported IP transport and the
-       intermediate routers SHOULD use the IPv6 header Flow Label for the
-       DetNet flow identification. The DetNet aware end hosts MUST program
-       the IPv6 header Flow Label with a value that identifies the end to
-       end DetNet flow (together with the destination address).
+       IPv6 Destination Option carries the sequence number..
+       IPv6 flow label is the e2e flow identifier..
+       Possible pinned paths can be done using any of the
+       available source routing headers such as the SR header.
+       
+       
+       responsible for adding and removing the "DetNet shim". IPv6 is the only
+       supported IP transport and the intermediate routers MAY use the IPv6
+       header Flow Label for the DetNet flow identification. The DetNet aware
+       end hosts MUST program the IPv6 header Flow Label with a value that
+       identifies the end to end DetNet flow (together with the destination
+       address).
    </t>
 
    <figure title="Encapsulation of a native IPv6 DetNet flow" anchor="fig_native_ip">
     <artwork align="center"><![CDATA[
   Native IPv6 DetNet Encapsulation
-        (RFC7510 or RFC4023)
         
 +---------------------------------+
 |                                 |
@@ -623,19 +589,30 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
 |             Payload             |
 |                                 |
 /---------------------------------\
-H       DetNet Control Word       H
-H---------------------------------H
-H             PW Label            H
-H---------------------------------H
-H Optional Topology overlay Label H
-H---------------------------------H
-H       Optional UDP Header       H
+H   DetNet Control Word DstOpt    H
 \---------------------------------/
 |          IPv6 header            |
 +---------------------------------+
 ]]>
     </artwork></figure>
-  <!--/section-->
+    <!--/section-->
+
+    <figure title="DetNet Control Word Destination Option" anchor="fig_detnet_ext">
+    <artwork align="center"><![CDATA[
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|  Next Header  |       1       |       Reserved                ~
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+~        Reserved               |   16 bit Sequence Number      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+]]>
+    </artwork></figure>
+
+
+
+
+
   </section>
  
   <section title="DetNet flow identification for duplicate detection">
