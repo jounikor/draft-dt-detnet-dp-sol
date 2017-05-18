@@ -222,9 +222,6 @@
 	<t hangText="PW Label">
      A PseudoWire label that is used to identify DetNet flow related PW
      Instances within a PE node.</t> 
-    <!-- t hangText="flow-ID">
-     A DetNet flow identity that uniquely identifies a DetNet flow in a DetNet
-     network. The flow-ID is part of the PseudoWire Encapsulation header.</t -->
     <t hangText="local-ID">
      A DA-T-PE and DA-S-PE node internal construct that uniquely identifies a
      DetNet flow. The local-ID can be equal to PW Label or be derived using other
@@ -238,7 +235,6 @@
      target="RFC3985"/> PseudoWire sequencing provided duplicate detection
      mechanism to operate over multiple (separate) PseudoWires that are
      sub-flows of a compound DetNet flow.</t>
-
    </list>
   </t>
  </section>
@@ -316,7 +312,7 @@ System |    +--------+          +--------+       +--------+   |  System
   <xref target="fig_native_detnet"/> illustrates how end to end DetNet service
   can be provided. In this case, the end systems are able to send and receive
   DetNet flows.  For example, put application data in PseudoWire (PW) and
-  encapsulated in IP.  Like earlier the 'X' in the end systems, edge and relay
+  encapsulated in MPLS.  Like earlier the 'X' in the end systems, edge and relay
   nodes represents potential DetNet flow packet replication and elimination
   points. Here the relay nodes may change the underlying transport, for example
   replacing IP with MPLS or tunneling IP over MPLS, or simply interconnect
@@ -384,19 +380,6 @@ System  |    +--------+       +--------+       +--------+   | System
   each DA-T-PE and DA-S-PE nodes. Local-ID MUST be unambiguously bound to the
   DetNet flow. 
  </t>
-  
- <!--t>
- DP solution MUST ensure that:
-  <list style="symbols">
-   <t>DA-*-PE nodes are able to distinguish individual PWs going through and PWs
-    need DetNet specific operation (e.g., PREF)</t>
-   <t>DA-*-PE nodes do not have PW-label value collisions or can deal with it
-    without major implementation difficulties</t>
-   <t>it is easy to distinguishing replica flows (required for OAM purposes)</t>
-   <t> label allocation works with both centralized control and distributed control
-    (signaling)</t>
-  </list>
- </t-->
  </section>
 </section>
 
@@ -420,59 +403,22 @@ System  |    +--------+       +--------+       +--------+   | System
     </artwork></figure>
  </section>
 
- <!-- section title="DetNet flow identity word" anchor="sec_flow_id">
-  <t>
-   The DetNet flow identity word (flow-ID) identifies a DetNet flow uniquely within
-   a DetNet network. The flow-ID is also associated with the sequence number
-   carried in the DetNet control word and used also for PREF purposes.
-  </t>
-    <figure title="DetNet flow identity word" anchor="fig_detnet_fi">
-    <artwork align="center"><![CDATA[
- 0                   1                   2                   3
- 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   reserved  |D|               24 bit flow identity            |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-]]>
-    </artwork></figure>
-  <t>
-   The management and assignment of the flow-IDs is outside of this specification.
-   It is assumed that each DA-T-PE node have either a preconfigured flow-ID
-   number space or some dynamic control plane protocol is able to coordinate
-   the allocation of the flow-IDs across the DA-T-PE nodes, or a central entity,
-   e.g., a Software Defined Networking controller.
-  </t>
-  <t>
-   The D bit defines the direction of the flow. The value 0 means 'east' and
-   the value 1 means 'west'. The D bit can be used in ring topologies to allow
-   DetNet flows with the same flow-ID cross with or without PREF processing
-   taking place. Whether a DA-*-PE checks for the D bit is based on a local
-   policy setting. The support for D bit is optional. If a DA-*-PE does not
-   support the D bit it MUST be treated as 0.
-  </t>
-  <t>
-   The reserved field in the flow-ID MUST be set to zero and ignored when received.
-  </t>
-  <t>
-   [Editor's note: we need some configuration knob defined for this feature.]
-  </t>
- </section -->
-
  <section title="DetNet encapsulation">
   <t>
-   This document specifies two encapsulations for DetNet dataplane: PseudoWire (PW) with MPLS PSN and
-   native IPv6 based encapsulations. 
+   This document specifies two encapsulations for the DetNet dataplane: PseudoWire (PW) with MPLS
+   PSN and native IPv6 based encapsulations. 
   </t>
 
   <section title="PseudoWire-based dataplane solution">
    <t>
-    <xref target="fig_pw_mpls"/> illustrates a DetNet PW encapsulation over an MPLS PSN.
-    The PW-based encapsulation of the DetNet flows is primarily intended for the Layer-2
-    interconnect deployment cases (see <xref target="fig_8021_detnet"/>).  However, end to end
-    DetNet service i.e., native DetNet deployment (see <xref target="fig_native_detnet"/> is also
-    possible if DetNet aware end systems are capable of initiating and termination MPLS encapsulated
-    PWs.  It is also possible use the the same encapsulation format with the Packet PW
-    over MPLS <xref target="RFC6658"/>.
+    <xref target="fig_pw_mpls"/> illustrates a DetNet PW encapsulation over an MPLS PSN.  The
+    PW-based encapsulation of the DetNet flows is primarily intended for the Layer-2 interconnect
+    deployment cases (see <xref target="fig_8021_detnet"/>).  However, end to end DetNet service
+    i.e., native DetNet deployment (see <xref target="fig_native_detnet"/> is also possible if
+    DetNet aware end systems are capable of initiating and termination MPLS encapsulated PWs.  It is
+    also possible use the the same encapsulation format with a Packet PW over MPLS <xref
+        target="RFC6658"/>. This would allow transporting e.g., any IP or MPLS traffic over a DetNet
+    enabled network. 
    </t>
    <t> 
     The PW-based DetNet data plane encapsulation consists of: 
@@ -526,35 +472,38 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
    <t>
     <xref target="fig_native_ip"/> illustrates a DetNet native IPv6 encapsulation.  The native IPv6
     encapsulation is meant for end to end Detnet service use cases, where the end stations are
-    DetNet aware (see <xref target="fig_native_detnet"/>). However, technically it is possible to
-    use the IPv6 encapsulation to tunnel any traffic over a DetNet network domain.
+    DetNet aware (see <xref target="fig_native_detnet"/>). Technically it is possible to use the
+    IPv6 encapsulation to tunnel any traffic over a DetNet enabled network, which would make native
+    IPv6 encapsulation also a valid data plane choice for an interconnect use case (see <xref
+    target="fig_8021_detnet"/>.
    </t>
 
   <t>
    The native IPv6-based DetNet dataplane encapsulation consists of:
    <list style="symbols">
     <t>IPv6 header as the transport protocol.</t>
-    <t>IPv6 header Flow Label that identifies a DetNet flow (i.e., roughly
-        an equivalent to the PW Label). A Flow Label together with the IPv6 source address uniquelly identifies a DetNet flow.</t>
+    <t>IPv6 header Flow Label that is used to help to identify a DetNet flow (i.e., roughly
+        an equivalent to the PW Label). A Flow Label together with the IPv6 source address
+        uniquelly identifies a DetNet flow.</t>
     <t>DetNet Control Word IPv6 Destination Option containing sequencing information
-        for packet replication and duplicate elimination purposes. There is a separate                   
-     sequence number space for each DetNet flow.</t>
+        for packet replication and duplicate elimination function (PREF) purposes.
+        The DetNet Destination Option is equivalent to the DetNet Control Word.</t>
    </list>
   </t>
 
   <t>
    A DetNet-aware end station (a host) or an intermediate node initiating an IPv6 packet is
    responsible for adding the required DetNet Destination Option, setting the Flow Label, and possibly
-   adding a routing header such as the one for segment routing  (for pre-defined paths <xref
-   target="I-D.ietf-6man-segment-routing-header"/>). The payload of the DetNet native IPv6
+   adding a routing header such as the segment routing option (for pre-defined paths <xref
+   target="I-D.ietf-6man-segment-routing-header"/>). The payload of the native IPv6
    encapsulation is any payload protocol that can be identified using the Next Header field either
-   in the IPv6 packet header or in the last IPv6 extension headers.
+   in the IPv6 packet header or in the last IPv6 extension header.
   </t>
   <t>
    A DetNet-aware end station (a host) or an intermediate node receiving an IPv6 packet destined
    to it and containing a DetNet Destination Option does the approproate processing of the
-   packet. This may involve packet duplication and elimination, terminating a tunnel or
-   delivering the packet to the upper layers/application.
+   packet. This may involve packet duplication and elimination (PREF processing), terminating a tunnel or
+   delivering the packet to the upper layers/Applications.
    </t>
 
    <figure title="Encapsulation of a native IPv6 DetNet flow" anchor="fig_native_ip">
@@ -599,13 +548,7 @@ H DetNet Control Word DstOpt Hdr  H
 
   </t>
 
-
-
-
   </section>
-
-
-
   </section>
  
   <section title="DetNet flow identification for duplicate detection">
@@ -641,11 +584,8 @@ H DetNet Control Word DstOpt Hdr  H
   <section title="PseudoWire PE reference model considerations">
    <section title="Forwarded clarifications">
     <t>
-     [Editor's note: The Detnet-aware "extended forwarder" does the heavy
-     lifting on maintaining the sequence numbers associated with the DetNet
-     labels. Extended forwarder is also responsible for packet replication and
-     duplicate elimination. See the excerpt from RFC3985 Section 4.2.1. about
-     forwarder's functions. We extend that to PREF:
+        RFC3985 Section 4.2.1. contains the following forwarder functions
+        description:
      <list style="none">
      <t>
        Some applications have to forward payload elements selectively from
@@ -653,38 +593,32 @@ H DetNet Control Word DstOpt Hdr  H
        a need to perform the inverse function on PWE3-PDUs received by a PE
        from the PSN.  This is the function of the forwarder.
      </t></list>
-     ]
     </t>
    <t>
-    The DetNet specific new functionality in a DA-*-PE PW processing is the
-    packet replication and duplication elimination function (PREF). This
-    functional is a part of the "extended" forwarder. The PREF processing is
-    triggered by the LFIB actions i.e., not all PWs receive DetNet specific
-    processing. Basically the LFIB has to be extended with a "PREF enabled"
-    boolean configuration switch that is associated with the normal label
-    actions (e.g., swap, push, pop, ..). The output of the PREF elimination
-    function is always a single packet.  The output of the PREF replication
-    function is always one or more packets (i.e., 1:M replication). The
-    replicated packets MUST share the same DetNet PW control word sequence
-    number.
+    The DetNet specific new functionality in a DA-*-PE PW processing is the packet replication and
+    duplication elimination function (PREF). This functional is a part of the DetNet-aware
+    "extended" forwarder. The PREF processing is triggered by the LFIB actions i.e., not all PWs
+    receive DetNet specific processing. Basically the LFIB also has to be extended with a "PREF
+    enabled" boolean configuration switch that is associated with the normal label actions (e.g.,
+    swap, push, pop, ..). The output of the PREF elimination function is always a single packet.
+    The output of the PREF replication function is always one or more packets (i.e., 1:M
+    replication). The replicated packets MUST share the same DetNet PW control word sequence number.
    </t>
    <t>
-    The complex part of the DetNet PREF processing is tracking the history of
-    received packets for multiple PWs. These ingress PWs (to a node) MUST have
-    the same PW label value if they belong to the same DetNet flow and share
-    the same PW sequence number counter and the
-    history information.
+    The complex part of the DetNet PREF processing is tracking the history of received packets for
+    multiple PWs. These ingress PWs (to a node) MUST have the same PW label value if they belong to
+    the same DetNet flow and share the same PW sequence number counter and the history information.
+    The PW labels for input and output packets after the PREF processing for the same same DetNet
+    flow does not need to be the same.
    </t>
    <t>
-    The DA-*-PE internal procedures of the PREF are implementation specific.
-    The order of a packet elimination or replication is out of scope of this
-    specification. However, care should be taken that the replication function
-    does not actually loopback packets as "replicas". Looped back packets 
-    include artificial delay when the node that originally initiated the packet
-    receives it again. Also, looped back packets may make the network condition
-    to look healtier than it actually is (in some cases link failures are not
-    reflected properly because looped back packets make the situation appear
-    better than it actually is). 
+    The DA-*-PE internal procedures of the PREF are implementation specific.  The order of a packet
+    elimination or replication is out of scope of this specification. However, care should be taken
+    that the replication function does not actually loopback packets as "replicas". Looped back
+    packets include artificial delay when the node that originally initiated the packet receives it
+    again. Also, looped back packets may make the network condition to look healtier than it
+    actually is (in some cases link failures are not reflected properly because looped back packets
+    make the situation appear better than it actually is). 
    </t>
    </section>
 
@@ -731,30 +665,25 @@ Client AC   |    NSP      |           |    Single   | PW Instance
     </artwork></figure>
 
     <t>
-     A DA-T-PE participates to the packet replication and duplication
-     elimination. Required processing is done within an extended forwarder
-     function. In the case the native service processing (NSP) is IEEE 802.1CB
-     <xref target="IEEE8021CB"/> capable, the packet replication and duplicate
-     elimination MAY entirely be done in the NSP and bypassing the DetNet PW
-     encapsulation and logic entirely, and thus is able to operate over
-     unmodified PW implementation and deployment. The NSP approach works only
-     between DA-T-PEs and cannot make use of DA-S-PEs (see <xref
-     target="sec_s_pe"/>).
+     A DA-T-PE participates to the packet replication and duplication elimination. Required
+     processing is done within an extended forwarder function. In the case the native service
+     processing (NSP) is IEEE 802.1CB <xref target="IEEE8021CB"/> capable, the packet replication
+     and duplicate elimination MAY entirely be done in the NSP and bypassing the DetNet PW
+     encapsulation and logic entirely, and thus is able to operate over unmodified PW implementation
+     and deployment. The NSP approach works only between DA-T-PEs and cannot make use of DA-S-PEs
+     (see <xref target="sec_s_pe"/>).
     </t>
     <t>
-     The DetNet-aware extended forwarder selects the egress segment PW based on
-     the rules described in <xref target="RFC4448"/> and <xref
-     target="RFC6658"/>.  In both "normal AC" and "Packet AC" cases there is no
-     DetNet encapsulation header available yet as it is the case with DA-S-PEs
-     (see <xref target="sec_s_pe"/>).  It is the responsibility of the extended
-     forwarder within the DA-T-PE to push the DetNet encapsulation header (i.e.,
-     the DetNet CW) to the packet before forwarding it to
-     the appropriate egress PW instance(s). The extended forwarder MAY copy the
-     sequencing information from the native packet into the DetNet CW and vice
-     versa. If there is no existing sequencing information available in the
-     native packet or the forwarder chose not to copy it from the native packet,
-     then the extended forwarder MUST maintain a sequence number counter for
-     each DetNet flow (indexed by the PW Label).
+     The DetNet-aware extended forwarder selects the egress segment PW based on the rules described
+     in <xref target="RFC4448"/> and <xref target="RFC6658"/>.  In both "normal AC" and "Packet AC"
+     cases there is no DetNet encapsulation header available yet as it is the case with DA-S-PEs
+     (see <xref target="sec_s_pe"/>).  It is the responsibility of the extended forwarder within the
+     DA-T-PE to push the DetNet encapsulation header (i.e., the DetNet CW) to the packet before
+     forwarding it to the appropriate egress PW instance(s). The extended forwarder MAY copy the
+     sequencing information from the native packet into the DetNet CW and vice versa. If there is no
+     existing sequencing information available in the native packet or the forwarder chose not to
+     copy it from the native packet, then the extended forwarder MUST maintain a sequence number
+     counter for each DetNet flow (indexed by the PW Label).
     </t>
    </section>
 
@@ -817,7 +746,7 @@ PW instance |   Single    |           |    Single   | PW Instance
   </section>
 </section>
 
-<section title="Other DetNet considerations">
+<section title="Other DetNet data plane considerations">
  <section title="Class of Service">
   <t>
    The DetNet flow Class of Service (CoS) MUST always be encoded into the
@@ -897,6 +826,18 @@ PW instance |   Single    |           |    Single   | PW Instance
   </t>
  </section>
 
+ <section title="Packet replicationa and elimination function">
+     <t>
+         [editor's note: collect details of the PREF here. Potential topics to discuss relate to
+         constraints to input packets and what the expected output is. Some examples include: the
+         input packets must have the same PW Label (in a case of PWs) to enable the PREF, no
+         loopback for replicated packets, input and output PW labels do not need to be the same.
+         Also, add text regarding native IPv6 encapsulation. There the PW label is replaced with
+         source address + flow label combination, and the Control Word is replaced with the DetNet
+         Destination Option.. etc]
+     </t>
+ </section>
+
 </section>
 
 <!-- ===================================================================== -->
@@ -907,13 +848,32 @@ PW instance |   Single    |           |    Single   | PW Instance
    and specifically for PREF.]
  </t>
  
- <section title="PW Label assignment and distribution">
+ <section title="PW Label and IPv6 Flow Label assignment and distribution">
   <t>
-   The PW label distribution follows the same mechanisms specified for
-   MS-PW <xref target="RFC6073"/>.
+   The PW label distribution follows the same mechanisms specified for MS-PW <xref
+   target="RFC6073"/>. The details of the control plane protocol solution required for the label
+   distribution and the management of the label number space are out of scope of this document. 
+  </t>
+  <t>
+   The IPv6 Flow Label distribution and the label number space are out of scope of this document.
+   However, it should be noted that the combination of the IPv6 source address and the IPv6 Flow
+   Label is assumed to be unique within the DetNet enable network. Therefore, as long as each node
+   is able to assign unique Flow Labels for the source address(es) it is using the DetNet enabled
+   network wide Flow Label uniqueness is quaranteed. 
   </t>
  </section>
-
+ <section title="Explicit paths">
+     <t>
+         The control plane protocol solution required for the explicit forwarding path programming
+         it outside the scope of this document.
+     </t>
+ </section>
+ <section title="Packet replication and elimination">
+     <t>
+         The control plane protocol solution required for managing the PREF processing
+         it outside the scope of this document.
+     </t>
+ </section>
 </section>
 
 
