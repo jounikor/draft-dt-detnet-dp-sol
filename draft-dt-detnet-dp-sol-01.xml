@@ -585,12 +585,21 @@ H DetNet Control Word DstOpt Hdr  H
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|  DetNet CW    |       4       |           Reserved            |
+|     TBD1      |       4       |           Reserved            |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |     16 bit Sequence Number    |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]>
     </artwork></figure>
+
+  <t>
+      The Option Type for the DetNet Destination Option is set to TBD1. [To be removed from the
+      final version of the document: The Option Type MUST have the two most significant bits set to
+      10b]
+
+  </t>
+
+
 
 
   </section>

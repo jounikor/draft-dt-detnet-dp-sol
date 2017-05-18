@@ -488,7 +488,7 @@ Internet-Draft         DetNet data plane solution               May 2017
       0                   1                   2                   3
       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |  DetNet CW    |       4       |           Reserved            |
+     |     TBD1      |       4       |           Reserved            |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      |     16 bit Sequence Number    |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -505,6 +505,10 @@ Korhonen, et al.        Expires November 18, 2017               [Page 9]
 
 Internet-Draft         DetNet data plane solution               May 2017
 
+
+   The Option Type for the DetNet Destination Option is set to TBD1.
+   [To be removed from the final version of the document: The Option
+   Type MUST have the two most significant bits set to 10b]
 
 5.3.  DetNet flow identification for duplicate detection
 
@@ -550,10 +554,6 @@ Internet-Draft         DetNet data plane solution               May 2017
 
    The DetNet specific new functionality in a DA-*-PE PW processing is
    the packet replication and duplication elimination function (PREF).
-   This functional is a part of the "extended" forwarder.  The PREF
-   processing is triggered by the LFIB actions i.e., not all PWs receive
-   DetNet specific processing.  Basically the LFIB has to be extended
-   with a "PREF enabled" boolean configuration switch that is associated
 
 
 
@@ -562,6 +562,10 @@ Korhonen, et al.        Expires November 18, 2017              [Page 10]
 Internet-Draft         DetNet data plane solution               May 2017
 
 
+   This functional is a part of the "extended" forwarder.  The PREF
+   processing is triggered by the LFIB actions i.e., not all PWs receive
+   DetNet specific processing.  Basically the LFIB has to be extended
+   with a "PREF enabled" boolean configuration switch that is associated
    with the normal label actions (e.g., swap, push, pop, ..).  The
    output of the PREF elimination function is always a single packet.
    The output of the PREF replication function is always one or more
@@ -597,10 +601,6 @@ Internet-Draft         DetNet data plane solution               May 2017
    function [RFC6658].  Whether traffic flow from from a client AC and
    PSN LSP receives DetNet specific treatment is up to a local
    configuration and policy.  A DA-T-PE can also serve as a normal T-PE.
-
-
-
-
 
 
 
