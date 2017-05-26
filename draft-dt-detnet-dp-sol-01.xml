@@ -100,6 +100,21 @@
    </address>
   </author>
   
+  <author fullname="Norman Finn" initials="N."
+      surname="Finn">
+      <organization>Huawei</organization>
+      <address>
+          <postal>
+              <street>3101 Rio Way</street>
+              <city>Spring Valley</city>
+              <code>91977</code>
+              <region>CA</region>
+              <country>USA</country>
+          </postal>
+          <email>norman.finn@mail01.huawei.com</email>
+      </address>
+  </author>
+
   <author fullname="Bal&aacute;zs Varga" initials="B." surname="Varga">
 	<organization>Ericsson</organization>
 	<address>
@@ -184,22 +199,30 @@
  <middle>
  <section title="Introduction" anchor="sec_intro">
   <t>
-   This document specifies a Deterministic Networking (DetNet) data plane
-   solution. The solution is based on PseudoWires (PW) <xref target="RFC3985"/>
+   This document specifies Deterministic Networking (DetNet) data plane
+   solutions. Two solutions are given.  One solution is based on PseudoWires
+   (PW) <xref target="RFC3985"/>
    and makes use of the multi-segment (MS-PW) <xref target="RFC6073"/> to map
    DetNet Relay and Edge Nodes <xref
    target="I-D.ietf-detnet-architecture"/><xref
    target="I-D.ietf-detnet-dp-alt"/> to PW architecture. The PW-based data
    plane can be run over either an IP or MPLS <xref target="RFC4448"/><xref
-   target="RFC6658"/> Packet Switched Network (PSN).
+   target="RFC6658"/> Packet Switched Network (PSN).  The other solution is
+   based on IPv6 Flow labels and a new DetNet Control Word option.
   </t>
   <t>
-   For the purpose of DetNet data plane, this document specifically specifies
+   This document specifies
    the PW encapsulation for DetNet flows, a DetNet Control Word (CW), a DetNet
    label, how MS-PW derived DetNet Relay and Edge nodes work, and as a specific
    new PW feature how the Packet Replication and Elimination function
    (PREF) is implemented using PWs. This document does not define the
    associated control plane functions, or operations and management (OAM).
+  </t>
+  <t>
+   This document also specifies the use of the
+   IPv6 header Flow Label to identify specific DetNet flows without using PWs.
+   For this encapsulation, an IPv6 option is defined to carry a DetNet control
+   word containing sequencing information similar to that in the PW control word.
   </t>
  </section>
 
@@ -385,7 +408,7 @@ System  |    +--------+       +--------+       +--------+   | System
 
 <!-- ================================================================= -->
 
-<section title="DetNet data plane solution">
+<section title="DetNet data plane solution" anchor="dn-dt-solution">
  <section title="DetNet Control Word">
   <t>
    The DetNet control word (d-CW) is identical to the control word defined for
@@ -409,7 +432,7 @@ System  |    +--------+       +--------+       +--------+   | System
    PSN and native IPv6 based encapsulations. 
   </t>
 
-  <section title="PseudoWire-based dataplane solution">
+  <section title="PseudoWire-based dataplane solution" anchor="pwSolution">
    <t>
     <xref target="fig_pw_mpls"/> illustrates a DetNet PW encapsulation over an MPLS PSN.  The
     PW-based encapsulation of the DetNet flows is primarily intended for the Layer-2 interconnect
@@ -431,7 +454,7 @@ System  |    +--------+       +--------+       +--------+   | System
      <t>DetNet topology overlay label (L-label) as an optional label used  between
       (DA-)T-PE or (DA-)S-PE nodes. The main uses of L-labels are to tunnel PWs
       through a PE node (i.e., effectively making a PE node to behave like
-      a P node), and distinguish between sub-flows of the same combound
+      a P node), and distinguish between sub-flows of the same compound
       DetNet flow when they appear on the same link for some reason.</t>
      <t>MPLS tunnel label(s) (T-label) as a hop-by-hop tunnel label between LSRs.</t>
     </list>
@@ -467,7 +490,7 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
 
   </section>
 
-  <section title="Native IPv6-based dataplane solution">
+  <section title="Native IPv6-based dataplane solution" anchor="v6Solution">
 
    <t>
     <xref target="fig_native_ip"/> illustrates a DetNet native IPv6 encapsulation.  The native IPv6
@@ -475,7 +498,7 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
     DetNet aware (see <xref target="fig_native_detnet"/>). Technically it is possible to use the
     IPv6 encapsulation to tunnel any traffic over a DetNet enabled network, which would make native
     IPv6 encapsulation also a valid data plane choice for an interconnect use case (see <xref
-    target="fig_8021_detnet"/>.
+    target="fig_8021_detnet"/>).
    </t>
 
   <t>
@@ -749,15 +772,38 @@ PW instance |   Single    |           |    Single   | PW Instance
 <section title="Other DetNet data plane considerations">
  <section title="Class of Service">
   <t>
-   The DetNet flow Class of Service (CoS) MUST always be encoded into the
-   currently most outer header, either using MPLS label TC bits or IP packet
-   DSCP code points.  
+   A DetNet flow Class of Service (CoS) MUST always be encoded into the
+   currently most outer header, using MPLS label TC bits, or IP packet
+   DSCP code points, or Layer 2 priority encodings, as appropriate to the
+   layer at which the end system or network node is operating.
   </t>
  </section>
 
  <section title="Quality of Service">
   <t>
-   [Editor's note: Elaborate the QoS issues here..]
+   In addition to path pinning and packet replication and elimination, described in
+   Section <xref target="dn-dt-solution"/> above, DetNet provides zero congestion loss
+   and bounded end-to-end latency for DetNet flows.  As described in
+   <xref target="I-D.ietf-detnet-architecture"/>, this requires that resources be reserved
+   for classes of DetNet flows, or even for individual flows, before the DetNet QoS
+   can be supplied to those flows.  Resources can be reserved using protoocls or by
+   configuration.  Rresource reservation is beyond the scope of this document.
+  </t><t>
+   Packets that are marked with a DetNet Class of Service value, but that have not been
+   the subject of a completed reservation, can disrupt the QoS offered to properly
+   reserved DetNet flows by using resources allocated to the reserved flows.  Therefore,
+   the network nodes of a DetNet network SHOULD:
+  </t><t>
+    <list style="symbols">
+      <t>
+          Defend the DetNet QoS by discarding or remarking (to a non-DetNet CoS)
+          packets received that are not the subject of a completed reservation.
+      </t><t>
+          Not use a DetNet reserved resource, e.g. a queue or shaper reserved for
+          DetNet flows, for any packet that does not carry a DetNet Class of Service
+          marker.
+      </t>
+    </list>
   </t>
  </section>
 
@@ -771,22 +817,31 @@ PW instance |   Single    |           |    Single   | PW Instance
   </t>
 
 
-  <t>When DetNet is used, there is an underlying assumption that a clock
-  synchronization method is used, such as the Precision Time Protocol
-  (PTP) [IEEE1588]. In this case, there are a few possible approaches of
+  <t>When DetNet is used, there is an underlying assumption that the
+  applicaiton(s) require clock synchronization such as the Precision Time Protocol
+  (PTP) [IEEE1588]. The relay nodes may or may not utilize clock synchronization
+  in order to provide congestion-free QoS.  In either case, there are a
+  few possible approaches of
   how synchronization protocol packets are forwarded and handled by the
   network:</t>
 
   <t><list style="symbols">
-
-    <t>PTP packets are sent as a normal DetNet flow: in this approach PTP
+      
+    <t>
+    PTP packets can be sent either as DetNet flows or as high-priority
+    best effort packets.  Using DetNet for PTP packets requires careful
+    consideration to prevent unwanted interactions between clock-synchronized
+    network nodes and the packets that synchronize the clocks.
+    </t>
+    <t>PTP packets are sent as a normal DetNet flow through network nodes
+    that are not time-synchronized: in this approach PTP
     traffic is forwarded as a DetNet flow, and as such it is forwarded in a
     way that allows a low delay variation. However, since intermediate nodes
     do not take part in the synchronization protocol, this approach provides
     a relatively low degree of accuracy.</t>
 
     <t>PTP with on-path support: in this approach PTP packets are sent as
-    DetNet flows, and intermediate nodes take part in the protocol as
+    ordinary or as DetNet flows, and intermediate nodes take part in the protocol as
     Transparent Clocks or Boundary Clocks [IEEE1588]. The on-path PTP
     support by intermediate nodes provides a higher degree of accuracy than
     the previous approach. The actual accuracy depends on whether all
@@ -820,13 +875,15 @@ PW instance |   Single    |           |    Single   | PW Instance
    symmetric flows. There are already mechanisms that can be used to create
    bidirectional tunnels at the transport network level, such as MPLS-TP. The
    data plane solution SHOULD allow establishing bidirectional symmetric flows.
+   DetNet provides no special bidirectional features in the data plane other
+   than need for the two directions take the same paths.
    Control plane mechanisms would need to also support this, though this is out
    of scope of this document.  [Summary of existing mechanisms to create
    bidirectional tunnels that can be used.]
   </t>
  </section>
 
- <section title="Packet replicationa and elimination function">
+ <section title="Packet replication and elimination function">
      <t>
          [editor's note: collect details of the PREF here. Potential topics to discuss relate to
          constraints to input packets and what the expected output is. Some examples include: the
@@ -836,6 +893,34 @@ PW instance |   Single    |           |    Single   | PW Instance
          source address + flow label combination, and the Control Word is replaced with the DetNet
          Destination Option.. etc]
      </t>
+ </section>
+ 
+ <section title="Layer 2 addressing and QoS onsiderations">
+    <t>
+        The Time-Sensitive Networking (TSN) Task Group of the IEEE 802.1 Working Group have
+        defined (and are defining) a number of amendments to <xref target="IEEE8021Q">IEEE 802.1Q</xref>
+        that provide zero congestion loss and bounded latency in bridged networks.
+        <xref target="IEEE8021CB">IEEE 802.1CB</xref> defines packet replication and elimination
+        functions that should prove both compatible with and useful to, DetNet networks.
+    </t><t>
+        As is the case for DetNet, a Layer 2 network node such as a bridge may need to
+        identify the specific DetNet flow to which a packet belongs in order to provide the
+        TSN/DetNet QoS for that packet.  It also will likely need a CoS marking, such as the
+        priority field of an IEEE Std 802.1Q VLAN tag, to give the packet proper service.
+    </t><t>
+        Although the flow identification methods described in <xref target="IEEE8021CB">IEEE 802.1CB</xref>
+        are flexible, and in fact, include IP 5-tuple identification methods, teh baseline
+        TSN standards assume that every Ethernet frame belonging to a TSN stream
+        (i.e. DetNet flow) carries a multicast destination MAC address that is unique to that
+        flow within the bridged network over which it is carried.  Furthermore,
+        <xref target="IEEE8021CB">IEEE 802.1CB</xref> describes three methods by which a packet
+        sequence number can be encoded in an Ethernet frame.
+    </t><t>
+        Ensuring that the proper Ethernet VLAN tag priority and destination MAC address
+        are used on a DetNet/TSN packet may require further clarification of the customary
+        L2/L3 transformations carried out by routers and edge label switches.  Edge nodes
+        may also have to move sequence number fields among Layer 2, PW, and IPv6 encapsulations.
+    </t>
  </section>
 
 </section>
@@ -960,14 +1045,26 @@ PW instance |   Single    |           |    Single   | PW Instance
     </front>
    </reference>
 
-   <reference anchor="IEEE8021CB"
-     target="http://www.ieee802.org/1/files/private/cb-drafts/d2/802-1CB-d2-1.pdf">
+   <reference anchor="IEEE8021Q"
+     target="http://standards.ieee.org/about/get/">
     <front>
-     <title>Draft Standard for Local and metropolitan area networks - Seamless Redundancy</title>
-     <author initials="N. F." surname="Finn" fullname="Norman Finn">
+     <title>Standard for Local and metropolitan area networks--Bridges and Bridged Networks (IEEE Std 802.1Q-2014)</title>
+     <author>
       <organization>IEEE 802.1</organization>
      </author>
-     <date month="December" year="2015"/>
+     <date year="2014"/>
+    </front>
+    <format type="PDF" target="http://standards.ieee.org/about/get/"/>
+   </reference>
+
+   <reference anchor="IEEE8021CB"
+    target="http://www.ieee802.org/1/files/private/cb-drafts/d2/802-1CB-d2-1.pdf">
+    <front>
+        <title>Draft Standard for Local and metropolitan area networks - Seamless Redundancy</title>
+        <author initials="N. F." surname="Finn" fullname="Norman Finn">
+            <organization>IEEE 802.1</organization>
+        </author>
+        <date month="December" year="2015"/>
     </front>
     <seriesInfo name="IEEE P802.1CB /D2.1" value="P802.1CB"/>
     <format type="PDF" target="http://www.ieee802.org/1/files/private/cb-drafts/d2/802-1CB-d2-1.pdf"/>
