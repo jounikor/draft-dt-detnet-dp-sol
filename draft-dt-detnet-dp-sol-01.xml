@@ -201,27 +201,29 @@
    solutions. Two solutions are given. 
      <list style="symbols">
 		<t>PW-based: One solution is based on PseudoWires (PW) <xref target="RFC3985"/>
-		and makes use of the multi-segment (MS-PW) <xref target="RFC6073"/> to map
+		and makes use of multi-segment pseudowires (MS-PW) <xref target="RFC6073"/> to map
 		DetNet Relay and Edge Nodes <xref target="I-D.ietf-detnet-architecture"/> 
 		<xref target="I-D.ietf-detnet-dp-alt"/> to PW architecture. The PW-based 
 		data plane can be run over an MPLS <xref target="RFC4448"/> 
 		<xref target="RFC6658"/> Packet Switched Network (PSN).</t>
 		<t>Native-IP: The other solution is based on IP header fields, namely on 
-		IPv6 Flow label and a new DetNet Control Word extension header option. 
+		the IPv6 Flow Label and a new DetNet Control Word extension header option. 
 		It is targeted for native IPv6 networks.   
 		</t>
   </list>
   </t>
   <t>
-   This document specifies the encapsulation for DetNet flows, to include a 
-   DetNet Control Word (CW), a DetNet flow identification. Furthermore it describes how DetNet Relay 
+   This document specifies the encapsulation for DetNet flows, including a 
+   DetNet Control Word (CW). Furthermore, it describes how DetNet flows
+   are identified, how DetNet Relay 
    and Edge nodes work, and how the Packet Replication and Elimination function
    (PREF) is implemented with these two data plane solutions. This document does not define the
-   associated control plane functions, or operations and management (OAM).
+   associated control plane functions, or Operations, Administration, and Maintenance (OAM).
   </t>
  </section>
 
  <section title="Terminology">
+  <section title="Terms Used in This Document">
   <t>
    This document uses the terminology established in the DetNet architecture
    <xref target="I-D.ietf-detnet-architecture"/> and the DetNet Data Plane
@@ -243,13 +245,43 @@
 	 It may be used to select proper forwarding and/or DetNet specific service function.</t>
     <t hangText="PREF">
      A Packet Replication and Elimination Function (PREF) does the replication
-     and elimination processig of DetNet flow packets in edge or relay
+     and elimination processing of DetNet flow packets in edge or relay
      nodes. The replication function is essentially the existing 1+1 protection
      mechanism. The elimination function reuses and extends the existing duplicate 
 	 detection mechanism to operate over multiple (separate) sub-flows of a 
 	 compound DetNet flow.</t>
    </list>
   </t>
+  </section>
+
+  <section title="Abbreviations">
+  <t>
+   The following abbreviations used in this document:
+   <list style="hanging" hangIndent="14">
+    <t hangText="AC">Attachment Circuit.</t>
+    <t hangText="CE">Customer Edge equipment.</t>
+    <t hangText="CoS">Class of Service.</t>
+    <t hangText="CW">Control Word.</t>
+    <t hangText="d-CW">DetNet Control Word.</t>
+    <t hangText="DetNet">Deterministic Networking.</t>
+    <t hangText="DF">DetNet Flow.</t>
+    <t hangText="L2VPN">Layer 2 Virtual Private Network.</t>
+    <t hangText="LSR">Label Switching Router.</t>
+    <t hangText="MPLS">Multiprotocol Label Switching.</t>
+    <t hangText="MPLS-TP">Multiprotocol Label Switching - Transport Profile.</t>
+    <t hangText="MS-PW">Multi-Segment PseudoWire (MS-PW).</t>
+    <t hangText="NSP">Native Service Processing.</t>
+    <t hangText="OAM">Operations, Administration, and Maintenance.</t>
+    <t hangText="PE">Provider Edge.</t>
+    <t hangText="PREF">Packet Replication and Elimination Function.</t>
+    <t hangText="PSN">Packet Switched Network.</t>
+    <t hangText="PW">PseudoWire.</t>
+    <t hangText="QoS">Quality of Service.</t>
+    <t hangText="TSN">Time-Sensitive Network.</t>
+   </list>
+  </t>
+  </section>
+
  </section>
 
  <section title="Requirements language">
@@ -368,7 +400,7 @@ System  |    +--------+       +--------+       +--------+   | System
  <t>OAM function related scenarios:
   <list style="symbols">
    <t>troubleshooting (e.g., identify misbehaving flows, etc.)</t>
-   <t>recognize flow(s) for analytics (e.g, increase counters, etc.)</t>
+   <t>recognize flow(s) for analytics (e.g., increase counters, etc.)</t>
    <t>correlate events with flows (e.g., volume above threshold, etc.)</t>
    <t>etc.</t>
   </list>
@@ -380,7 +412,7 @@ System  |    +--------+       +--------+       +--------+   | System
   relaxed for edge and relay nodes, as they are fully aware of both the DetNet
   service and transport layers. The DetNet role of intermediate transport nodes is
   limited to ensure congestion protection from the above listed DetNet
-  functions. However, transit nodes may have limited capabilities to reconize DetNet 
+  functions. However, transit nodes may have limited capabilities to recognize DetNet 
   specific fields (e.g., in case of MPLS the PW label). Therefore, identifying each
   individual DetNet flow on a transit node may not be achieved in some network
   scenarios.
@@ -414,18 +446,18 @@ System  |    +--------+       +--------+       +--------+   | System
 
  <section title="DetNet encapsulation">
   <t>
-   This document specifies two encapsulations for the DetNet dataplane: (1) PseudoWire (PW) for MPLS
-   PSN and (2) native IPv6 based encap for IP PSN. 
+   This document specifies two encapsulations for the DetNet data plane: (1) PseudoWire (PW) for MPLS
+   PSN and (2) native IPv6 based encapsulation for IP PSN. 
   </t>
 
-  <section title="PseudoWire-based dataplane solution" anchor="pwSolution">
+  <section title="PseudoWire-based data plane solution" anchor="pwSolution">
    <t>
     <xref target="fig_pw_mpls"/> illustrates a DetNet PW encapsulation over an MPLS PSN.  The
     PW-based encapsulation of the DetNet flows fits perfectly for the Layer-2 interconnect
     deployment cases (see <xref target="fig_8021_detnet"/>).  Furthermore, end to end DetNet service
-    i.e., native DetNet deployment (see <xref target="fig_native_detnet"/> is also possible if
+    i.e., native DetNet deployment (see <xref target="fig_native_detnet"/>) is also possible if
     DetNet aware end systems are capable of initiating and termination MPLS encapsulated PWs. It is
-    also possible use the the same encapsulation format with a Packet PW over MPLS <xref
+    also possible use the same encapsulation format with a Packet PW over MPLS <xref
         target="RFC6658"/>. 
    </t>
    <t> 
@@ -488,7 +520,7 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
  </section>
   
   
-  <section title="Native IPv6-based dataplane solution" anchor="v6Solution">
+  <section title="Native IPv6-based data plane solution" anchor="v6Solution">
 
    <t>
     <xref target="fig_native_ip"/> illustrates a DetNet native IPv6 encapsulation.  The native IPv6
@@ -500,12 +532,12 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
    </t>
 
   <t>
-   The native IPv6-based DetNet dataplane encapsulation consists of:
+   The native IPv6-based DetNet data plane encapsulation consists of:
    <list style="symbols">
     <t>IPv6 header as the transport protocol.</t>
     <t>IPv6 header Flow Label that is used to help to identify a DetNet flow (i.e., roughly
         an equivalent to the PW Label). A Flow Label together with the IPv6 source address
-        uniquelly identifies a DetNet flow.</t>
+        uniquely identifies a DetNet flow.</t>
     <t>DetNet Control Word IPv6 Destination Option containing sequencing information
         for packet replication and duplicate elimination function (PREF) purposes.
         The DetNet Destination Option is equivalent to the DetNet Control Word.</t>
@@ -522,7 +554,7 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
   </t>
   <t>
    A DetNet-aware end station (a host) or an intermediate node receiving an IPv6 packet destined
-   to it and containing a DetNet Destination Option does the approproate processing of the
+   to it and containing a DetNet Destination Option does the appropriate processing of the
    packet. This may involve packet duplication and elimination (PREF processing), terminating a tunnel or
    delivering the packet to the upper layers/Applications.
    </t>
@@ -600,7 +632,7 @@ H DetNet Control Word DstOpt Hdr  H
     <t>
         The DetNet flow identification is based on the IPv6 Flow Label and the source address
         combination. The two fields uniquelly identify the end to end native IPv6 encapsulated
-        DetNet flow. Obviously, the identification fails if any intermediante node modifies
+        DetNet flow. Obviously, the identification fails if any intermediate node modifies
         either the source address or the Flow Label.
     </t>
    </section>
@@ -629,7 +661,7 @@ H DetNet Control Word DstOpt Hdr  H
     elimination or replication is out of scope in this specification. However, care should be taken
     that the replication function does not actually loopback packets as "replicas". Looped back
     packets include artificial delay when the node that originally initiated the packet receives it
-    again. Also, looped back packets may make the network condition to look healtier than it
+    again. Also, looped back packets may make the network condition to look healthier than it
     actually is (in some cases link failures are not reflected properly because looped back packets
     make the situation appear better than it actually is). 
    </t>
@@ -644,7 +676,7 @@ H DetNet Control Word DstOpt Hdr  H
      functions. The figure shows both physical attachment circuit (AC) (e.g.,
      Ethernet <xref target="RFC4448"/>) connecting to the edge node, and a packet
      service connecting to the edge node via an embedded router function 
-	 (similarly as described e.g., in <xref target="RFC6658"/>). Whether traffic flow from from a client
+	 (similarly as described e.g., in <xref target="RFC6658"/>). Whether traffic flow from a client
      AC and PSN tunnel receives DetNet specific treatment is up to a local
      configuration and policy. 
     </t>
@@ -771,11 +803,11 @@ Client AC   |    NSP      |           |    Single   | sub-flow Inst.
  <section title="Quality of Service">
   <t>
    In addition to path pinning and packet replication and elimination, described in
-   Section <xref target="dn-dt-solution"/> above, DetNet provides zero congestion loss
+   <xref target="dn-dt-solution"/> above, DetNet provides zero congestion loss
    and bounded end-to-end latency for DetNet flows.  As described in
    <xref target="I-D.ietf-detnet-architecture"/>, this requires that resources be reserved
    for classes of DetNet flows, or even for individual flows, before the DetNet QoS
-   can be supplied to those flows.  Resources can be reserved using protoocls or by
+   can be supplied to those flows.  Resources can be reserved using protocols or by
    configuration.  Resource reservation is beyond the scope of this document.
   </t><t>
    Packets that are marked with a DetNet Class of Service value, but that have not been
@@ -807,7 +839,7 @@ Client AC   |    NSP      |           |    Single   | sub-flow Inst.
 
 
   <t>When DetNet is used, there is an underlying assumption that the
-  applicaiton(s) require clock synchronization such as the Precision Time Protocol
+  applicaton(s) require clock synchronization such as the Precision Time Protocol
   (PTP) [IEEE1588]. The relay nodes may or may not utilize clock synchronization
   in order to provide congestion-free QoS.  In either case, there are a
   few possible approaches of
@@ -884,7 +916,7 @@ Client AC   |    NSP      |           |    Single   | sub-flow Inst.
      </t>
  </section>
  
- <section title="Layer 2 addressing and QoS onsiderations">
+ <section title="Layer 2 addressing and QoS Considerations">
     <t>
         The Time-Sensitive Networking (TSN) Task Group of the IEEE 802.1 Working Group have
         defined (and are defining) a number of amendments to <xref target="IEEE8021Q">IEEE 802.1Q</xref>
@@ -931,21 +963,21 @@ Client AC   |    NSP      |           |    Single   | sub-flow Inst.
   <t>
    The IPv6 Flow Label distribution and the label number space are out of scope of this document.
    However, it should be noted that the combination of the IPv6 source address and the IPv6 Flow
-   Label is assumed to be unique within the DetNet enable network. Therefore, as long as each node
-   is able to assign unique Flow Labels for the source address(es) it is using the DetNet enabled
-   network wide flow identification uniqueness is quaranteed. 
+   Label is assumed to be unique within the DetNet-enabled network. Therefore, as long as each node
+   is able to assign unique Flow Labels for the source address(es) it is using the DetNet-enabled
+   network wide flow identification uniqueness is guaranteed. 
   </t>
  </section>
  <section title="Explicit paths">
      <t>
          The control plane protocol solution required for the explicit forwarding path programming
-         it outside the scope of this document.
+         is outside the scope of this document.
      </t>
  </section>
  <section title="Packet replication and elimination">
      <t>
          The control plane protocol solution required for managing the PREF processing
-         it outside the scope of this document.
+         is outside the scope of this document.
      </t>
  </section>
 </section>
