@@ -248,8 +248,8 @@
      and elimination processing of DetNet flow packets in edge or relay
      nodes. The replication function is essentially the existing 1+1 protection
      mechanism. The elimination function reuses and extends the existing duplicate 
-	 detection mechanism to operate over multiple (separate) sub-flows of a 
-	 compound DetNet flow.</t>
+	 detection mechanism to operate over multiple (separate) DetNet member flows of a 
+	 DetNet compound flow.</t>
    </list>
   </t>
   </section>
@@ -394,7 +394,7 @@ System  |    +--------+       +--------+       +--------+   | System
   <list style="symbols">
    <t>Congestion protection: usage of allocated resources (queuing, policing, shaping).</t>
    <t>Explicit routes: select/apply the flow specific path.</t>
-   <t>Service protection: recognize compound / member flows for replication an elimination.</t>
+   <t>Service protection: recognize DetNet compound and member flows for replication an elimination.</t>
   </list>
  </t>
  <t>OAM function related scenarios:
@@ -439,8 +439,8 @@ System  |    +--------+       +--------+       +--------+   | System
   </t>
   <t>
    The DetNet data plane encapsulation may consists further elements used 
-   for overlay tunneling, to distinguish between sub-flows of the same 
-   compound DetNet flow or to support OAM functions. 
+   for overlay tunneling, to distinguish between DetNet member flows of the same 
+   DetNet compound flow or to support OAM functions. 
   </t>
  </section>
 
@@ -471,8 +471,8 @@ System  |    +--------+       +--------+       +--------+   | System
      <t>DetNet topology overlay label (L-label) as an optional label used  between
       (DA-)T-PE or (DA-)S-PE nodes. The main uses of L-labels are to tunnel PWs
       through a PE node (i.e., effectively making a PE node to behave like
-      a P node), and distinguish between sub-flows of the same compound
-      DetNet flow when they appear on the same link for some reason.</t>
+      a P node), and distinguish between DetNet member flows of the same
+      DetNet compound flow when they appear on the same link for some reason.</t>
      <t>MPLS tunnel label(s) (T-label) as a hop-by-hop tunnel label between LSRs.</t>
     </list>
   </t>
@@ -653,7 +653,7 @@ H DetNet Control Word DstOpt Hdr  H
    </t>
    <t>
     The complex part of the DetNet PREF processing is tracking the history of received packets for
-    multiple sub-flows. These ingress sub-flows (to a node) MUST have the same local-ID if they belong to
+    multiple DetNet member flows. These ingress DetNet member flows (to a node) MUST have the same local-ID if they belong to
     the same DetNet-(compound)-flow and share the same sequence number counter and the history information.
    </t>
    <t>
@@ -687,22 +687,22 @@ H DetNet Control Word DstOpt Hdr  H
             |           DetNet Edge Device          |
             +---------------------------------------+   Egress/
             |             | Forwarder |             |   Ingress
-            |             |           |    Single   | sub-flow Inst.
+            |             |           |    Single   | member Inst.
 Client PSN  |   "Packet   o <-X-----> o   Service   o<---------->
 tunnels     |    NSP"     |   | Repl. |   Instance  |
 <---------->o             |   | Elim. +-------------+ Duplicate
             |             |   :       |             |   Egress
-            |             |   .       |    Single   | sub-flow Inst.
+            |             |   .       |    Single   | member Inst.
             |             |       +-> o   Service   o<---------->
             |             |       |   |   Instance  |
             +-------------+       |   +-------------+   Egress/
             |             |       |   |             |   Ingress
-Client AC   |    NSP      | Repl. |   |    Single   | sub-flow Inst.
+Client AC   |    NSP      | Repl. |   |    Single   | member Inst.
 <---------->o             o <-----X-> o   Service   o<---------->
             |             | Elim.     |   Instance  |
             +-------------+           +-------------+   Egress/
             |             |           |             |   Ingress
-Client AC   |    NSP      |           |    Single   | sub-flow Inst.
+Client AC   |    NSP      |           |    Single   | member Inst.
 <---------->o             o <-------> o   Service   o<---------->
             |             |           |   Instance  |
             +---------------------------------------+
@@ -719,12 +719,12 @@ Client AC   |    NSP      |           |    Single   | sub-flow Inst.
      (see <xref target="sec_s_pe"/>).
     </t>
     <t>
-     The DetNet-aware extended forwarder selects the egress sub-flow based on the DetNet forwarding rules.
+     The DetNet-aware extended forwarder selects the egress DetNet member flow based on the DetNet forwarding rules.
 	 In both "normal AC" and "Packet AC"
      cases there may be no DetNet encapsulation header available yet as it is the case with relay nodes
      (see <xref target="sec_s_pe"/>).  It is the responsibility of the extended forwarder within the
      edge node to push the DetNet specific encapsulation (if not already present) to the packet before
-     forwarding it to the appropriate egress sub-flow instance(s). The extended forwarder MAY copy the
+     forwarding it to the appropriate egress DetNet member flow instance(s). The extended forwarder MAY copy the
      sequencing information from the native DetNet packet into the DetNet sequence number field and vice versa. If there is no
      existing sequencing information available in the native packet or the forwarder chose not to
      copy it from the native packet, then the extended forwarder MUST maintain a sequence number
@@ -743,21 +743,21 @@ Client AC   |    NSP      |           |    Single   | sub-flow Inst.
     <t>
      A DetNet Relay node participates to the packet replication and duplication
      elimination. This processing is done within an extended forwarder function.
-     Whether an ingress sub-flow receives DetNet specific processing depends on how
-     the forwarding is programmed.  For some sub-flows the relay node can act as a normal relay node
+     Whether an ingress DetNet member flow receives DetNet specific processing depends on how
+     the forwarding is programmed.  For some DetNet member flows the relay node can act as a normal relay node
      and for some apply the DetNet specific processing (i.e., PREF). It is also possible to
      treat the relay node as a transit node using tunneling (e.g., via L-labels in case of MPLS PSN). Again, this is
      entirely up to how the forwarding has been programmed.
     </t>
     <t>
-     The DetNet-aware forwarder selects the egress sub-flow segment based on the flow identification.  
-	 The mapping of ingress sub-flow segment to egress sub-flow segment may be
+     The DetNet-aware forwarder selects the egress DetNet member flow segment based on the flow identification.  
+	 The mapping of ingress DetNet member flow segment to egress DetNet member flow segment may be
      statically or dynamically configured. Additionally the DetNet-aware
      forwarder does duplicate frame elimination based on the flow identification and
      the sequence number combination. The packet replication is
      also done within the DetNet-aware forwarder. During elimination and the
-     replication process the sequence number of the sub-flow MUST
-     be preserved and copied to the egress sub-flow.
+     replication process the sequence number of the DetNet member flow MUST
+     be preserved and copied to the egress DetNet member flow.
     </t>
 
     <figure title="DetNet Relay Node processing" anchor="fig_detnet_relay">
@@ -765,23 +765,23 @@ Client AC   |    NSP      |           |    Single   | sub-flow Inst.
             +---------------------------------------+
             |          DetNet Relay Device          |
   Ingress   +---------------------------------------+
-  sub-flow  |             | Forwarder |             |   Egress
-  instance  |   Single    |           |   Single    | sub-flow Inst.
+  member    |             | Forwarder |             |   Egress
+  instance  |   Single    |           |   Single    | member Inst.
 ----------->o  Service    o --X-----> o  Service    o----------->
             |  Instance   |   | Elim. |  Instance   |
   Ingress   +-------------+   |       +-------------+ Duplicate
-  sub-flow  |             |   |       |             |   Egress
-  instance  |   Single    |   |       |   Single    | sub-flow Inst.
+  member    |             |   |       |             |   Egress
+  instance  |   Single    |   |       |   Single    | member Inst.
 ----------->o  Service    o --+   +-> o  Service    o----------->
             |  Instance   |       |   |  Instance   |
   Ingress   +-------------+       |   +-------------+
-  sub-flow  |             |       |   |             |   Egress
-  instance  |   Single    | Repl. |   |   Single    | sub-flow Inst.
+  member    |             |       |   |             |   Egress
+  instance  |   Single    | Repl. |   |   Single    | member Inst.
 ----------->o  Service    o ------X-> o  Service    o----------->
             |  Instance   |           |  Instance   |
   Ingress   +-------------+           +-------------+
-  sub-flow  |             |           |             |   Egress
-  instance  |   Single    |           |   Single    | sub-flow Inst.
+  member    |             |           |             |   Egress
+  instance  |   Single    |           |   Single    | member Inst.
 ----------->o  Service    o --------> o  Service    o----------->
             |  Instance   |           |  Instance   |
             +---------------------------------------+
