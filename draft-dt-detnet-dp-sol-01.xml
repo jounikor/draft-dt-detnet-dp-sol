@@ -69,19 +69,14 @@
          ipr="trust200902"
          submissionType="IETF">
   <front>
-    <title abbrev="DetNet data plane solution">
-     DetNet Data Plane solution</title>
+    <!-- LB: doesn't "Encapsulation" better fit the scope of the current
+         document than "Solution"? -->
+    <title abbrev="DetNet Data Plane Solution">
+     DetNet Data Plane Solution</title>
 
   <author role="editor" fullname="Jouni Korhonen" initials="J." surname="Korhonen">
    <organization abbrev="Broadcom">Broadcom</organization>
    <address>
-    <postal>
-     <street>3151 Zanker Road</street>
-     <city>San Jose</city>
-     <code>95134</code>
-     <region>CA</region>
-     <country>USA</country>
-    </postal>
     <email>jouni.nospam@gmail.com</email>
    </address>
   </author>
@@ -197,8 +192,17 @@
  <middle>
  <section title="Introduction" anchor="sec_intro">
   <t>
-   This document specifies Deterministic Networking (DetNet) data plane
-   solutions. Two solutions are given. 
+    Deterministic Networking (DetNet) is a service that can be offered by
+    a network to DetNet flows.  DetNet provides these flows extremely low
+    packet loss rates and assured maximum end-to-end delivery latency.
+    General background and concepts of DetNet can be found in <xref
+    target="I-D.ietf-detnet-architecture"/>.
+  </t>
+  <t>
+    This document specifies the DetNet data plane.
+    It defines how DetNet traffic is encapsulated at the network layer,
+    and how DetNet aware nodes can identity DetNet flows.
+    Two data plane definitions are given. 
      <list style="symbols">
 		<t>PW-based: One solution is based on PseudoWires (PW) <xref target="RFC3985"/>
 		and makes use of multi-segment pseudowires (MS-PW) <xref target="RFC6073"/> to map
@@ -213,12 +217,23 @@
   </list>
   </t>
   <t>
+    It is worth noting that while PWs are designed to work over IP
+    PSNs this document describes a native-IP solution that operates
+    without PWs. The primary reason for this is the benefit gained by
+    enabling the use of a normal application stack, where transport
+    protocols such as TCP or UDP are directly encapsulated in IP.
+  </t>
+  <t>
    This document specifies the encapsulation for DetNet flows, including a 
    DetNet Control Word (CW). Furthermore, it describes how DetNet flows
    are identified, how DetNet Relay 
    and Edge nodes work, and how the Packet Replication and Elimination function
    (PREF) is implemented with these two data plane solutions. This document does not define the
-   associated control plane functions, or Operations, Administration, and Maintenance (OAM).
+   associated control plane functions, or Operations, Administration,
+   and Maintenance (OAM).  It also does not specify traffic
+   handling capabilities required to deliver congestion protection and
+   latency control to DetNet flows as this is defined to 
+   be provided by the underlying MPLS or IP network. 
   </t>
  </section>
 
@@ -359,17 +374,18 @@ System |    +--------+          +--------+       +--------+   |  System
 </figure>
 
  <t>
-  <xref target="fig_native_detnet"/> illustrates how end to end DetNet service
+  <xref target="fig_pw_detnet"/> illustrates how end to end PW-based DetNet service
   can be provided. In this case, the end systems are able to send and receive
-  DetNet flows.  For example, put application data in PseudoWire (PW) and
-  encapsulated in MPLS.  Like earlier the 'X' in the end systems, edge and relay
+  DetNet flows.  For example, an end system sends data encapsulated in
+  PseudoWire (PW) and in MPLS.  Like earlier the 'X' in the end systems,
+  edge and relay 
   nodes represents potential DetNet flow packet replication and elimination
   points. Here the relay nodes may change the underlying transport, for example
   tunneling IP over MPLS, or simply interconnect network segments.
  </t>
 
-<figure align="center" anchor="fig_native_detnet"
- title="Native DetNet">
+<figure align="center" anchor="fig_pw_detnet"
+ title="PW-Based Native DetNet">
 <artwork><![CDATA[
       DetNet                                             DetNet
       Service          Transit          Transit          Service
@@ -388,6 +404,35 @@ System  |    +--------+       +--------+       +--------+   | System
 ]]></artwork>
 </figure>
 
+
+ <t>
+  <xref target="fig_ip_detnet"/> illustrates how end to end IP-based DetNet service
+  can be provided. In this case, the end systems are able to send and receive
+  DetNet flows.  [Editor's note: TBD]  
+ </t>
+
+<figure align="center" anchor="fig_ip_detnet"
+ title="IP-Based Native DetNet">
+<artwork><![CDATA[
+NOTE: This figures is TBD
+
+      DetNet                                             DetNet
+      Service          Transit          Transit          Service
+DetNet  |             |<-Tnl->|        |<-Tnl->|            | DetNet
+End     |             V   1   V        V   2   V            | End
+System  |    +--------+       +--------+       +--------+   | System
++---+   |    |   R1   |=======|   R2   |=======|   R3   |   |  +---+
+|  X...DFa...|        |       |        |       |        |     .|.X |
+| H1|========|        |       |        |       |        |======| H2|
+|   |   |    |        |       |        |       |        |   |  |   |
++---+        |        |=======|        |=======|        |      +---+
+    ^        +--------+       +--------+       +--------+      ^
+    |        Relay Node       Relay Node       Relay Node      |
+    |                                                          |
+    |<--------------- End to End DetNet Service -------------->|
+]]></artwork>
+</figure>
+ 
 <section title="DetNet data plane solution requirements">
  <t>
  Two major groups of scenarios can be distinguished which require flow
@@ -397,7 +442,7 @@ System  |    +--------+       +--------+       +--------+   | System
  <t><list style="numbers">
   <t>DetNet function related scenarios:
   <list style="symbols">
-   <t>Congestion protection: usage of allocated resources (queuing, policing, shaping).</t>
+   <t>Congestion protection and latency control: usage of allocated resources (queuing, policing, shaping).</t>
    <t>Explicit routes: select/apply the flow specific path.</t>
    <t>Service protection: recognize DetNet compound and member flows for replication an elimination.</t>
   </list>
@@ -416,8 +461,10 @@ System  |    +--------+       +--------+       +--------+   | System
   order to accomplish its role during transport. Recognizing the DetNet flow is more
   relaxed for edge and relay nodes, as they are fully aware of both the DetNet
   service and transport layers. The DetNet role of intermediate transport nodes is
-  limited to ensure congestion protection from the above listed DetNet
-  functions. However, transit nodes may have limited capabilities to recognize DetNet 
+  limited to ensuring congestion protection and latency control for the above listed DetNet
+  functions.
+  <!-- LB: unclear what the following means.  Perhaps restate or drop. -->
+  However, transit nodes may have limited capabilities to recognize DetNet 
   specific fields (e.g., in case of MPLS the PW label). Therefore, identifying each
   individual DetNet flow on a transit node may not be achieved in some network
   scenarios.
@@ -460,10 +507,12 @@ System  |    +--------+       +--------+       +--------+   | System
     <xref target="fig_pw_mpls"/> illustrates a DetNet PW encapsulation over an MPLS PSN.  The
     PW-based encapsulation of the DetNet flows fits perfectly for the Layer-2 interconnect
     deployment cases (see <xref target="fig_8021_detnet"/>).  Furthermore, end to end DetNet service
-    i.e., native DetNet deployment (see <xref target="fig_native_detnet"/>) is also possible if
+    i.e., native DetNet deployment (see <xref target="fig_pw_detnet"/>) is also possible if
     DetNet aware end systems are capable of initiating and termination MPLS encapsulated PWs. It is
     also possible use the same encapsulation format with a Packet PW over MPLS <xref
-        target="RFC6658"/>. 
+        target="RFC6658"/>. Transport of IP encapsulated DetNet flows,
+    see <xref target="v6Solution"/>, over DetNet PWs is also possible.
+    <!-- LB: possibly reference new interworking considerations section -->
    </t>
    <t> 
     The PW-based DetNet data plane encapsulation consists of: 
@@ -531,7 +580,7 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
    <t>
     <xref target="fig_native_ip"/> illustrates a DetNet native IPv6 encapsulation.  The native IPv6
     encapsulation is meant for end to end Detnet service use cases, where the end stations are
-    DetNet aware (see <xref target="fig_native_detnet"/>). Technically it is possible to use the
+    DetNet aware (see <xref target="fig_ip_detnet"/>). Technically it is possible to use the
     IPv6 encapsulation to tunnel any traffic over a DetNet enabled network, which would make native
     IPv6 encapsulation also a valid data plane choice for an interconnect use case (see <xref
     target="fig_8021_detnet"/>).
@@ -564,7 +613,7 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
    packet. This may involve packet duplication and elimination (PREF processing), terminating a tunnel or
    delivering the packet to the upper layers/Applications.
    </t>
-
+   
    <figure title="Encapsulation of a native IPv6 DetNet flow" anchor="fig_native_ip">
     <artwork align="center"><![CDATA[
 +---------------------------------+
@@ -641,6 +690,11 @@ H DetNet Control Word DstOpt Hdr  H
         DetNet flow. Obviously, the identification fails if any intermediate node modifies
         either the source address or the Flow Label.
     </t>
+    <!-- LB: doesn't the above (sec 5.2.2.) imply the PREF with IPv6 is
+         always end-to-end, or are you PREF domains with replication of
+         incoming packets and scoped domain elimination? I think this
+         should be explicitly discussed either way --> 
+
    </section>
   </section>
  </section>
