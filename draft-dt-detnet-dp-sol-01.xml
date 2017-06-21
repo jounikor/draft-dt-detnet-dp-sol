@@ -828,6 +828,64 @@ Client AC   |    NSP      |           |    Single   | member Inst.
   </t>
  </section>
 
+ 
+ <section title="Bidirectional traffic">
+  <t>
+   Some DetNet applications generate bidirectional traffic and may require
+   symmetric flows. There are already mechanisms that can be used to create
+   bidirectional tunnels at the transport network level, such as MPLS-TP. The
+   data plane solution SHOULD allow establishing bidirectional symmetric flows.
+   DetNet provides no special bidirectional features in the data plane other
+   than need for the two directions take the same paths.
+   Control plane mechanisms would need to also support this, though this is out
+   of scope of this document.  [Summary of existing mechanisms to create
+   bidirectional tunnels that can be used.]
+  </t>
+ </section>
+
+ <section title="Packet replication and elimination function">
+     <t>
+         [editor's note: collect details of the PREF here. Potential topics to discuss relate to
+         constraints to input packets and what the expected output is. Some examples include: the
+         input packets must have the same PW Label (in a case of PWs) to enable the PREF, no
+         loopback for replicated packets, input and output PW labels do not need to be the same.
+         Also, add text regarding native IPv6 encapsulation. There the PW label is replaced with
+         source address + flow label combination, and the Control Word is replaced with the DetNet
+         Destination Option.. etc]
+     </t>
+ </section>
+ 
+ <section title="Layer 2 addressing and QoS Considerations">
+    <t>
+        The Time-Sensitive Networking (TSN) Task Group of the IEEE 802.1 Working Group have
+        defined (and are defining) a number of amendments to <xref target="IEEE8021Q">IEEE 802.1Q</xref>
+        that provide zero congestion loss and bounded latency in bridged networks.
+        <xref target="IEEE8021CB">IEEE 802.1CB</xref> defines packet replication and elimination
+        functions that should prove both compatible with and useful to, DetNet networks.
+    </t><t>
+        As is the case for DetNet, a Layer 2 network node such as a bridge may need to
+        identify the specific DetNet flow to which a packet belongs in order to provide the
+        TSN/DetNet QoS for that packet.  It also will likely need a CoS marking, such as the
+        priority field of an IEEE Std 802.1Q VLAN tag, to give the packet proper service.
+    </t><t>
+        Although the flow identification methods described in <xref target="IEEE8021CB">IEEE 802.1CB</xref>
+        are flexible, and in fact, include IP 5-tuple identification methods, the baseline
+        TSN standards assume that every Ethernet frame belonging to a TSN stream
+        (i.e. DetNet flow) carries a multicast destination MAC address that is unique to that
+        flow within the bridged network over which it is carried.  Furthermore,
+        <xref target="IEEE8021CB">IEEE 802.1CB</xref> describes three methods by which a packet
+        sequence number can be encoded in an Ethernet frame.
+    </t><t>
+        Ensuring that the proper Ethernet VLAN tag priority and destination MAC address
+        are used on a DetNet/TSN packet may require further clarification of the customary
+        L2/L3 transformations carried out by routers and edge label switches.  Edge nodes
+        may also have to move sequence number fields among Layer 2, PW, and IPv6 encapsulations.
+    </t>
+ </section>
+
+</section>
+
+<!-- ===================================================================== -->
  <section title="Time synchronization">
   <t>
    [Editor's note: describe a bit of issues and deployment considerations
@@ -889,63 +947,6 @@ Client AC   |    NSP      |           |    Single   | member Inst.
   bivalent.</t>
 
  </section>
- 
- <section title="Bidirectional traffic">
-  <t>
-   Some DetNet applications generate bidirectional traffic and may require
-   symmetric flows. There are already mechanisms that can be used to create
-   bidirectional tunnels at the transport network level, such as MPLS-TP. The
-   data plane solution SHOULD allow establishing bidirectional symmetric flows.
-   DetNet provides no special bidirectional features in the data plane other
-   than need for the two directions take the same paths.
-   Control plane mechanisms would need to also support this, though this is out
-   of scope of this document.  [Summary of existing mechanisms to create
-   bidirectional tunnels that can be used.]
-  </t>
- </section>
-
- <section title="Packet replication and elimination function">
-     <t>
-         [editor's note: collect details of the PREF here. Potential topics to discuss relate to
-         constraints to input packets and what the expected output is. Some examples include: the
-         input packets must have the same PW Label (in a case of PWs) to enable the PREF, no
-         loopback for replicated packets, input and output PW labels do not need to be the same.
-         Also, add text regarding native IPv6 encapsulation. There the PW label is replaced with
-         source address + flow label combination, and the Control Word is replaced with the DetNet
-         Destination Option.. etc]
-     </t>
- </section>
- 
- <section title="Layer 2 addressing and QoS Considerations">
-    <t>
-        The Time-Sensitive Networking (TSN) Task Group of the IEEE 802.1 Working Group have
-        defined (and are defining) a number of amendments to <xref target="IEEE8021Q">IEEE 802.1Q</xref>
-        that provide zero congestion loss and bounded latency in bridged networks.
-        <xref target="IEEE8021CB">IEEE 802.1CB</xref> defines packet replication and elimination
-        functions that should prove both compatible with and useful to, DetNet networks.
-    </t><t>
-        As is the case for DetNet, a Layer 2 network node such as a bridge may need to
-        identify the specific DetNet flow to which a packet belongs in order to provide the
-        TSN/DetNet QoS for that packet.  It also will likely need a CoS marking, such as the
-        priority field of an IEEE Std 802.1Q VLAN tag, to give the packet proper service.
-    </t><t>
-        Although the flow identification methods described in <xref target="IEEE8021CB">IEEE 802.1CB</xref>
-        are flexible, and in fact, include IP 5-tuple identification methods, the baseline
-        TSN standards assume that every Ethernet frame belonging to a TSN stream
-        (i.e. DetNet flow) carries a multicast destination MAC address that is unique to that
-        flow within the bridged network over which it is carried.  Furthermore,
-        <xref target="IEEE8021CB">IEEE 802.1CB</xref> describes three methods by which a packet
-        sequence number can be encoded in an Ethernet frame.
-    </t><t>
-        Ensuring that the proper Ethernet VLAN tag priority and destination MAC address
-        are used on a DetNet/TSN packet may require further clarification of the customary
-        L2/L3 transformations carried out by routers and edge label switches.  Edge nodes
-        may also have to move sequence number fields among Layer 2, PW, and IPv6 encapsulations.
-    </t>
- </section>
-
-</section>
-
 <!-- ===================================================================== -->
 
 <section title="Control plane considerations">
