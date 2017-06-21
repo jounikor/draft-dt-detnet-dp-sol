@@ -238,7 +238,7 @@
  </section>
 
  <section title="Terminology">
-  <section title="Terms Used in This Document">
+  <section title="Terms used in this document">
   <t>
    This document uses the terminology established in the DetNet architecture
    <xref target="I-D.ietf-detnet-architecture"/> and the DetNet Data Plane
@@ -313,7 +313,7 @@
   </t>
  </section>
 
- <section title="DetNet data plane Overview" anchor="sec_dt_dp">
+ <section title="DetNet data plane overview" anchor="sec_dt_dp">
   <t>
    [Ed. to be written.. describe the scope here fot this document: this
    document only addresses the inter-connect case i.e., 802.1 over routed
@@ -1166,7 +1166,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
 </section>
 
 
-<section anchor="iana" title="IANA Considerations">
+<section anchor="iana" title="IANA considerations">
   <t>TBD.
   </t>
 </section>
@@ -1196,7 +1196,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
 </middle>
 
 <back>
-  <references title="Normative References">
+  <references title="Normative references">
    &rfc2119;
    <?rfc include="reference.RFC.2211"?>
    <?rfc include="reference.RFC.2212"?>
@@ -1215,7 +1215,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
    &rfc6658;
    &rfc7510;
   </references>
-  <references title="Informative References">
+  <references title="Informative references">
    <?rfc include="reference.RFC.2205"?>
    &rfc4090;   
    &rfc4023;
