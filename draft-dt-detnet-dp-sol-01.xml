@@ -460,14 +460,18 @@ System  |    +--------+       +--------+       +--------+   | System
   Each node (edge, relay and transit) use a local-ID of the DetNet-(compound)-flow in
   order to accomplish its role during transport. Recognizing the DetNet flow is more
   relaxed for edge and relay nodes, as they are fully aware of both the DetNet
-  service and transport layers. The DetNet role of intermediate transport nodes is
+  service and transport layers. The primary DetNet role of intermediate transport nodes is
   limited to ensuring congestion protection and latency control for the above listed DetNet
   functions.
-  <!-- LB: unclear what the following means.  Perhaps restate or drop. -->
-  However, transit nodes may have limited capabilities to recognize DetNet 
-  specific fields (e.g., in case of MPLS the PW label). Therefore, identifying each
-  individual DetNet flow on a transit node may not be achieved in some network
-  scenarios.
+ </t>
+ <t>
+  The DetNet data plane allows for the aggregation of DetNet flows,
+  e.g., via MPLS hierarchical LSPs, to improved scaling.  When DetNet
+  flows are aggregated, transit nodes may have limited ability to
+  provide service on per-flow DetNet identifiers. Therefore, identifying
+  each individual DetNet flow on a transit node may not be achieved in
+  some network scenarios, but DetNet service can still be assured in
+  these scenarios through resource allocation and control.
  </t>
 
  <t>
@@ -906,7 +910,10 @@ Client AC   |    NSP      |           |    Single   | member Inst.
      and sometimes path control, traffic protection, shaping, policing and
      remarking. Example protocols that support QoS control include <xref
      target="RFC2205">Resource ReSerVation Protocol (RSVP)</xref> (RSVP) and
-     RSVP-TE <xref target="RFC3209"/> and <xref target="RFC3473"/>.
+     RSVP-TE <xref target="RFC3209"/> and <xref target="RFC3473"/>.  The
+     existing MPLS mechanisms defined to support CoS <xref
+     target="RFC3270"/> can also be used to reserve resources for
+     specific traffic classes. 
     </t>
     <t>
       In addition to path pinning and packet replication and
@@ -936,7 +943,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
      of flows requiring DetNet QoS.
    </t>
    <t>
-     CoS for DetNet flows carried in IPv6 MUST be provided locally by
+     QoS for DetNet flows carried in IPv6 MUST be provided locally by
      the DetNet aware hosts and routers supporting DetNet flows.  Such
      support will leverage the underlying network layer such as
      802.1TSN.  The traffic control mechanisms used to deliver QoS for
@@ -965,7 +972,54 @@ Client AC   |    NSP      |           |    Single   | member Inst.
   </t>
  </section>
 
- 
+ <section title="Cross-DetNet flow resource aggregation" anchor="Aggregation">
+   <t>
+     The ability to aggregate individual flows, and their associated
+     resource control, into a larger aggregate is an important technique
+     for improving scaling of control in the data, management and
+     control planes.  This document identifies the traffic identification
+     related aspects of aggregation of DetNet flows.  The resource
+     control and management aspects of aggregation (including the
+     queuing/shaping/policing implications) will be covered in other
+     documents.  The data plane implications of aggregation are
+     independent for PW/MPLS and IP encapsulated DetNet flows.
+   </t>
+   <t>
+     DetNet flows transported via MPLS can leverage MPLS-TE's existing
+     support for hierarchical LSPs (H-LSPs), see <xref
+     target="RFC4206"/>.  H-LSPs are typically used to aggregate control
+     and resources, they may also be used to provide OAM or protection
+     for the aggregated LSPs.  Arbitrary levels of aggregation naturally
+     falls out of the definition for hierarchy and the MPLS label stack
+     <xref target="RFC3032"/>.  DetNet nodes which support aggregation
+     (LSP hierarchy) map one or more LSPs (labels) into and from an
+     H-LSP.  Both carried LSPs and H-LSPs may or may not use the TC
+     field, i.e., L-LSPS or E-LSPS.  Such nodes will need to ensure that
+     traffic from aggregated LSPs are placed (shaped/policed/enqueued)
+     onto the H-LSPs in a fashion that ensures the required DetNet
+     service is preserved.
+   </t>
+   <t>
+     DetNet flows transported via IP have more limited aggregation
+     options, due to the available traffic flow identification fields of
+     the IP solution.  One available approach is to manage the resources
+     associated with a DSCP identified traffic class and to map (remark)
+     individually controlled DetNet flows onto that traffic class.  This
+     approach also requires that nodes support aggregation ensure that
+     traffic from aggregated LSPs are placed (shaped/policed/enqueued)
+     in a fashion that ensures the required DetNet service is preserved.
+   </t>
+   <t>
+     In both the MPLS and IP cases, additional details of the traffic control
+     capabilities needed at a DetNet-aware node may be covered in the
+     new service descriptions mentioned above or in separate future
+     documents.  Management and control plane mechanisms will also need
+     to ensure that the service required on the aggregate flow (H-LSP or
+     DSCP) are provided, which may include the  discarding or remarking
+     mentioned in the previous sections.
+   </t>
+ </section>
+
  <section title="Bidirectional traffic">
   <t>
     Some DetNet applications generate bidirectional traffic.  Using MPLS
@@ -1007,7 +1061,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
          Destination Option.. etc]
      </t>
  </section>
- 
+
  <section title="Layer 2 addressing and QoS Considerations">
     <t>
         The Time-Sensitive Networking (TSN) Task Group of the IEEE 802.1 Working Group have
@@ -1116,7 +1170,9 @@ Client AC   |    NSP      |           |    Single   | member Inst.
   <t>
    [Editor's note: This section is a work in progress.
    discuss here what kind of enhancements are needed for DetNet
-   and specifically for PREF and DetNet zero congest loss and latency control.]
+   and specifically for PREF and DetNet zero congest loss and latency
+   control. Need to cover both traffic control (queuing) and connection
+   control (control plane).]
  </t>
  
  <section title="PW Label and IPv6 Flow Label assignment and distribution">
@@ -1145,6 +1201,11 @@ Client AC   |    NSP      |           |    Single   | member Inst.
      </t>
  </section>
  <section title="Congestion protection and latency control">
+     <t>
+         [TBD]
+     </t>
+ </section>
+ <section title="Flow aggregation control">
      <t>
          [TBD]
      </t>
@@ -1202,11 +1263,13 @@ Client AC   |    NSP      |           |    Single   | member Inst.
    <?rfc include="reference.RFC.2212"?>
    <?rfc include="reference.RFC.2474"?>
    <?rfc include="reference.RFC.3168"?>
+   <?rfc include="reference.RFC.3032"?>
    <?rfc include="reference.RFC.3209"?>
    <?rfc include="reference.RFC.3270"?>
    <?rfc include="reference.RFC.3443"?>
    <?rfc include="reference.RFC.3473"?>
    &rfc3985;
+   <?rfc include="reference.RFC.4206"?>
    &rfc4448;
    <?rfc include="reference.RFC.5129"?>
    <?rfc include="reference.RFC.5462"?>

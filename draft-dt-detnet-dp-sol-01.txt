@@ -5,7 +5,7 @@
 DetNet                                                  J. Korhonen, Ed.
 Internet-Draft                                                  Broadcom
 Intended status: Informational                              L. Andersson
-Expires: December 22, 2017                                      Y. Jiang
+Expires: December 24, 2017                                      Y. Jiang
                                                                  N. Finn
                                                                   Huawei
                                                                 B. Varga
@@ -15,7 +15,7 @@ Expires: December 22, 2017                                      Y. Jiang
                                                                     UC3M
                                                               T. Mizrahi
                                                                  Marvell
-                                                           June 20, 2017
+                                                           June 22, 2017
 
 
                        DetNet Data Plane Solution
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 22, 2017.
+   This Internet-Draft will expire on December 24, 2017.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Korhonen, et al.        Expires December 22, 2017               [Page 1]
+Korhonen, et al.        Expires December 24, 2017               [Page 1]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -92,32 +92,34 @@ Table of Contents
    7.  Other DetNet data plane considerations  . . . . . . . . . . .  16
      7.1.  Class of Service  . . . . . . . . . . . . . . . . . . . .  16
      7.2.  Quality of Service  . . . . . . . . . . . . . . . . . . .  17
-     7.3.  Bidirectional traffic . . . . . . . . . . . . . . . . . .  18
-     7.4.  Packet replication and elimination function . . . . . . .  19
-     7.5.  Layer 2 addressing and QoS Considerations . . . . . . . .  19
-   8.  Time synchronization  . . . . . . . . . . . . . . . . . . . .  19
-   9.  Management and control considerations . . . . . . . . . . . .  21
-     9.1.  PW Label and IPv6 Flow Label assignment and distribution   21
-     9.2.  Packet replication and elimination  . . . . . . . . . . .  21
-     9.3.  Explicit paths  . . . . . . . . . . . . . . . . . . . . .  21
-     9.4.  Congestion protection and latency control . . . . . . . .  21
-   10. Security considerations . . . . . . . . . . . . . . . . . . .  22
-   11. IANA considerations . . . . . . . . . . . . . . . . . . . . .  22
-   12. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  22
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  22
-     13.1.  Normative references . . . . . . . . . . . . . . . . . .  23
+     7.3.  Cross-DetNet flow resource aggregation  . . . . . . . . .  18
+     7.4.  Bidirectional traffic . . . . . . . . . . . . . . . . . .  19
+     7.5.  Packet replication and elimination function . . . . . . .  20
+     7.6.  Layer 2 addressing and QoS Considerations . . . . . . . .  20
+   8.  Time synchronization  . . . . . . . . . . . . . . . . . . . .  20
+   9.  Management and control considerations . . . . . . . . . . . .  22
+     9.1.  PW Label and IPv6 Flow Label assignment and distribution   22
+     9.2.  Packet replication and elimination  . . . . . . . . . . .  22
+     9.3.  Explicit paths  . . . . . . . . . . . . . . . . . . . . .  22
+     9.4.  Congestion protection and latency control . . . . . . . .  22
+     9.5.  Flow aggregation control  . . . . . . . . . . . . . . . .  23
+   10. Security considerations . . . . . . . . . . . . . . . . . . .  23
+   11. IANA considerations . . . . . . . . . . . . . . . . . . . . .  23
+   12. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  23
 
 
 
-Korhonen, et al.        Expires December 22, 2017               [Page 2]
+Korhonen, et al.        Expires December 24, 2017               [Page 2]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
-     13.2.  Informative references . . . . . . . . . . . . . . . . .  24
-   Appendix A.  Example of DetNet data plane operation . . . . . . .  26
-   Appendix B.  Example of pinned paths using IP PSN . . . . . . . .  26
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  26
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  24
+     13.1.  Normative references . . . . . . . . . . . . . . . . . .  24
+     13.2.  Informative references . . . . . . . . . . . . . . . . .  26
+   Appendix A.  Example of DetNet data plane operation . . . . . . .  27
+   Appendix B.  Example of pinned paths using IP PSN . . . . . . . .  27
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  27
 
 1.  Introduction
 
@@ -163,9 +165,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-
-
-Korhonen, et al.        Expires December 22, 2017               [Page 3]
+Korhonen, et al.        Expires December 24, 2017               [Page 3]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -221,7 +221,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017               [Page 4]
+Korhonen, et al.        Expires December 24, 2017               [Page 4]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -277,7 +277,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017               [Page 5]
+Korhonen, et al.        Expires December 24, 2017               [Page 5]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -333,7 +333,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017               [Page 6]
+Korhonen, et al.        Expires December 24, 2017               [Page 6]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -389,7 +389,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017               [Page 7]
+Korhonen, et al.        Expires December 24, 2017               [Page 7]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -445,19 +445,24 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017               [Page 8]
+Korhonen, et al.        Expires December 24, 2017               [Page 8]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
    Recognizing the DetNet flow is more relaxed for edge and relay nodes,
    as they are fully aware of both the DetNet service and transport
-   layers.  The DetNet role of intermediate transport nodes is limited
-   to ensuring congestion protection and latency control for the above
-   listed DetNet functions.  However, transit nodes may have limited
-   capabilities to recognize DetNet specific fields (e.g., in case of
-   MPLS the PW label).  Therefore, identifying each individual DetNet
-   flow on a transit node may not be achieved in some network scenarios.
+   layers.  The primary DetNet role of intermediate transport nodes is
+   limited to ensuring congestion protection and latency control for the
+   above listed DetNet functions.
+
+   The DetNet data plane allows for the aggregation of DetNet flows,
+   e.g., via MPLS hierarchical LSPs, to improved scaling.  When DetNet
+   flows are aggregated, transit nodes may have limited ability to
+   provide service on per-flow DetNet identifiers.  Therefore,
+   identifying each individual DetNet flow on a transit node may not be
+   achieved in some network scenarios, but DetNet service can still be
+   assured in these scenarios through resource allocation and control.
 
    On each node dealing with DetNet flows, a local-ID is assumed to
    determine what local operation a packet goes through.  Therefore,
@@ -494,17 +499,14 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    [RFC6658].  Transport of IP encapsulated DetNet flows, see
    Section 5.2.2, over DetNet PWs is also possible.
 
-   The PW-based DetNet data plane encapsulation consists of:
 
 
-
-
-
-
-Korhonen, et al.        Expires December 22, 2017               [Page 9]
+Korhonen, et al.        Expires December 24, 2017               [Page 9]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
+
+   The PW-based DetNet data plane encapsulation consists of:
 
    o  DetNet control word (d-CW) containing sequencing information for
       packet replication and duplicate elimination purposes.  There is a
@@ -555,9 +557,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-
-
-Korhonen, et al.        Expires December 22, 2017              [Page 10]
+Korhonen, et al.        Expires December 24, 2017              [Page 10]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -613,7 +613,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017              [Page 11]
+Korhonen, et al.        Expires December 24, 2017              [Page 11]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -669,7 +669,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017              [Page 12]
+Korhonen, et al.        Expires December 24, 2017              [Page 12]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -725,7 +725,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017              [Page 13]
+Korhonen, et al.        Expires December 24, 2017              [Page 13]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -781,7 +781,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017              [Page 14]
+Korhonen, et al.        Expires December 24, 2017              [Page 14]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -837,7 +837,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017              [Page 15]
+Korhonen, et al.        Expires December 24, 2017              [Page 15]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -893,7 +893,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017              [Page 16]
+Korhonen, et al.        Expires December 24, 2017              [Page 16]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -924,6 +924,8 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    traffic protection, shaping, policing and remarking.  Example
    protocols that support QoS control include Resource ReSerVation
    Protocol (RSVP) [RFC2205] (RSVP) and RSVP-TE [RFC3209] and [RFC3473].
+   The existing MPLS mechanisms defined to support CoS [RFC3270] can
+   also be used to reserve resources for specific traffic classes.
 
    In addition to path pinning and packet replication and elimination,
    described in Section 5 above, DetNet provides zero congestion loss
@@ -944,17 +946,18 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    Addition service definitions are expected in future documents to
    support the full range of DetNet services.  In all cases, the
    existing label-based marking mechanisms defined for TE-LSPs and even
-   E-LSPs are use to support the identification of flows requiring
-   DetNet QoS.
 
 
 
-Korhonen, et al.        Expires December 22, 2017              [Page 17]
+Korhonen, et al.        Expires December 24, 2017              [Page 17]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
-   CoS for DetNet flows carried in IPv6 MUST be provided locally by the
+   E-LSPs are use to support the identification of flows requiring
+   DetNet QoS.
+
+   QoS for DetNet flows carried in IPv6 MUST be provided locally by the
    DetNet aware hosts and routers supporting DetNet flows.  Such support
    will leverage the underlying network layer such as 802.1TSN.  The
    traffic control mechanisms used to deliver QoS for IP encapsulated
@@ -977,7 +980,57 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
       reserved for DetNet flows, for any packet that does not carry a
       DetNet Class of Service marker.
 
-7.3.  Bidirectional traffic
+7.3.  Cross-DetNet flow resource aggregation
+
+   The ability to aggregate individual flows, and their associated
+   resource control, into a larger aggregate is an important technique
+   for improving scaling of control in the data, management and control
+   planes.  This document identifies the traffic identification related
+   aspects of aggregation of DetNet flows.  The resource control and
+   management aspects of aggregation (including the queuing/shaping/
+   policing implications) will be covered in other documents.  The data
+   plane implications of aggregation are independent for PW/MPLS and IP
+   encapsulated DetNet flows.
+
+   DetNet flows transported via MPLS can leverage MPLS-TE's existing
+   support for hierarchical LSPs (H-LSPs), see [RFC4206].  H-LSPs are
+   typically used to aggregate control and resources, they may also be
+   used to provide OAM or protection for the aggregated LSPs.  Arbitrary
+   levels of aggregation naturally falls out of the definition for
+   hierarchy and the MPLS label stack [RFC3032].  DetNet nodes which
+   support aggregation (LSP hierarchy) map one or more LSPs (labels)
+   into and from an H-LSP.  Both carried LSPs and H-LSPs may or may not
+   use the TC field, i.e., L-LSPS or E-LSPS.  Such nodes will need to
+   ensure that traffic from aggregated LSPs are placed (shaped/policed/
+
+
+
+Korhonen, et al.        Expires December 24, 2017              [Page 18]
+
+Internet-Draft         DetNet Data Plane Solution              June 2017
+
+
+   enqueued) onto the H-LSPs in a fashion that ensures the required
+   DetNet service is preserved.
+
+   DetNet flows transported via IP have more limited aggregation
+   options, due to the available traffic flow identification fields of
+   the IP solution.  One available approach is to manage the resources
+   associated with a DSCP identified traffic class and to map (remark)
+   individually controlled DetNet flows onto that traffic class.  This
+   approach also requires that nodes support aggregation ensure that
+   traffic from aggregated LSPs are placed (shaped/policed/enqueued) in
+   a fashion that ensures the required DetNet service is preserved.
+
+   In both the MPLS and IP cases, additional details of the traffic
+   control capabilities needed at a DetNet-aware node may be covered in
+   the new service descriptions mentioned above or in separate future
+   documents.  Management and control plane mechanisms will also need to
+   ensure that the service required on the aggregate flow (H-LSP or
+   DSCP) are provided, which may include the discarding or remarking
+   mentioned in the previous sections.
+
+7.4.  Bidirectional traffic
 
    Some DetNet applications generate bidirectional traffic.  Using MPLS
    terminology there are associated and co-routed bidirectional flows.
@@ -1005,12 +1058,15 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017              [Page 18]
+
+
+
+Korhonen, et al.        Expires December 24, 2017              [Page 19]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
-7.4.  Packet replication and elimination function
+7.5.  Packet replication and elimination function
 
    [editor's note: collect details of the PREF here.  Potential topics
    to discuss relate to constraints to input packets and what the
@@ -1022,7 +1078,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    flow label combination, and the Control Word is replaced with the
    DetNet Destination Option.. etc]
 
-7.5.  Layer 2 addressing and QoS Considerations
+7.6.  Layer 2 addressing and QoS Considerations
 
    The Time-Sensitive Networking (TSN) Task Group of the IEEE 802.1
    Working Group have defined (and are defining) a number of amendments
@@ -1061,7 +1117,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017              [Page 19]
+Korhonen, et al.        Expires December 24, 2017              [Page 20]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1117,7 +1173,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017              [Page 20]
+Korhonen, et al.        Expires December 24, 2017              [Page 21]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1137,7 +1193,9 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
    [Editor's note: This section is a work in progress.  discuss here
    what kind of enhancements are needed for DetNet and specifically for
-   PREF and DetNet zero congest loss and latency control.]
+   PREF and DetNet zero congest loss and latency control.  Need to cover
+   both traffic control (queuing) and connection control (control
+   plane).]
 
 9.1.  PW Label and IPv6 Flow Label assignment and distribution
 
@@ -1171,12 +1229,14 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-
-
-Korhonen, et al.        Expires December 22, 2017              [Page 21]
+Korhonen, et al.        Expires December 24, 2017              [Page 22]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
+
+9.5.  Flow aggregation control
+
+   [TBD]
 
 10.  Security considerations
 
@@ -1221,18 +1281,16 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
       Pat Thaler
 
-13.  References
 
 
 
 
-
-
-
-Korhonen, et al.        Expires December 22, 2017              [Page 22]
+Korhonen, et al.        Expires December 24, 2017              [Page 23]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
+
+13.  References
 
 13.1.  Normative references
 
@@ -1256,6 +1314,11 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
               DOI 10.17487/RFC2474, December 1998,
               <http://www.rfc-editor.org/info/rfc2474>.
 
+   [RFC3032]  Rosen, E., Tappan, D., Fedorkow, G., Rekhter, Y.,
+              Farinacci, D., Li, T., and A. Conta, "MPLS Label Stack
+              Encoding", RFC 3032, DOI 10.17487/RFC3032, January 2001,
+              <http://www.rfc-editor.org/info/rfc3032>.
+
    [RFC3168]  Ramakrishnan, K., Floyd, S., and D. Black, "The Addition
               of Explicit Congestion Notification (ECN) to IP",
               RFC 3168, DOI 10.17487/RFC3168, September 2001,
@@ -1272,6 +1335,17 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
               Services", RFC 3270, DOI 10.17487/RFC3270, May 2002,
               <http://www.rfc-editor.org/info/rfc3270>.
 
+
+
+
+
+
+
+Korhonen, et al.        Expires December 24, 2017              [Page 24]
+
+Internet-Draft         DetNet Data Plane Solution              June 2017
+
+
    [RFC3443]  Agarwal, P. and B. Akyol, "Time To Live (TTL) Processing
               in Multi-Protocol Label Switching (MPLS) Networks",
               RFC 3443, DOI 10.17487/RFC3443, January 2003,
@@ -1283,17 +1357,16 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
               DOI 10.17487/RFC3473, January 2003,
               <http://www.rfc-editor.org/info/rfc3473>.
 
-
-
-Korhonen, et al.        Expires December 22, 2017              [Page 23]
-
-Internet-Draft         DetNet Data Plane Solution              June 2017
-
-
    [RFC3985]  Bryant, S., Ed. and P. Pate, Ed., "Pseudo Wire Emulation
               Edge-to-Edge (PWE3) Architecture", RFC 3985,
               DOI 10.17487/RFC3985, March 2005,
               <http://www.rfc-editor.org/info/rfc3985>.
+
+   [RFC4206]  Kompella, K. and Y. Rekhter, "Label Switched Paths (LSP)
+              Hierarchy with Generalized Multi-Protocol Label Switching
+              (GMPLS) Traffic Engineering (TE)", RFC 4206,
+              DOI 10.17487/RFC4206, October 2005,
+              <http://www.rfc-editor.org/info/rfc4206>.
 
    [RFC4448]  Martini, L., Ed., Rosen, E., El-Aawar, N., and G. Heron,
               "Encapsulation Methods for Transport of Ethernet over MPLS
@@ -1318,6 +1391,17 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
               DOI 10.17487/RFC6073, January 2011,
               <http://www.rfc-editor.org/info/rfc6073>.
 
+
+
+
+
+
+
+Korhonen, et al.        Expires December 24, 2017              [Page 25]
+
+Internet-Draft         DetNet Data Plane Solution              June 2017
+
+
    [RFC6658]  Bryant, S., Ed., Martini, L., Swallow, G., and A. Malis,
               "Packet Pseudowire Encapsulation over an MPLS PSN",
               RFC 6658, DOI 10.17487/RFC6658, July 2012,
@@ -1337,14 +1421,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
               T., Vyncke, E., Lebrun, D., Steinberg, D., and R. Raszuk,
               "IPv6 Segment Routing Header (SRH)", draft-ietf-6man-
               segment-routing-header-06 (work in progress), March 2017.
-
-
-
-
-Korhonen, et al.        Expires December 22, 2017              [Page 24]
-
-Internet-Draft         DetNet Data Plane Solution              June 2017
-
 
    [I-D.ietf-detnet-architecture]
               Finn, N., Thubert, P., Varga, B., and J. Farkas,
@@ -1375,6 +1451,13 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
               <http://www.ieee802.org/1/files/private/cb-drafts/
               d2/802-1CB-d2-1.pdf>.
 
+
+
+Korhonen, et al.        Expires December 24, 2017              [Page 26]
+
+Internet-Draft         DetNet Data Plane Solution              June 2017
+
+
    [IEEE8021Q]
               IEEE 802.1, "Standard for Local and metropolitan area
               networks--Bridges and Bridged Networks (IEEE Std 802.1Q-
@@ -1394,13 +1477,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
               Reroute Extensions to RSVP-TE for LSP Tunnels", RFC 4090,
               DOI 10.17487/RFC4090, May 2005,
               <http://www.rfc-editor.org/info/rfc4090>.
-
-
-
-Korhonen, et al.        Expires December 22, 2017              [Page 25]
-
-Internet-Draft         DetNet Data Plane Solution              June 2017
-
 
    [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
               RFC 7950, DOI 10.17487/RFC7950, August 2016,
@@ -1427,6 +1503,17 @@ Authors' Addresses
    Email: jouni.nospam@gmail.com
 
 
+
+
+
+
+
+
+Korhonen, et al.        Expires December 24, 2017              [Page 27]
+
+Internet-Draft         DetNet Data Plane Solution              June 2017
+
+
    Loa Andersson
    Huawei
 
@@ -1446,16 +1533,6 @@ Authors' Addresses
    USA
 
    Email: norman.finn@mail01.huawei.com
-
-
-
-
-
-
-
-Korhonen, et al.        Expires December 22, 2017              [Page 26]
-
-Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
    Balazs Varga
@@ -1487,6 +1564,12 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    URI:   http://www.it.uc3m.es/cjbc/
 
 
+
+Korhonen, et al.        Expires December 24, 2017              [Page 28]
+
+Internet-Draft         DetNet Data Plane Solution              June 2017
+
+
    Tal Mizrahi
    Marvell
    6 Hamada st.
@@ -1509,4 +1592,33 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 22, 2017              [Page 27]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Korhonen, et al.        Expires December 24, 2017              [Page 29]
