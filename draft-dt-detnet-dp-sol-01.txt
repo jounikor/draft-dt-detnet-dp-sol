@@ -5,7 +5,7 @@
 DetNet                                                  J. Korhonen, Ed.
 Internet-Draft                                                  Broadcom
 Intended status: Informational                              L. Andersson
-Expires: December 24, 2017                                      Y. Jiang
+Expires: December 28, 2017                                      Y. Jiang
                                                                  N. Finn
                                                                   Huawei
                                                                 B. Varga
@@ -15,7 +15,7 @@ Expires: December 24, 2017                                      Y. Jiang
                                                                     UC3M
                                                               T. Mizrahi
                                                                  Marvell
-                                                           June 22, 2017
+                                                           June 26, 2017
 
 
                        DetNet Data Plane Solution
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 24, 2017.
+   This Internet-Draft will expire on December 28, 2017.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Korhonen, et al.        Expires December 24, 2017               [Page 1]
+Korhonen, et al.        Expires December 28, 2017               [Page 1]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Korhonen, et al.        Expires December 24, 2017               [Page 2]
+Korhonen, et al.        Expires December 28, 2017               [Page 2]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -165,7 +165,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017               [Page 3]
+Korhonen, et al.        Expires December 28, 2017               [Page 3]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -221,7 +221,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017               [Page 4]
+Korhonen, et al.        Expires December 28, 2017               [Page 4]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -277,7 +277,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017               [Page 5]
+Korhonen, et al.        Expires December 28, 2017               [Page 5]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -333,7 +333,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017               [Page 6]
+Korhonen, et al.        Expires December 28, 2017               [Page 6]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -389,7 +389,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017               [Page 7]
+Korhonen, et al.        Expires December 28, 2017               [Page 7]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -445,7 +445,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017               [Page 8]
+Korhonen, et al.        Expires December 28, 2017               [Page 8]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -501,7 +501,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017               [Page 9]
+Korhonen, et al.        Expires December 28, 2017               [Page 9]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -557,7 +557,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 10]
+Korhonen, et al.        Expires December 28, 2017              [Page 10]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -613,7 +613,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 11]
+Korhonen, et al.        Expires December 28, 2017              [Page 11]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -669,7 +669,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 12]
+Korhonen, et al.        Expires December 28, 2017              [Page 12]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -725,7 +725,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 13]
+Korhonen, et al.        Expires December 28, 2017              [Page 13]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -781,7 +781,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 14]
+Korhonen, et al.        Expires December 28, 2017              [Page 14]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -837,7 +837,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 15]
+Korhonen, et al.        Expires December 28, 2017              [Page 15]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -893,7 +893,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 16]
+Korhonen, et al.        Expires December 28, 2017              [Page 16]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -949,7 +949,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 17]
+Korhonen, et al.        Expires December 28, 2017              [Page 17]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1000,12 +1000,12 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    hierarchy and the MPLS label stack [RFC3032].  DetNet nodes which
    support aggregation (LSP hierarchy) map one or more LSPs (labels)
    into and from an H-LSP.  Both carried LSPs and H-LSPs may or may not
-   use the TC field, i.e., L-LSPS or E-LSPS.  Such nodes will need to
+   use the TC field, i.e., L-LSPs or E-LSPs.  Such nodes will need to
    ensure that traffic from aggregated LSPs are placed (shaped/policed/
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 18]
+Korhonen, et al.        Expires December 28, 2017              [Page 18]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1061,7 +1061,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 19]
+Korhonen, et al.        Expires December 28, 2017              [Page 19]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1117,7 +1117,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 20]
+Korhonen, et al.        Expires December 28, 2017              [Page 20]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1173,7 +1173,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 21]
+Korhonen, et al.        Expires December 28, 2017              [Page 21]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1229,7 +1229,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 22]
+Korhonen, et al.        Expires December 28, 2017              [Page 22]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1285,7 +1285,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 23]
+Korhonen, et al.        Expires December 28, 2017              [Page 23]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1341,7 +1341,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 24]
+Korhonen, et al.        Expires December 28, 2017              [Page 24]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1397,7 +1397,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 25]
+Korhonen, et al.        Expires December 28, 2017              [Page 25]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1453,7 +1453,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 26]
+Korhonen, et al.        Expires December 28, 2017              [Page 26]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1509,7 +1509,7 @@ Authors' Addresses
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 27]
+Korhonen, et al.        Expires December 28, 2017              [Page 27]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1565,7 +1565,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 28]
+Korhonen, et al.        Expires December 28, 2017              [Page 28]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1621,4 +1621,4 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 24, 2017              [Page 29]
+Korhonen, et al.        Expires December 28, 2017              [Page 29]

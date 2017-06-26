@@ -994,7 +994,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
      <xref target="RFC3032"/>.  DetNet nodes which support aggregation
      (LSP hierarchy) map one or more LSPs (labels) into and from an
      H-LSP.  Both carried LSPs and H-LSPs may or may not use the TC
-     field, i.e., L-LSPS or E-LSPS.  Such nodes will need to ensure that
+     field, i.e., L-LSPs or E-LSPs.  Such nodes will need to ensure that
      traffic from aggregated LSPs are placed (shaped/policed/enqueued)
      onto the H-LSPs in a fashion that ensures the required DetNet
      service is preserved.
