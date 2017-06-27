@@ -96,12 +96,12 @@ Table of Contents
      7.4.  Bidirectional traffic . . . . . . . . . . . . . . . . . .  19
      7.5.  Packet replication and elimination function . . . . . . .  20
      7.6.  Layer 2 addressing and QoS Considerations . . . . . . . .  20
-   8.  Time synchronization  . . . . . . . . . . . . . . . . . . . .  20
+   8.  Time synchronization  . . . . . . . . . . . . . . . . . . . .  21
    9.  Management and control considerations . . . . . . . . . . . .  22
      9.1.  PW Label and IPv6 Flow Label assignment and distribution   22
      9.2.  Packet replication and elimination  . . . . . . . . . . .  22
      9.3.  Explicit paths  . . . . . . . . . . . . . . . . . . . . .  22
-     9.4.  Congestion protection and latency control . . . . . . . .  22
+     9.4.  Congestion protection and latency control . . . . . . . .  23
      9.5.  Flow aggregation control  . . . . . . . . . . . . . . . .  23
    10. Security considerations . . . . . . . . . . . . . . . . . . .  23
    11. IANA considerations . . . . . . . . . . . . . . . . . . . . .  23
@@ -118,8 +118,8 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
      13.1.  Normative references . . . . . . . . . . . . . . . . . .  24
      13.2.  Informative references . . . . . . . . . . . . . . . . .  26
    Appendix A.  Example of DetNet data plane operation . . . . . . .  27
-   Appendix B.  Example of pinned paths using IP PSN . . . . . . . .  27
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  27
+   Appendix B.  Example of pinned paths using IP PSN . . . . . . . .  28
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  28
 
 1.  Introduction
 
@@ -1033,31 +1033,31 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 7.4.  Bidirectional traffic
 
    Some DetNet applications generate bidirectional traffic.  Using MPLS
-   terminology there are associated and co-routed bidirectional flows.
-   MPLS defines a point-to-point associated bidirectional LSP as
-   consisting of two unidirectional point-to-point LSPs, one from A to B
-   and the other from B to A, which are regarded as a pair providing a
-   single logical bidirectional transport path.  This would be analogous
-   of standard IP routing or PWs running over two reciprocal
-   unidirection LSPs.  MPLS defines a point-to-point co-routed
-   bidirectional LSP as a point-to-point associated bidirectional LSP
-   with the additional constraint that its two unidirectional component
-   LSPs in each direction follow the same path (in terms of both nodes
-   and links).  An important property of co-routed bidirectional LSPs is
-   that their unidirectional component LSPs share fate.  In both types
-   of bidirectional LSPs, resource allocations may differ in each
-   direction.
+   definitions [RFC5654] there are associated bidirectional flows, and
+   co-routed bidirectional flows.  MPLS defines a point-to-point
+   associated bidirectional LSP as consisting of two unidirectional
+   point-to-point LSPs, one from A to B and the other from B to A, which
+   are regarded as providing a single logical bidirectional transport
+   path.  This would be analogous of standard IP routing, or PWs running
+   over two reciprocal unidirection LSPs.  MPLS defines a point-to-point
+   co-routed bidirectional LSP as an associated bidirectional LSP which
+   satisfies the additional constraint that its two unidirectional
+   component LSPs follow the same path (in terms of both nodes and
+   links) in both directions.  An important property of co-routed
+   bidirectional LSPs is that their unidirectional component LSPs share
+   fate.  In both types of bidirectional LSPs, resource allocations may
+   differ in each direction.  The concepts of associated bidirectional
+   flows and co-routed bidirectional flows can be applied to DetNet
+   flows as well whether IPv6 or MPLS is used.
 
-   While the data plane must support bidirectional DetNet flows, there
-   are no special bidirectional features with respect to the data plane
-   other than need for the two directions take the same paths.  Note,
-   that there is no stated requirement for bidirectional DetNet flows to
-   be supported using same Flow or MPLS Labels in each direction.
-   Control mechanisms will need to support such bidirectional flows, but
-   this is out of scope of this document.
-
-
-
+   While the IPv6 and MPLS data planes must support bidirectional DetNet
+   flows, there are no special bidirectional features with respect to
+   the data plane other than need for the two directions take the same
+   paths.  Fate sharing and associated vs co-routed bidirectional flows
+   can be managed at the control level.  Note, that there is no stated
+   requirement for bidirectional DetNet flows to be supported using the
+   same IPv6 Flow Labels or MPLS Labels in each direction.  Control
+   mechanisms will need to support such bidirectional flows for both
 
 
 
@@ -1065,6 +1065,9 @@ Korhonen, et al.        Expires December 29, 2017              [Page 19]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
+
+   IPv6 and MPLS, but such mechanisms are out of scope of this document.
+   An example control plane solution for MPLS can be found in [RFC7551].
 
 7.5.  Packet replication and elimination function
 
@@ -1108,11 +1111,8 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    routers and edge label switches.  Edge nodes may also have to move
    sequence number fields among Layer 2, PW, and IPv6 encapsulations.
 
-8.  Time synchronization
 
-   [Editor's note: describe a bit of issues and deployment
-   considerations related to time-synchronization within DetNet.  Refer
-   to DT discussion and the slides that summarize different approaches
+
 
 
 
@@ -1122,6 +1122,11 @@ Korhonen, et al.        Expires December 29, 2017              [Page 20]
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
+8.  Time synchronization
+
+   [Editor's note: describe a bit of issues and deployment
+   considerations related to time-synchronization within DetNet.  Refer
+   to DT discussion and the slides that summarize different approaches
    and rough synchronization performance numbers.  Finally, scope time-
    synchronization solution outside data plane.]
 
@@ -1166,11 +1171,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    as it provides the highest degree of accuracy, and creates a layer
    separation between the DetNet data and the synchronization service.
 
-   It should be noted that in all four approaches it is not recommended
-   to use replication and elimination for synchronization packets; the
-   replication/elimination approach may in some cases reduce the
-
-
 
 
 Korhonen, et al.        Expires December 29, 2017              [Page 21]
@@ -1178,6 +1178,9 @@ Korhonen, et al.        Expires December 29, 2017              [Page 21]
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
+   It should be noted that in all four approaches it is not recommended
+   to use replication and elimination for synchronization packets; the
+   replication/elimination approach may in some cases reduce the
    synchronization accuracy, since the observed path delay will be
    bivalent.
 
@@ -1221,9 +1224,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
    [TBD: based on MPLS TE and SR.]
 
-9.4.  Congestion protection and latency control
-
-   [TBD]
 
 
 
@@ -1233,6 +1233,10 @@ Korhonen, et al.        Expires December 29, 2017              [Page 22]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
+
+9.4.  Congestion protection and latency control
+
+   [TBD]
 
 9.5.  Flow aggregation control
 
@@ -1279,16 +1283,14 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
       Lou Berger
 
-      Pat Thaler
-
-
-
 
 
 Korhonen, et al.        Expires December 29, 2017              [Page 23]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
+
+      Pat Thaler
 
 13.  References
 
@@ -1334,8 +1336,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
               Protocol Label Switching (MPLS) Support of Differentiated
               Services", RFC 3270, DOI 10.17487/RFC3270, May 2002,
               <http://www.rfc-editor.org/info/rfc3270>.
-
-
 
 
 
@@ -1478,6 +1478,16 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
               DOI 10.17487/RFC4090, May 2005,
               <http://www.rfc-editor.org/info/rfc4090>.
 
+   [RFC5654]  Niven-Jenkins, B., Ed., Brungard, D., Ed., Betts, M., Ed.,
+              Sprecher, N., and S. Ueno, "Requirements of an MPLS
+              Transport Profile", RFC 5654, DOI 10.17487/RFC5654,
+              September 2009, <http://www.rfc-editor.org/info/rfc5654>.
+
+   [RFC7551]  Zhang, F., Ed., Jing, R., and R. Gandhi, Ed., "RSVP-TE
+              Extensions for Associated Bidirectional Label Switched
+              Paths (LSPs)", RFC 7551, DOI 10.17487/RFC7551, May 2015,
+              <http://www.rfc-editor.org/info/rfc7551>.
+
    [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
               RFC 7950, DOI 10.17487/RFC7950, August 2016,
               <http://www.rfc-editor.org/info/rfc7950>.
@@ -1493,16 +1503,6 @@ Appendix A.  Example of DetNet data plane operation
    The figure is subject to change depending on the further DT decisions
    on the label handling..]
 
-Appendix B.  Example of pinned paths using IP PSN
-
-Authors' Addresses
-
-   Jouni Korhonen (editor)
-   Broadcom
-
-   Email: jouni.nospam@gmail.com
-
-
 
 
 
@@ -1512,6 +1512,16 @@ Authors' Addresses
 Korhonen, et al.        Expires December 29, 2017              [Page 27]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
+
+
+Appendix B.  Example of pinned paths using IP PSN
+
+Authors' Addresses
+
+   Jouni Korhonen (editor)
+   Broadcom
+
+   Email: jouni.nospam@gmail.com
 
 
    Loa Andersson
@@ -1553,6 +1563,13 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    Email: janos.farkas@ericsson.com
 
 
+
+
+Korhonen, et al.        Expires December 29, 2017              [Page 28]
+
+Internet-Draft         DetNet Data Plane Solution              June 2017
+
+
    Carlos J. Bernardos
    Universidad Carlos III de Madrid
    Av. Universidad, 30
@@ -1564,12 +1581,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    URI:   http://www.it.uc3m.es/cjbc/
 
 
-
-Korhonen, et al.        Expires December 29, 2017              [Page 28]
-
-Internet-Draft         DetNet Data Plane Solution              June 2017
-
-
    Tal Mizrahi
    Marvell
    6 Hamada st.
@@ -1577,17 +1588,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    Israel
 
    Email: talmi@marvell.com
-
-
-
-
-
-
-
-
-
-
-
 
 
 
