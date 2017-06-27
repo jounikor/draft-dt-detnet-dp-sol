@@ -707,17 +707,21 @@ H DetNet Control Word DstOpt Hdr  H
         DetNet flow. Obviously, the identification fails if any intermediate node modifies
         either the source address or the Flow Label.
     </t>
-    <!-- LB: doesn't the above (sec 5.2.2.) imply the PREF with IPv6 is
-         always end-to-end, or are you PREF domains with replication of
-         incoming packets and scoped domain elimination? I think this
-         should be explicitly discussed either way --> 
+    <!-- LB: I think there needs to be more text on how PREF works with
+         IPv6 flows. --> 
 
    </section>
   </section>
  </section>
 
   <section title="PREF specific considerations">
-   <section title="Forwarded clarifications">
+    <t>
+      This section applies equally to DetNet flows transported via IPv6
+      and MPLS.  While flow identification and some header related
+      processing will differ between the two, the considerations covered
+      in this section are common to both.
+    </t>
+    <section title="Forwarded clarifications">
    <t>
     The DetNet specific new functionality in an edge or relay node processing is the packet replication and
     duplication elimination function (PREF). This function is a part of the DetNet-aware

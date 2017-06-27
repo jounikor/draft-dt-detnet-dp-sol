@@ -692,6 +692,11 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 6.  PREF specific considerations
 
+   This section applies equally to DetNet flows transported via IPv6 and
+   MPLS.  While flow identification and some header related processing
+   will differ between the two, the considerations covered in this
+   section are common to both.
+
 6.1.  Forwarded clarifications
 
    The DetNet specific new functionality in an edge or relay node
@@ -717,11 +722,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    implementation specific.  The order of a packet elimination or
    replication is out of scope in this specification.  However, care
    should be taken that the replication function does not actually
-   loopback packets as "replicas".  Looped back packets include
-   artificial delay when the node that originally initiated the packet
-   receives it again.  Also, looped back packets may make the network
-   condition to look healthier than it actually is (in some cases link
-
 
 
 
@@ -730,6 +730,10 @@ Korhonen, et al.        Expires December 29, 2017              [Page 13]
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
+   loopback packets as "replicas".  Looped back packets include
+   artificial delay when the node that originally initiated the packet
+   receives it again.  Also, looped back packets may make the network
+   condition to look healthier than it actually is (in some cases link
    failures are not reflected properly because looped back packets make
    the situation appear better than it actually is).
 
@@ -774,10 +778,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
    An edge node participates to the packet replication and duplication
    elimination.  Required processing is done within an extended
-   forwarder function.  In the case the native service processing (NSP)
-   is IEEE 802.1CB [IEEE8021CB] capable, the packet replication and
-   duplicate elimination MAY entirely be done in the NSP and bypassing
-   the DetNet flow encapsulation and logic entirely, and thus is able to
 
 
 
@@ -786,6 +786,10 @@ Korhonen, et al.        Expires December 29, 2017              [Page 14]
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
+   forwarder function.  In the case the native service processing (NSP)
+   is IEEE 802.1CB [IEEE8021CB] capable, the packet replication and
+   duplicate elimination MAY entirely be done in the NSP and bypassing
+   the DetNet flow encapsulation and logic entirely, and thus is able to
    operate over unmodified implementation and deployment.  The NSP
    approach works only between edge nodes and cannot make use of relay
    nodes (see Section 6.3).
@@ -830,10 +834,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    identification and the sequence number combination.  The packet
    replication is also done within the DetNet-aware forwarder.  During
    elimination and the replication process the sequence number of the
-   DetNet member flow MUST be preserved and copied to the egress DetNet
-   member flow.
-
-
 
 
 
@@ -841,6 +841,9 @@ Korhonen, et al.        Expires December 29, 2017              [Page 15]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
+
+   DetNet member flow MUST be preserved and copied to the egress DetNet
+   member flow.
 
                 +---------------------------------------+
                 |          DetNet Relay Device          |
@@ -887,9 +890,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    CoS for DetNet flows carried in PWs and MPLS is provided using the
    existing MPLS Differentiated Services (DiffServ) architecture
    [RFC3270].  Both E-LSP and L-LSP MPLS DiffServ modes MAY be used to
-   support DetNet flows.  The Traffic Class field (formerly the EXP
-   field) of an MPLS label follows the definition of [RFC5462] and
-   [RFC3270].  The Uniform, Pipe, and Short Pipe DiffServ tunneling and
 
 
 
@@ -898,6 +898,9 @@ Korhonen, et al.        Expires December 29, 2017              [Page 16]
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
+   support DetNet flows.  The Traffic Class field (formerly the EXP
+   field) of an MPLS label follows the definition of [RFC5462] and
+   [RFC3270].  The Uniform, Pipe, and Short Pipe DiffServ tunneling and
    TTL processing models are described in [RFC3270] and [RFC3443] and
    MAY be used for MPLS LSPs supporting DetNet flows.  MPLS ECN MAY also
    be used as defined in ECN [RFC5129] and updated by [RFC5462].
@@ -943,9 +946,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    be found in "Specification of the Controlled Load Quality of
    Service", [RFC2211], "Specification of Guaranteed Quality of
    Service", [RFC2212], and "Ethernet Traffic Parameters", [RFC6003].
-   Additional service definitions are expected in future documents to
-   support the full range of DetNet services.  In all cases, the
-   existing label-based marking mechanisms defined for TE-LSPs and even
 
 
 
@@ -954,6 +954,9 @@ Korhonen, et al.        Expires December 29, 2017              [Page 17]
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
+   Additional service definitions are expected in future documents to
+   support the full range of DetNet services.  In all cases, the
+   existing label-based marking mechanisms defined for TE-LSPs and even
    E-LSPs are use to support the identification of flows requiring
    DetNet QoS.
 
@@ -999,9 +1002,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    levels of aggregation naturally falls out of the definition for
    hierarchy and the MPLS label stack [RFC3032].  DetNet nodes which
    support aggregation (LSP hierarchy) map one or more LSPs (labels)
-   into and from an H-LSP.  Both carried LSPs and H-LSPs may or may not
-   use the TC field, i.e., L-LSPs or E-LSPs.  Such nodes will need to
-   ensure that traffic from aggregated LSPs are placed (shaped/policed/
 
 
 
@@ -1010,6 +1010,9 @@ Korhonen, et al.        Expires December 29, 2017              [Page 18]
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
+   into and from an H-LSP.  Both carried LSPs and H-LSPs may or may not
+   use the TC field, i.e., L-LSPs or E-LSPs.  Such nodes will need to
+   ensure that traffic from aggregated LSPs are placed (shaped/policed/
    enqueued) onto the H-LSPs in a fashion that ensures the required
    DetNet service is preserved.
 
@@ -1055,9 +1058,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    the data plane other than need for the two directions take the same
    paths.  Fate sharing and associated vs co-routed bidirectional flows
    can be managed at the control level.  Note, that there is no stated
-   requirement for bidirectional DetNet flows to be supported using the
-   same IPv6 Flow Labels or MPLS Labels in each direction.  Control
-   mechanisms will need to support such bidirectional flows for both
 
 
 
@@ -1066,6 +1066,9 @@ Korhonen, et al.        Expires December 29, 2017              [Page 19]
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
+   requirement for bidirectional DetNet flows to be supported using the
+   same IPv6 Flow Labels or MPLS Labels in each direction.  Control
+   mechanisms will need to support such bidirectional flows for both
    IPv6 and MPLS, but such mechanisms are out of scope of this document.
    An example control plane solution for MPLS can be found in [RFC7551].
 
@@ -1110,9 +1113,6 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    clarification of the customary L2/L3 transformations carried out by
    routers and edge label switches.  Edge nodes may also have to move
    sequence number fields among Layer 2, PW, and IPv6 encapsulations.
-
-
-
 
 
 
