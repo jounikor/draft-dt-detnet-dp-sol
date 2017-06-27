@@ -71,11 +71,11 @@
   <front>
     <!-- LB: doesn't "Encapsulation" better fit the scope of the current
          document than "Solution"? -->
-    <title abbrev="DetNet Data Plane Solution">
-     DetNet Data Plane Solution</title>
+    <title abbrev="DetNet Data Plane Encapsulation">
+     DetNet Data Plane Encapsulation</title>
 
   <author role="editor" fullname="Jouni Korhonen" initials="J." surname="Korhonen">
-   <organization abbrev="Broadcom">Broadcom</organization>
+   <!--organization abbrev="Broadcom">Broadcom</organization-->
    <address>
     <email>jouni.nospam@gmail.com</email>
    </address>
@@ -186,7 +186,7 @@
 
   <abstract>
   <t>
-   This document specifies Deterministic Networking data plane solutions. The described data plane solutions can be applied over either IP or MPLS Packet Switched Networks.
+   This document specifies Deterministic Networking data plane encapsulation solutions. The described data plane solutions can be applied over either IP or MPLS Packet Switched Networks.
   </t>
   </abstract>
   </front>
@@ -446,7 +446,7 @@ System  |    +--------+       +--------+       +--------+   | System
 ]]></artwork>
 </figure>
  
-<section title="DetNet data plane solution requirements">
+<section title="DetNet data plane encapsulation requirements">
  <t>
  Two major groups of scenarios can be distinguished which require flow
  identification during transport:
@@ -519,7 +519,7 @@ System  |    +--------+       +--------+       +--------+   | System
    PSN and (2) native IPv6 based encapsulation for IP PSN. 
   </t>
 
-  <section title="PseudoWire-based data plane solution" anchor="pwSolution">
+  <section title="PseudoWire-based data plane encapsulation" anchor="pwSolution">
    <t>
     <xref target="fig_pw_mpls"/> illustrates a DetNet PW encapsulation over an MPLS PSN.  The
     PW-based encapsulation of the DetNet flows fits perfectly for the Layer-2 interconnect
@@ -527,8 +527,10 @@ System  |    +--------+       +--------+       +--------+   | System
     i.e., native DetNet deployment (see <xref target="fig_pw_detnet"/>) is also possible if
     DetNet-aware end systems are capable of initiating and termination MPLS encapsulated PWs. It is
     also possible use the same encapsulation format with a Packet PW over MPLS <xref
-        target="RFC6658"/>. Transport of IP encapsulated DetNet flows,
-    see <xref target="v6Solution"/>, over DetNet PWs is also possible.
+    target="RFC6658"/>. Transport of IP encapsulated DetNet flows, see <xref target="v6Solution"/>, 
+    over DetNet PWs is also possible. Interworking between PW- and IPv6-based encapsulations
+    is discussed further in <xref target="interwreck"/>.
+
     <!-- LB: possibly reference new interworking considerations section -->
    </t>
    <t> 
@@ -592,7 +594,7 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
  </section>
   
   
-  <section title="Native IPv6-based data plane solution" anchor="v6Solution">
+  <section title="Native IPv6-based data plane encapsulation" anchor="v6Solution">
 
    <t>
     <xref target="fig_native_ip"/> illustrates a DetNet native IPv6 encapsulation.  The native IPv6
@@ -721,8 +723,9 @@ H DetNet Control Word DstOpt Hdr  H
       processing will differ between the two, the considerations covered
       in this section are common to both.
     </t>
-    <section title="Forwarded clarifications">
-   <t>
+    <section title="PseudoWire-based data plane">
+    	<section title="Forwarder clarifications">
+   	<t>
     The DetNet specific new functionality in an edge or relay node processing is the packet replication and
     duplication elimination function (PREF). This function is a part of the DetNet-aware
     "extended" forwarder. The PREF processing is triggered by the received packet of a DetNet flow. 
@@ -870,7 +873,13 @@ Client AC   |    NSP      |           |    Single   | member Inst.
             +---------------------------------------+
 ]]>
     </artwork></figure>
-  </section>
+    </section>
+   </section>
+   <section title="Native IPv6-based data plane">
+    <t>
+     [Editor's note: this section is TBD.]
+    </t>
+   </section>
 </section>
 
 <section title="Other DetNet data plane considerations">
@@ -1073,8 +1082,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
   </t>
  </section>
 
- <section title="Packet replication and elimination function">
-   <!-- isn't this sufficiently covered above -->
+ <!-- section title="Packet replication and elimination function">
      <t>
          [editor's note: collect details of the PREF here. Potential topics to discuss relate to
          constraints to input packets and what the expected output is. Some examples include: the
@@ -1084,7 +1092,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
          source address + flow label combination, and the Control Word is replaced with the DetNet
          Destination Option.. etc]
      </t>
- </section>
+ </section-->
 
  <section title="Layer 2 addressing and QoS Considerations">
     <t>
@@ -1113,6 +1121,14 @@ Client AC   |    NSP      |           |    Single   | member Inst.
         may also have to move sequence number fields among Layer 2, PW, and IPv6 encapsulations.
     </t>
  </section>
+ <section title="Interworking between PW- and IPv6-based encapsulations" anchor="interwreck">
+  <t>
+   [Editor's note: add considerations for interworking between PW-based and native IPv6-based
+   DetNet encapsuations.]
+  </t>
+ </section>
+
+
 
 </section>
 
