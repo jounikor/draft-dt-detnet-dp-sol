@@ -5,7 +5,7 @@
 DetNet                                                  J. Korhonen, Ed.
 Internet-Draft                                                  Broadcom
 Intended status: Informational                              L. Andersson
-Expires: December 28, 2017                                      Y. Jiang
+Expires: December 29, 2017                                      Y. Jiang
                                                                  N. Finn
                                                                   Huawei
                                                                 B. Varga
@@ -15,7 +15,7 @@ Expires: December 28, 2017                                      Y. Jiang
                                                                     UC3M
                                                               T. Mizrahi
                                                                  Marvell
-                                                           June 26, 2017
+                                                           June 27, 2017
 
 
                        DetNet Data Plane Solution
@@ -42,7 +42,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 28, 2017.
+   This Internet-Draft will expire on December 29, 2017.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Korhonen, et al.        Expires December 28, 2017               [Page 1]
+Korhonen, et al.        Expires December 29, 2017               [Page 1]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Korhonen, et al.        Expires December 28, 2017               [Page 2]
+Korhonen, et al.        Expires December 29, 2017               [Page 2]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -130,7 +130,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    [I-D.ietf-detnet-architecture].
 
    This document specifies the DetNet data plane.  It defines how DetNet
-   traffic is encapsulated at the network layer, and how DetNet aware
+   traffic is encapsulated at the network layer, and how DetNet-aware
    nodes can identity DetNet flows.  Two data plane definitions are
    given.
 
@@ -165,7 +165,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017               [Page 3]
+Korhonen, et al.        Expires December 29, 2017               [Page 3]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -180,10 +180,10 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
    The following terms are also used in this document:
 
-   DA-T-PE       MPLS based DetNet edge node: a DetNet aware PseudoWire
+   DA-T-PE       MPLS based DetNet edge node: a DetNet-aware PseudoWire
                  Terminating Provider Edge (T-PE).
 
-   DA-S-PE       MPLS based DetNet relay node: a DetNet aware PseudoWire
+   DA-S-PE       MPLS based DetNet relay node: a DetNet-aware PseudoWire
                  Switching Provider Edge (S-PE).
 
    T-Label       A label used to identify the LSP used to transport a
@@ -221,7 +221,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017               [Page 4]
+Korhonen, et al.        Expires December 29, 2017               [Page 4]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -277,17 +277,20 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017               [Page 5]
+Korhonen, et al.        Expires December 29, 2017               [Page 5]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 4.  DetNet data plane overview
 
-   [Ed. to be written.. describe the scope here fot this document: this
-   document only addresses the inter-connect case i.e., 802.1 over
-   routed network (enlarge the layer-2 domain - EVPAN', and the native
-   DetNet case.]
+   This document describes how to use IP and/or MPLS to support a data
+   plane method of flow identification and packet formwarding over
+   layer-3.  Two different cases are covered: (i) the inter-connect
+   scenario, in which IEEE802.1 TSN is routed over a layer-3 network
+   (i.e., to enlarge the layer-2 domain), and (ii) native connectivity
+   between DetNet-aware end systems.  Figure 1 illustrates an exemplary
+   scenario.
 
   TSN              Edge          Transit        Relay        DetNet
   End System       Node            Node         Node         End System
@@ -330,10 +333,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-
-
-
-Korhonen, et al.        Expires December 28, 2017               [Page 6]
+Korhonen, et al.        Expires December 29, 2017               [Page 6]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -389,7 +389,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017               [Page 7]
+Korhonen, et al.        Expires December 29, 2017               [Page 7]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -445,7 +445,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017               [Page 8]
+Korhonen, et al.        Expires December 29, 2017               [Page 8]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -493,7 +493,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    PW-based encapsulation of the DetNet flows fits perfectly for the
    Layer-2 interconnect deployment cases (see Figure 2).  Furthermore,
    end to end DetNet service i.e., native DetNet deployment (see
-   Figure 3) is also possible if DetNet aware end systems are capable of
+   Figure 3) is also possible if DetNet-aware end systems are capable of
    initiating and termination MPLS encapsulated PWs.  It is also
    possible use the same encapsulation format with a Packet PW over MPLS
    [RFC6658].  Transport of IP encapsulated DetNet flows, see
@@ -501,7 +501,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017               [Page 9]
+Korhonen, et al.        Expires December 29, 2017               [Page 9]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -557,7 +557,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 10]
+Korhonen, et al.        Expires December 29, 2017              [Page 10]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -575,7 +575,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
    Figure 7 illustrates a DetNet native IPv6 encapsulation.  The native
    IPv6 encapsulation is meant for end to end Detnet service use cases,
-   where the end stations are DetNet aware (see Figure 4).  Technically
+   where the end stations are DetNet-aware (see Figure 4).  Technically
    it is possible to use the IPv6 encapsulation to tunnel any traffic
    over a DetNet enabled network, which would make native IPv6
    encapsulation also a valid data plane choice for an interconnect use
@@ -613,7 +613,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 11]
+Korhonen, et al.        Expires December 29, 2017              [Page 11]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -669,7 +669,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 12]
+Korhonen, et al.        Expires December 29, 2017              [Page 12]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -725,7 +725,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 13]
+Korhonen, et al.        Expires December 29, 2017              [Page 13]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -781,7 +781,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 14]
+Korhonen, et al.        Expires December 29, 2017              [Page 14]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -837,7 +837,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 15]
+Korhonen, et al.        Expires December 29, 2017              [Page 15]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -893,7 +893,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 16]
+Korhonen, et al.        Expires December 29, 2017              [Page 16]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -943,13 +943,13 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    be found in "Specification of the Controlled Load Quality of
    Service", [RFC2211], "Specification of Guaranteed Quality of
    Service", [RFC2212], and "Ethernet Traffic Parameters", [RFC6003].
-   Addition service definitions are expected in future documents to
+   Additional service definitions are expected in future documents to
    support the full range of DetNet services.  In all cases, the
    existing label-based marking mechanisms defined for TE-LSPs and even
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 17]
+Korhonen, et al.        Expires December 29, 2017              [Page 17]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -958,11 +958,11 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    DetNet QoS.
 
    QoS for DetNet flows carried in IPv6 MUST be provided locally by the
-   DetNet aware hosts and routers supporting DetNet flows.  Such support
+   DetNet-aware hosts and routers supporting DetNet flows.  Such support
    will leverage the underlying network layer such as 802.1TSN.  The
    traffic control mechanisms used to deliver QoS for IP encapsulated
-   DetNet flows is expected to be defined in a future document.  From an
-   encapsulation perspective, and as defined in Section 5.2.2, the
+   DetNet flows are expected to be defined in a future document.  From
+   an encapsulation perspective, and as defined in Section 5.2.2, the
    combination of the Flow Label together with the IP source address
    uniquely identifies a DetNet flow.
 
@@ -1005,7 +1005,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 18]
+Korhonen, et al.        Expires December 29, 2017              [Page 18]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1040,7 +1040,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    single logical bidirectional transport path.  This would be analogous
    of standard IP routing or PWs running over two reciprocal
    unidirection LSPs.  MPLS defines a point-to-point co-routed
-   bidirectional LSP is a point-to-point associated bidirectional LSP
+   bidirectional LSP as a point-to-point associated bidirectional LSP
    with the additional constraint that its two unidirectional component
    LSPs in each direction follow the same path (in terms of both nodes
    and links).  An important property of co-routed bidirectional LSPs is
@@ -1049,7 +1049,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    direction.
 
    While the data plane must support bidirectional DetNet flows, there
-   are no special bidirectional features with respect to the data plan
+   are no special bidirectional features with respect to the data plane
    other than need for the two directions take the same paths.  Note,
    that there is no stated requirement for bidirectional DetNet flows to
    be supported using same Flow or MPLS Labels in each direction.
@@ -1061,7 +1061,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 19]
+Korhonen, et al.        Expires December 29, 2017              [Page 19]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1117,7 +1117,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 20]
+Korhonen, et al.        Expires December 29, 2017              [Page 20]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1173,7 +1173,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 21]
+Korhonen, et al.        Expires December 29, 2017              [Page 21]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1229,7 +1229,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 22]
+Korhonen, et al.        Expires December 29, 2017              [Page 22]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1285,7 +1285,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 23]
+Korhonen, et al.        Expires December 29, 2017              [Page 23]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1341,7 +1341,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 24]
+Korhonen, et al.        Expires December 29, 2017              [Page 24]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1397,7 +1397,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 25]
+Korhonen, et al.        Expires December 29, 2017              [Page 25]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1453,7 +1453,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 26]
+Korhonen, et al.        Expires December 29, 2017              [Page 26]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1509,7 +1509,7 @@ Authors' Addresses
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 27]
+Korhonen, et al.        Expires December 29, 2017              [Page 27]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1565,7 +1565,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 28]
+Korhonen, et al.        Expires December 29, 2017              [Page 28]
 
 Internet-Draft         DetNet Data Plane Solution              June 2017
 
@@ -1621,4 +1621,4 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
 
 
 
-Korhonen, et al.        Expires December 28, 2017              [Page 29]
+Korhonen, et al.        Expires December 29, 2017              [Page 29]
