@@ -190,8 +190,8 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
                  DetNet flow across an MPLS PSN, e.g., a hop-by-hop
                  label used between label switching routers (LSR).
 
-   L-Label       A DetNet node to DetNet node label that is used between
-                 DA-*-PE devices.
+   S-Label       A DetNet node to DetNet node "service" label that is
+                 used between DA-*-PE devices.
 
    PW Label      A PseudoWire label that is used to identify DetNet flow
                  related PW Instances within a PE node.
@@ -516,11 +516,11 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
       identifying a DetNet flow and a PW Instance within a (DA-)T-PE or
       (DA-)S-PE device.
 
-   o  An optional L-Label that represents the LSP used between (DA-)T-PE
-      or (DA-)S-PE nodes.  One possible use of an L-Label is to identify
-      the different DetNet member flows used to provide protection to a
-      DetNet composite flow, perhaps even when both LSPs appear on the
-      same link for some reason.
+   o  An optional S-Label that represents DetNet Service LSP used
+      between (DA-)T-PE or (DA-)S-PE nodes.  One possible use of an
+      S-Label is to identify the different DetNet member flows used to
+      provide protection to a DetNet composite flow, perhaps even when
+      both LSPs appear on the same link for some reason.
 
    o  MPLS transport LSP label(s) (T-label) which may be a hop-by-hop
       label used between LSRs.
@@ -538,7 +538,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    \=====================/          \=================================/
    |  PW Demultiplexer   |--------->|            PW Label             |
    +---------------------+          +---------------------------------+
-   |  PSN Convergence    |     .--->|      Optional MPLS L-Label      |
+   |  PSN Convergence    |     .--->|      Optional MPLS S-Label      |
    +---------------------+     |    +---------------------------------+
    |         PSN         |-----+--->|         MPLS T-Label(s)         |
    +---------------------+          +---------------------------------+
@@ -819,9 +819,8 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    programmed.  For some DetNet member flows the relay node can act as a
    normal relay node and for some apply the DetNet specific processing
    (i.e., PREF).  It is also possible to treat the relay node as a
-   transit node using tunneling (e.g., via L-labels in case of MPLS
-   PSN).  Again, this is entirely up to how the forwarding has been
-   programmed.
+   transit node, see Section 7.3.  Again, this is entirely up to how the
+   forwarding has been programmed.
 
    The DetNet-aware forwarder selects the egress DetNet member flow
    segment based on the flow identification.  The mapping of ingress
@@ -833,6 +832,7 @@ Internet-Draft         DetNet Data Plane Solution              June 2017
    elimination and the replication process the sequence number of the
    DetNet member flow MUST be preserved and copied to the egress DetNet
    member flow.
+
 
 
 

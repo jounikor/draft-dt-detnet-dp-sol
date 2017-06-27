@@ -252,10 +252,7 @@
     <t hangText="T-Label">A label used to identify the LSP used to
     transport a DetNet flow across an MPLS PSN, e.g., a hop-by-hop
     label used between label switching routers (LSR).</t>
-    <!-- LB: why is this called L-Label, I think it'll be confused with
-         the current DiffServ L-LSPs, perhaps a using "(S)vc" would be
-         better and is aligned with Figure 12 of RFC5921  -->
-    <t hangText="L-Label">A DetNet node to DetNet node label that is used between DA-*-PE devices.</t>
+    <t hangText="S-Label">A DetNet node to DetNet node "service" label that is used between DA-*-PE devices.</t>
 	<t hangText="PW Label">
      A PseudoWire label that is used to identify DetNet flow related PW Instances within a PE node.</t> 
 	<t hangText="Flow Label">
@@ -540,8 +537,8 @@ System  |    +--------+       +--------+       +--------+   | System
       sequence number space for each DetNet flow.</t>
      <t>PseudoWire Label (PW Label) that is  a standard PW label identifying a 
        DetNet flow and a PW Instance within a (DA-)T-PE or (DA-)S-PE device.</t>
-       <t>An optional L-Label that represents the LSP used  between
-       (DA-)T-PE or (DA-)S-PE nodes. One possible use of an L-Label is
+       <t>An optional S-Label that represents DetNet Service LSP used between
+       (DA-)T-PE or (DA-)S-PE nodes. One possible use of an S-Label is
        to identify the different DetNet member flows used to provide
        protection to a DetNet composite flow, perhaps even when both
        LSPs appear on the same link for some reason.</t>
@@ -565,7 +562,7 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
 \=====================/          \=================================/
 |  PW Demultiplexer   |--------->|            PW Label             |
 +---------------------+          +---------------------------------+
-|  PSN Convergence    |     .--->|      Optional MPLS L-Label      |
+|  PSN Convergence    |     .--->|      Optional MPLS S-Label      |
 +---------------------+     |    +---------------------------------+
 |         PSN         |-----+--->|         MPLS T-Label(s)         |
 +---------------------+          +---------------------------------+
@@ -825,8 +822,8 @@ Client AC   |    NSP      |           |    Single   | member Inst.
      the forwarding is programmed.  For some DetNet member flows the relay node can act as a normal relay node
      and for some apply the DetNet specific processing (i.e., PREF). It
      is also possible to
-     <!-- LB: not sure L-Label is needed/useful in this case... -->
-     treat the relay node as a transit node using tunneling (e.g., via L-labels in case of MPLS PSN). Again, this is
+     treat the relay node as a transit node, see <xref target="Aggregation"/>.
+     Again, this is
      entirely up to how the forwarding has been programmed.
     </t>
     <t>
