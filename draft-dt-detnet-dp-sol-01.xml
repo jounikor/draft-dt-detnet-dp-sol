@@ -64,13 +64,11 @@
 <?rfc strict="yes"?>
 <?rfc compact="yes"?>
 <?rfc subcompact="no"?>
-<rfc category="info"
+<rfc category="std"
      docName="draft-dt-detnet-dp-sol-01"
          ipr="trust200902"
          submissionType="IETF">
   <front>
-    <!-- LB: doesn't "Encapsulation" better fit the scope of the current
-         document than "Solution"? -->
     <title abbrev="DetNet Data Plane Encapsulation">
      DetNet Data Plane Encapsulation</title>
 
@@ -168,8 +166,12 @@
      </address>
     </author>
 
-    <!-- Jouni: Add Lou as author or contributor -->
-
+    <author initials='L.' surname="Berger" fullname='Lou Berger'>
+      <organization abbrev="LabN">LabN Consulting, L.L.C.</organization>
+      <address>
+        <email>lberger@labn.net</email>
+      </address>
+    </author>
   <!--author fullname="Donald Fauntleroy Duck" initials="D. F." surname="Duck">
    <organization abbrev="Royal Bros.">Royal Bros.</organization>
    <address>
@@ -530,8 +532,6 @@ System  |    +--------+       +--------+       +--------+   | System
     target="RFC6658"/>. Transport of IP encapsulated DetNet flows, see <xref target="v6Solution"/>, 
     over DetNet PWs is also possible. Interworking between PW- and IPv6-based encapsulations
     is discussed further in <xref target="interwreck"/>.
-
-    <!-- LB: possibly reference new interworking considerations section -->
    </t>
    <t> 
     The PW-based DetNet data plane encapsulation consists of: 
