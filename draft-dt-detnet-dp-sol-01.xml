@@ -1388,7 +1388,10 @@ Client AC   |    NSP      |           |    Single   | member Inst.
   </t>
  </section>
 
- <section title="Example of pinned paths using IP PSN">
+ <section title="Example of pinned paths using IPv6">
+  <t>
+   TBD.
+  </t>
  </section>
 
  </back>
