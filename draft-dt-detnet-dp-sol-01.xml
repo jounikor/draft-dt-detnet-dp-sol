@@ -14,6 +14,7 @@
 <!ENTITY rfc4664 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4664.xml">
 <!ENTITY rfc4817 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4817.xml">
 <!ENTITY rfc4875 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4875.xml">
+<!ENTITY rfc5036 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5036.xml">
 <!ENTITY rfc5086 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5086.xml">
 <!ENTITY rfc5087 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5087.xml">
 <!ENTITY rfc5254 PUBLIC "" "http://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5254.xml">
@@ -209,7 +210,7 @@
     Two data plane definitions are given. 
      <list style="symbols">
 		<t>PW-based: One solution is based on PseudoWires (PW) <xref target="RFC3985"/>
-		and makes use of multi-segment pseudowires (MS-PW) <xref target="RFC6073"/> to map
+		and <xref target="RFC5036"/> and makes use of multi-segment pseudowires (MS-PW) <xref target="RFC6073"/> to map
 		DetNet Relay and Edge Nodes <xref target="I-D.ietf-detnet-architecture"/> 
 		<xref target="I-D.ietf-detnet-dp-alt"/> to PW architecture. The PW-based 
 		data plane can be run over an MPLS <xref target="RFC4448"/> 
@@ -1322,6 +1323,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
    <?rfc include="reference.RFC.2205"?>
    &rfc4090;   
    &rfc4023;
+   &rfc5036;
    <?rfc include="reference.RFC.5654"?>
    <?rfc include="reference.RFC.7551"?>
    <?rfc include="reference.RFC.7950"?>
