@@ -192,7 +192,7 @@
    This document specifies Deterministic Networking data plane encapsulation solutions. The described data plane solutions can be applied over either IP or MPLS Packet Switched Networks.
   </t>
     <t><list style="hanging" hangIndent="2">
-        <t hangText="Comment #1:"> An overarching comment is that the early part of the document is really
+		    <t hangText="Comment #1:"> SB> An overarching comment is that the early part of the document is really
         fundamental architecture and perhaps belongs in the arch draft, leaving 
         this draft to be more specific about solutions.
         Indeed if we cannot find a single solution that maps to both IP and MPLS
@@ -203,7 +203,7 @@
     </list></t>
     <t><list style="hanging" hangIndent="2">
         <t hangText="Comment #2:">
-        Whilst I think we should look for a common solution to IP and MPLS
+		SB> Whilst I think we should look for a common solution to IP and MPLS
         I do not think that this is where the DT ended up.
 	</t>
       <t hangText="Discussion:">
@@ -224,14 +224,6 @@
     target="I-D.ietf-detnet-architecture"/>.
   </t>
   <t>
-  <list style="hanging">
-	 <t hangText="Comment #2">bla bla
-	 </t>
-	 <t hangText="Dicussion">blehh bleh
-	 </t>
-   </list>
-   </t>
-  <t>
     This document specifies the DetNet data plane.
     It defines how DetNet traffic is encapsulated at the network layer,
     and how DetNet-aware nodes can identity DetNet flows.
@@ -247,7 +239,7 @@
 
      <list style="hanging" hangIndent="2">
         <t hangText="Comment #3:">
-       This is really an MPLS one. The world of IP PWs is a bit scruffy with
+		SB> This is really an MPLS one. The world of IP PWs is a bit scruffy with
        some work in PWE3 and some in L2TPext which really went their own ways.
        There is for example no MS-PW IP design.
        The MS-PW approach needs to be examined more closely by the WG and thus
@@ -255,6 +247,15 @@
 	</t>
       <t hangText="Discussion:">
 	      Agree. "can be" -> "is".  
+      </t>
+      <t hangText="Comment #3.1">
+	      LB> EVPN-based encapsulation is also a potential candidate. In general DetNet
+	      should look more closely to the delevopment around EVPN.
+      </t>
+      <t hangText="Doscussion">
+	      Agree. EVPN could be a potential solution and the on-wire encapsuations
+	      are likely to be the same as PW-based encapsulation would be. EVPN even
+	      recommends using Control Word [RFC8214] (in the absence of entropy labels).
       </t>
     </list>
 
@@ -266,7 +267,7 @@
   </list>
      <list style="hanging" hangIndent="2">
         <t hangText="Comment #4:">
-           The IP solution has not been properly examined by the WG and needs
+		SB> The IP solution has not been properly examined by the WG and needs
            to be marked as provisional.
 	</t>
       <t hangText="Discussion:">
@@ -283,7 +284,7 @@
     protocols such as TCP or UDP are directly encapsulated in IP.
      <list style="hanging" hangIndent="2">
         <t hangText="Comment #5:">
-	We clearly need to look at the implications of running this with 
+		SB> We clearly need to look at the implications of running this with 
         a new IP header extension. Firstly we need input from 6man, but
         we also need to understand what happens in middle boxes, other 
         components of the host stack etc.
@@ -308,7 +309,7 @@
    be provided by the underlying MPLS or IP network. 
      <list style="hanging" hangIndent="2">
       <t hangText="Comment #6:">
-	   OK, although I think that this may be a mistake. There may well be some
+	      SB> OK, although I think that this may be a mistake. There may well be some
            coupling needed between the Detnet DP and the substrate/transport/underlay
            needed to make this work. If this is a genuine technical layering we
            should talk about it. If this is an artificial constraint imposed
@@ -334,6 +335,28 @@
    <list style="hanging" hangIndent="14">
     <t hangText="DA-T-PE">MPLS based DetNet edge node: a DetNet-aware PseudoWire Terminating Provider Edge (T-PE).</t>
     <t hangText="DA-S-PE">MPLS based DetNet relay node: a DetNet-aware PseudoWire Switching Provider Edge (S-PE).</t>
+   </list>
+   <list style="hanging">
+	   <t hangText="Comment #7">
+		   SB> We need to look at whether the S-PE concept is the best fit, or whether
+                   we should use introduce a Detnet relay to do this. An S-PE just
+                   swaps the PW label, but Detnet needs it to do more and a better model
+                   might be a new construct. However we could also discard the relay
+                   concept and run 1+n end to end, in which case the S-PEs would retain
+                  heir original function.
+	  </t>
+	  <t hangText="Discussion:">
+		 Disagree of the dropping comment. However, the issues are most likely
+		 terminology related. The relay concept is part of the DetNet architecture
+		 A DA-S-PE was intended to be a DetNet relay, which may do more than just
+		 swapping labels (PREF functionality). Current text is quite biased to
+		 MS-PW, which was the starting point for the DetNet relay in a MPLS PW network.
+  	 </t>
+ </list>
+
+	<list style="hanging" hangIndent="14">
+
+
     <t hangText="T-Label">A label used to identify the LSP used to
     transport a DetNet flow across an MPLS PSN, e.g., a hop-by-hop
     label used between label switching routers (LSR).</t>
@@ -342,9 +365,37 @@
      A PseudoWire label that is used to identify DetNet flow related PW Instances within a PE node.</t> 
 	<t hangText="Flow Label">
      IPv6 header field that is used to identify a DetNet flow (together with the source IP address field).</t> 
+    </list>
+   <list style="hanging">
+	   <t hangText="Comment #8">
+		   SB> If this is the IPv6 Flow label I think caution is needed as I don't think
+          the handling of this is well defined or consistently implemented in
+          networking equipment.
+          </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
+
+
+
+    <list style="hanging" hangIndent="14"> 
+
     <t hangText="local-ID">
      An edge and relay node internal construct that uniquely identifies a DetNet flow. 
-	 It may be used to select proper forwarding and/or DetNet specific service function.</t>
+     It may be used to select proper forwarding and/or DetNet specific service function.</t>
+    </list>
+    <list style="hanging">
+	   <t hangText="Comment #9">
+		   SB> Is this really an internal construct, or is it an on the wire construct?
+             If it is needed end to end, I don't think it is correct to describe it
+             as an internal construct. When you say "select" presumably you mean
+             by potentially any DN aware node on the path?
+	   </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
+    <list style="hanging" hangIndent="14"> 
+
     <t hangText="PREF">
      A Packet Replication and Elimination Function (PREF) does the replication
      and elimination processing of DetNet flow packets in edge or relay
@@ -352,7 +403,18 @@
      mechanism. The elimination function reuses and extends the existing duplicate 
 	 detection mechanism to operate over multiple (separate) DetNet member flows of a 
 	 DetNet compound flow.</t>
-   </list>
+    </list>
+    <list style="hanging">
+	   <t hangText="Comment #10">
+		   SB> I wonder if 1+1 is the right way to go, or whether 1+n is better. A bunch
+            of new techniques have emerged over the years and we really ought to look
+            at creating paths with MRT. With 1+2 on main + the two MRT paths you
+            have a two failure resiliency as far as it is possible to construct such
+            paths in the underlying topology.
+	   </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
   </t>
   </section>
 
@@ -407,6 +469,15 @@
 -->
 
   <t>
+    <list style="hanging">
+	   <t hangText="Comment #11">
+	   I am not sure whether this is a DP overview, or an architecture
+           overview and hence whether this needs to be here or in the architecture
+           draft.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
    This document describes how to use IP and/or MPLS to support a data
    plane method of flow identification and packet formwarding over
    layer-3. Two different cases are covered: (i) the inter-connect
@@ -542,6 +613,22 @@ System  |    +--------+       +--------+       +--------+   | System
    <t>Explicit routes: select/apply the flow specific path.</t>
    <t>Service protection: recognize DetNet compound and member flows for replication an elimination.</t>
   </list>
+    <list style="hanging">
+	   <t hangText="Comment #12">
+            I am not sure whether the correct architectural construct is flow
+            or flow group. Flow suggests that sharing/aggregation is not allowed
+            but whether this is allowed or not is an application specific issue.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	   <t hangText="Comment #13">
+            I think that there needs to be some clarification as to whether FG is
+            is understood by the DN system exclusively or whether there is an 
+            expectation that it is understood by the underlay.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
  </t>
  <t>OAM function related scenarios:
   <list style="symbols">
@@ -568,6 +655,14 @@ System  |    +--------+       +--------+       +--------+   | System
   each individual DetNet flow on a transit node may not be achieved in
   some network scenarios, but DetNet service can still be assured in
   these scenarios through resource allocation and control.
+    <list style="hanging">
+	   <t hangText="Comment #14">
+           You could introduce the concept of a flow group identified into the
+           packet. You may also include a flow id at a lower layer.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
  </t>
 
  <t>
@@ -575,6 +670,16 @@ System  |    +--------+       +--------+       +--------+   | System
   local operation a packet goes through. Therefore, local-IDs MUST be unique on
   each edge and relay nodes. Local-ID MUST be unambiguously bound to the
   DetNet flow. 
+    <list style="hanging">
+	   <t hangText="Comment #15">
+           I am confused as to what you mean by local ID. Is this an internal
+           construct which packet parameters map to, in which case why is it
+           being called up? IETF practise is to specify on the wire behaviour
+           but not internal behaviour of equipments.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
  </t>
  </section>
 </section>
@@ -588,6 +693,13 @@ System  |    +--------+       +--------+       +--------+   | System
    The DetNet data plane encapsulation should include two DetNet specific 
    information element in each packet of a DetNet flow: (1) flow identification 
    and (2) sequence number. 
+    <list style="hanging">
+	   <t hangText="Comment #16">
+		   should, SHOULD, must or MUST?
+	   </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
   </t>
   <t>
    The DetNet data plane encapsulation may consists further elements used 
@@ -627,9 +739,25 @@ System  |    +--------+       +--------+       +--------+   | System
        to identify the different DetNet member flows used to provide
        protection to a DetNet composite flow, perhaps even when both
        LSPs appear on the same link for some reason.</t>
+     </list>
+     <list style="hanging">
+	   <t hangText="Comment #17">
+             This needs some discussion by the WG.
+	   </t>
+	  <t hangText="Discussion:">
+  	 </t>
+        </list>
+        <list style="symbols">
      <t>MPLS transport LSP label(s) (T-label) which may be a hop-by-hop
      label used between LSRs.</t>
     </list>
+     <list style="hanging">
+	   <t hangText="Comment #18">
+	   Ordinarily this will of course be PHPed before arrival at an x-PE.
+	   </t>
+	  <t hangText="Discussion:">
+  	 </t>
+        </list>
   </t>
   
     <figure title="Encapsulation of a DetNet flow in a PW with MPLS(-TP) PSN" anchor="fig_pw_mpls">
@@ -672,12 +800,31 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]>
     </artwork></figure>
+    <t>
+    <list style="hanging">
+	   <t hangText="Comment #19">
+	   We need to think about whether "identical is the correct term.
+           The Ethernet S/N skips zero (it uses zero to mean no S/N in use).
+           is that the behaviour that we want?
+	   </t>
+	  <t hangText="Discussion:">
+  	 </t>
+     </list>
+    </t>
  </section>
   
   
   <section title="Native IPv6-based data plane encapsulation" anchor="v6Solution">
 
    <t>
+    <list style="hanging">
+	   <t hangText="Comment #20">
+	   SB> This part of the design needs to be marked as provisional until it has
+               a more thorough WG review.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+     </list>
     <xref target="fig_native_ip"/> illustrates a DetNet native IPv6 encapsulation.  The native IPv6
     encapsulation is meant for end to end Detnet service use cases, where the end stations are
     DetNet-aware (see <xref target="fig_ip_detnet"/>). Technically it is possible to use the
@@ -693,7 +840,18 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
     <t>IPv6 header Flow Label that is used to help to identify a DetNet flow (i.e., roughly
         an equivalent to the PW Label). A Flow Label together with the IPv6 source address
         uniquely identifies a DetNet flow.</t>
-    <t>DetNet Control Word IPv6 Destination Option containing sequencing information
+    </list>
+    <list style="hanging">
+	   <t hangText="Comment #21">
+           SB> Have we validated that it is unconditionally safe to make this 
+               assumption about the use of the FL?
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+     </list>
+
+    <list style="symbols">
+     <t>DetNet Control Word IPv6 Destination Option containing sequencing information
         for packet replication and duplicate elimination function (PREF) purposes.
         The DetNet Destination Option is equivalent to the DetNet Control Word.</t>
    </list>
@@ -706,6 +864,20 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
    target="I-D.ietf-6man-segment-routing-header"/>). The payload of the native IPv6
    encapsulation is any payload protocol that can be identified using the Next Header field either
    in the IPv6 packet header or in the last IPv6 extension header.
+    <list style="hanging">
+	   <t hangText="Comment #22">
+           SB> We will probably need to agree an option ordering, and need to
+           note that the 6man IPv6 solution already operates on the edge of the 
+           ability of h/w to see that far into the packet.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	   <t hangText="Comment #23">
+           SB> I am not sure the above is needed since it is by definition correct.
+	   </t>
+	  <t hangText="Discussion:">
+  	 </t>
+     </list>
   </t>
   <t>
    A DetNet-aware end station (a host) or an intermediate node receiving an IPv6 packet destined
@@ -735,6 +907,13 @@ H DetNet Control Word DstOpt Hdr  H
    function (PREF) purposes. This document specifies a new IPv6 Destination Option: the DetNet
    Destination Option for that purpose. The format of the option is illustrated in <xref
    target="fig_detnet_dstopt"/>.
+    <list style="hanging">
+	   <t hangText="Comment #24">
+            SB> Can an SR node look at a DO?
+	   </t>
+	  <t hangText="Discussion:">
+  	 </t>
+     </list>
   </t>
 
     <figure title="DetNet Destination Option" anchor="fig_detnet_dstopt">
@@ -763,6 +942,14 @@ H DetNet Control Word DstOpt Hdr  H
 
    <t> Duplicate elimination depends on flow identification. Mapping between packet fields and Local-ID
    may impact the implementation of duplicate elimination.
+    <list style="hanging">
+	   <t hangText="Comment #25">
+            SB> So I wonder if the right place to put the FI is in the IPv6 FI, or
+            in the IPv6 address itself?
+	   </t>
+	  <t hangText="Discussion:">
+  	 </t>
+     </list>
   </t>
    
   <section title="PseudoWire encapsulation">   
@@ -780,6 +967,15 @@ H DetNet Control Word DstOpt Hdr  H
     from multiple sources is analogous to Fast Reroute backup tunnel behavior
     <xref target="RFC4090"/>. The PW Label for a DetNet flow can be different
     on each PW segment.
+    <list style="hanging">
+	   <t hangText="Comment #26">
+            SB> I am not sure of the utility of this reference. In FRR you should not
+            receive packets concurrently on two paths. It seems fine to state the
+            the requirement that a single label is used for both paths.
+	   </t>
+	  <t hangText="Discussion:">
+  	 </t>
+     </list>
    </t>
    </section>
    
@@ -789,6 +985,14 @@ H DetNet Control Word DstOpt Hdr  H
         combination. The two fields uniquelly identify the end to end native IPv6 encapsulated
         DetNet flow. Obviously, the identification fails if any intermediate node modifies
         either the source address or the Flow Label.
+    <list style="hanging">
+	   <t hangText="Comment #27">
+	   SB> See earlier. If there are enough IPv6 addresses to address video
+           fragments, why not DN flows? Then this problem goes away.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+     </list>
     </t>
     <!-- LB: I think there needs to be more text on how PREF works with
          IPv6 flows. --> 
@@ -810,7 +1014,18 @@ H DetNet Control Word DstOpt Hdr  H
     The DetNet specific new functionality in an edge or relay node processing is the packet replication and
     duplication elimination function (PREF). This function is a part of the DetNet-aware
     "extended" forwarder. The PREF processing is triggered by the received packet of a DetNet flow. 
-	Basically the forwarding entry has to be extended with a "PREF
+    </t>
+    <t>
+    <list style="hanging">
+	   <t hangText="Comment #28">
+	   SB> I am not sure what you mean by triggered here. Hopefully we
+             are not thinking of dataplane triggered configuration?
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+     </list>
+
+    Basically the forwarding entry has to be extended with a "PREF
     enabled" boolean configuration switch that is associated with the normal forwarding actions (e.g.,
     in case of MPLS a swap, push, pop, ..). The output of the PREF elimination function is always a single packet.
     The output of the PREF replication function is always one or more packets (i.e., 1:M
@@ -829,6 +1044,17 @@ H DetNet Control Word DstOpt Hdr  H
     again. Also, looped back packets may make the network condition to look healthier than it
     actually is (in some cases link failures are not reflected properly because looped back packets
     make the situation appear better than it actually is). 
+    <list style="hanging">
+	   <t hangText="Comment #29:">
+           SB> There needs to be some text about preventing a node ever receiving its
+           own replicated packets. Indeed that would suggest that the flow
+           id should be changed and replication should only take place on 
+           configured flow IDs. I have a feeling that this would all be a lot safer if replication
+           only happened at ingress and we managed the diversity of the paths.
+          </t>
+	  <t hangText="Discussion:">
+	  </t>
+     </list>
    </t>
    </section>
 
@@ -844,6 +1070,14 @@ H DetNet Control Word DstOpt Hdr  H
 	 (similarly as described e.g., in <xref target="RFC6658"/>). Whether traffic flow from a client
      AC and PSN tunnel receives DetNet specific treatment is up to a local
      configuration and policy. 
+     <list style="hanging">
+	     <t hangText="Comment #30:">
+		     SB> Shouldn't the behaviour simply be a property of a given  PW?
+	     </t>
+	     <t hangText="Discussion:">
+	     </t>
+    </list>
+
     </t>
 
     <figure title="DetNet Edge Node processing" anchor="fig_detnet_edge">
@@ -882,6 +1116,13 @@ Client AC   |    NSP      |           |    Single   | member Inst.
      encapsulation and logic entirely, and thus is able to operate over unmodified implementation
      and deployment. The NSP approach works only between edge nodes and cannot make use of relay nodes
      (see <xref target="sec_s_pe"/>).
+    <list style="hanging">
+	   <t hangText="Comment #31">
+		   SB> This would be a fine way to operate the PW system - edge to edge.
+	   </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
     </t>
     <t>
      The DetNet-aware extended forwarder selects the egress DetNet member flow based on the DetNet forwarding rules.
@@ -889,7 +1130,19 @@ Client AC   |    NSP      |           |    Single   | member Inst.
      cases there may be no DetNet encapsulation header available yet as it is the case with relay nodes
      (see <xref target="sec_s_pe"/>).  It is the responsibility of the extended forwarder within the
      edge node to push the DetNet specific encapsulation (if not already present) to the packet before
-     forwarding it to the appropriate egress DetNet member flow instance(s). The extended forwarder MAY copy the
+     forwarding it to the appropriate egress DetNet member flow instance(s).
+    <list style="hanging">
+	   <t hangText="Comment #32">
+	   SB> I am not convinced of the wisdom of having a mid-point node convert
+           a flow into a DN flow, which is what you are implying here. This seems
+           like an ingress function.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
+     </t>
+
+     <t> The extended forwarder MAY copy the
      sequencing information from the native DetNet packet into the DetNet sequence number field and vice versa. If there is no
      existing sequencing information available in the native packet or the forwarder chose not to
      copy it from the native packet, then the extended forwarder MUST maintain a sequence number
@@ -904,13 +1157,32 @@ Client AC   |    NSP      |           |    Single   | member Inst.
      Relay node functions. Relay node is aware of DetNet flows and may operate upon those. 
 	 <xref target="fig_detnet_relay"/> illustrates the overall DetNet relay device
      functions.
+    <list style="hanging">
+	   <t hangText="Comment #33">
+           SB> I don't think that a relay node in not a normal construct so 
+           I am not sure "overload" is the right term here.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
     </t>
     <t>
      A DetNet Relay node participates to the packet replication and duplication
      elimination. This processing is done within an extended forwarder function.
      Whether an ingress DetNet member flow receives DetNet specific processing depends on how
      the forwarding is programmed.  For some DetNet member flows the relay node can act as a normal relay node
-     and for some apply the DetNet specific processing (i.e., PREF). It
+     and for some apply the DetNet specific processing (i.e., PREF).
+    <list style="hanging">
+	   <t hangText="Comment #34">
+           SB> Again relay node is not a normal term, so am not sure what it does
+            in the absence of a PREF function.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
+     </t>
+
+     <t> It
      is also possible to
      treat the relay node as a transit node, see <xref target="Aggregation"/>.
      Again, this is
@@ -954,6 +1226,20 @@ Client AC   |    NSP      |           |    Single   | member Inst.
             +---------------------------------------+
 ]]>
     </artwork></figure>
+    <t>
+    <list style="hanging">
+	   <t hangText="Comment #35">
+           SB> Somewhere in the dp document there needs to be a note of the 
+             requirement for interfaces to do fast exchange of counter state,
+             and a note to those planning the network and designing the 
+             control plane that they need to provide support for this.
+</t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
+    </t>
+
+
     </section>
    </section>
    <section title="Native IPv6-based data plane">
@@ -1026,7 +1312,18 @@ Client AC   |    NSP      |           |    Single   | member Inst.
       In addition to path pinning and packet replication and
       elimination, described in <xref target="dn-dt-solution"/> above,
       DetNet provides zero congestion loss and bounded latency and
-      jitter.  As described in <xref
+      jitter.
+    <list style="hanging">
+	   <t hangText="Comment #36">
+            SB> I just searched from the beginning of the document and this was the 
+             the first reference I found to pinning.
+            </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
+      </t>
+
+      <t>As described in <xref
       target="I-D.ietf-detnet-architecture"/>, there are different
       mechanisms that maybe used separately or in combination to deliver
       a zero congestion loss service.  These mechanisms are provided by
@@ -1065,6 +1362,13 @@ Client AC   |    NSP      |           |    Single   | member Inst.
    the subject of a completed reservation, can disrupt the QoS offered to properly
    reserved DetNet flows by using resources allocated to the reserved flows.  Therefore,
    the network nodes of a DetNet network SHOULD:
+    <list style="hanging">
+	   <t hangText="Comment #37">
+		   SB> Why not MUST?
+	   </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
   </t><t>
     <list style="symbols">
       <t>
@@ -1115,6 +1419,14 @@ Client AC   |    NSP      |           |    Single   | member Inst.
      approach also requires that nodes support aggregation ensure that
      traffic from aggregated LSPs are placed (shaped/policed/enqueued)
      in a fashion that ensures the required DetNet service is preserved.
+    <list style="hanging">
+	   <t hangText="Comment #38">
+	   SB> I am sure we can do better than this with SR, or the use of
+            routing techniques that map certain addresses to certain paths.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
    </t>
    <t>
      In both the MPLS and IP cases, additional details of the traffic control
@@ -1216,6 +1528,15 @@ Client AC   |    NSP      |           |    Single   | member Inst.
 <!-- ===================================================================== -->
  <section title="Time synchronization">
   <t>
+    <list style="hanging">
+	   <t hangText="Comment #39">
+	   SB> This section should point the reader to RFC8169 (residence time
+            in MPLS n/w. We need to consider if we need to introduce the same
+            concept in IP.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
    [Editor's note: describe a bit of issues and deployment considerations
    related to time-synchronization within DetNet. Refer to DT discussion and the
    slides that summarize different approaches and rough synchronization
@@ -1272,7 +1593,17 @@ Client AC   |    NSP      |           |    Single   | member Inst.
   to use replication and elimination for synchronization packets; the
   replication/elimination approach may in some cases reduce the
   synchronization accuracy, since the observed path delay will be
-  bivalent.</t>
+  bivalent.
+    <list style="hanging">
+	   <t hangText="Comment #40">
+           SB> I am not sure why we sould not use PREP. We should explain to the 
+            reader.
+           </t>
+	  <t hangText="Discussion:">
+  	 </t>
+	</list>
+
+  </t>
 
  </section>
 <!-- ===================================================================== -->
