@@ -325,8 +325,8 @@
               Channel) works correctly in a network that has replication and
               elimination.
       </t>
-      <t hangText="Discussion:">
-      </t>
+      <!--t hangText="Discussion:">
+      </t-->
     </list>
   </t>
  </section>
@@ -381,7 +381,8 @@
           networking equipment.
           </t>
 	  <t hangText="Discussion:">
-  	 </t>
+	    DetNet specifies the use and discusses possible interaction with RFC6347 in this I-D.
+	  </t>
 	</list>
 
 
@@ -400,7 +401,8 @@
              by potentially any DN aware node on the path?
 	   </t>
 	  <t hangText="Discussion:">
-  	 </t>
+	     It is an internal construct, so yes.
+	  </t>
 	</list>
     <list style="hanging" hangIndent="14"> 
 
@@ -420,8 +422,10 @@
             have a two failure resiliency as far as it is possible to construct such
             paths in the underlying topology.
 	   </t>
-	  <t hangText="Discussion:">
-  	 </t>
+	   <t hangText="Discussion:">
+	    As observed above, actually 1+n would be closer to what is needed. 1+1 was meant to
+	    be more an example showing there is existing work that can be leveraged.
+  	   </t>
 	</list>
   </t>
   </section>
@@ -484,7 +488,10 @@
            draft.
            </t>
 	  <t hangText="Discussion:">
-  	 </t>
+	    Overview is more of an editorial matter and its final location can be
+	    discussed later on. Currently it is "no harm" to have it here but there
+	    are no binding reasons to keep the text in either.
+	  </t>
 	</list>
    This document describes how to use IP and/or MPLS to support a data
    plane method of flow identification and packet formwarding over
@@ -627,14 +634,18 @@ System  |    +--------+       +--------+       +--------+   | System
             or flow group. Flow suggests that sharing/aggregation is not allowed
             but whether this is allowed or not is an application specific issue.
            </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+            Agree that a flow group would be a better characterization. 
   	 </t>
 	   <t hangText="Comment #13">
             I think that there needs to be some clarification as to whether FG is
             is understood by the DN system exclusively or whether there is an 
             expectation that it is understood by the underlay.
            </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+            Agree that more detail is needed here. DetNet aware nodes need to
+	    understand flow groups. Underlay needs to be aware of flow groups at
+	    the resource allocation level.
   	 </t>
 	</list>
  </t>
@@ -669,7 +680,9 @@ System  |    +--------+       +--------+       +--------+   | System
            packet. You may also include a flow id at a lower layer.
            </t>
 	  <t hangText="Discussion:">
-  	 </t>
+		  Agree on the identification properties. Adding a specific id into actual
+		  on-wire formats is not necessarily needed.
+	  </t>
 	</list>
  </t>
 
@@ -686,7 +699,9 @@ System  |    +--------+       +--------+       +--------+   | System
            but not internal behaviour of equipments.
            </t>
 	  <t hangText="Discussion:">
-  	 </t>
+	   Local-id is an internal construct, which was intended to clarify
+	   the discussion in the I-D. Obviously it did not work as intended.
+	  </t>
 	</list>
  </t>
  </section>
