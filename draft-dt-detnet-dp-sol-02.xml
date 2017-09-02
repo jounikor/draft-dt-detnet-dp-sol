@@ -319,6 +319,14 @@
            The only interaction needed is that the flow identification is possible.
 	   That needs to be available for lower layers.
       </t>
+      <t hangText="Comment #6.1:">
+	      LA> Even though this document does not specify any OAM
+              functions, we will need to verify that the GACh (Generalized Associate
+              Channel) works correctly in a network that has replication and
+              elimination.
+      </t>
+      <t hangText="Discussion:">
+      </t>
     </list>
   </t>
  </section>
