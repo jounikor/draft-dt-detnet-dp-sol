@@ -1126,6 +1126,7 @@ H DetNet Control Word DstOpt Hdr  H
 		     SB> Shouldn't the behaviour simply be a property of a given  PW?
 	     </t>
 	     <t hangText="Discussion:">
+		     Agree in principle.
 	     </t>
     </list>
 
@@ -1192,7 +1193,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
            like an ingress function.
            </t>
 	   <t hangText="Discussion:">
-
+               OK. The text here has issues and seems to mix relay and edge.
   	 </t>
 	</list>
      </t>
@@ -1217,7 +1218,8 @@ Client AC   |    NSP      |           |    Single   | member Inst.
            SB> I don't think that a relay node in not a normal construct so 
            I am not sure "overload" is the right term here.
            </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   Agree. There is a terminology issue here.
   	 </t>
 	</list>
     </t>
@@ -1232,7 +1234,11 @@ Client AC   |    NSP      |           |    Single   | member Inst.
            SB> Again relay node is not a normal term, so am not sure what it does
             in the absence of a PREF function.
            </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   Relay node was a DetNet aware S-PE originally, which is not explicitly stated here anymore, thus
+                   slightly confusing text here. The text here needs to clarify the roles of PREF and switching
+		   functions. A DetNet relay is described in the architecture document. However, there is definitely
+		   room for termonilogy and text improvements.
   	 </t>
 	</list>
      </t>
@@ -1288,8 +1294,10 @@ Client AC   |    NSP      |           |    Single   | member Inst.
              requirement for interfaces to do fast exchange of counter state,
              and a note to those planning the network and designing the 
              control plane that they need to provide support for this.
-</t>
-	  <t hangText="Discussion:">
+             </t>
+         <t hangText="Discussion:">
+		 We kinf of agree but also think the above exchange or synchronization of
+		 counter states is not in our scope to solve.
   	 </t>
 	</list>
     </t>
@@ -1373,7 +1381,10 @@ Client AC   |    NSP      |           |    Single   | member Inst.
             SB> I just searched from the beginning of the document and this was the 
              the first reference I found to pinning.
             </t>
-	  <t hangText="Discussion:">
+	    <t hangText="Discussion:">
+		    Terminology isssue. Should use, for example, explicit paths which is
+		    used in the architecture I-D.
+
   	 </t>
 	</list>
       </t>
@@ -1421,7 +1432,8 @@ Client AC   |    NSP      |           |    Single   | member Inst.
 	   <t hangText="Comment #37">
 		   SB> Why not MUST?
 	   </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   OK with MUST.
   	 </t>
 	</list>
   </t><t>
@@ -1479,7 +1491,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
 	   SB> I am sure we can do better than this with SR, or the use of
             routing techniques that map certain addresses to certain paths.
            </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
   	 </t>
 	</list>
    </t>
@@ -1589,7 +1601,8 @@ Client AC   |    NSP      |           |    Single   | member Inst.
             in MPLS n/w. We need to consider if we need to introduce the same
             concept in IP.
            </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   agree.
   	 </t>
 	</list>
    [Editor's note: describe a bit of issues and deployment considerations
@@ -1654,7 +1667,10 @@ Client AC   |    NSP      |           |    Single   | member Inst.
            SB> I am not sure why we sould not use PREP. We should explain to the 
             reader.
            </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   Agree that a this can be opened a bit more in detail. The
+		   issue is explained briefly in the last sentence but it
+		   could be more clear.
   	 </t>
 	</list>
 
