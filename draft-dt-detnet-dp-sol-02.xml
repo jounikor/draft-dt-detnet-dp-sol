@@ -720,7 +720,8 @@ System  |    +--------+       +--------+       +--------+   | System
 	   <t hangText="Comment #16">
 		   should, SHOULD, must or MUST?
 	   </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   SHOULD or MUST is ok. MUST is probably more appropriate.
   	 </t>
 	</list>
   </t>
@@ -767,7 +768,8 @@ System  |    +--------+       +--------+       +--------+   | System
 	   <t hangText="Comment #17">
              This needs some discussion by the WG.
 	   </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   Agree, specifically if the I-D becomes WG document.
   	 </t>
         </list>
         <list style="symbols">
@@ -778,7 +780,10 @@ System  |    +--------+       +--------+       +--------+   | System
 	   <t hangText="Comment #18">
 	   Ordinarily this will of course be PHPed before arrival at an x-PE.
 	   </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   In most cases yes - depends on the network configuration.
+		   PHP is not mandatory and TP does not even
+		   have PHP. 
   	 </t>
         </list>
   </t>
@@ -830,7 +835,10 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
            The Ethernet S/N skips zero (it uses zero to mean no S/N in use).
            is that the behaviour that we want?
 	   </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   Good point. Identical is a wrong statement. The format is
+		   the same the behaviour of SN is slightly different as 0 is
+		   assumed to be a valid SN.
   	 </t>
      </list>
     </t>
@@ -846,7 +854,8 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
                a more thorough WG review.
            </t>
 	  <t hangText="Discussion:">
-  	 </t>
+	       Ok, however, this is still an individual I-D.
+	  </t>
      </list>
     <xref target="fig_native_ip"/> illustrates a DetNet native IPv6 encapsulation.  The native IPv6
     encapsulation is meant for end to end Detnet service use cases, where the end stations are
@@ -869,7 +878,10 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
            SB> Have we validated that it is unconditionally safe to make this 
                assumption about the use of the FL?
            </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   RFC6437 does not restrict such use and DetNet DP solution
+		   can always define their own use of flow label. It should be noted that a
+		   DetNet aware node will always contain new code and is not a load balancer.
   	 </t>
      </list>
 
@@ -893,13 +905,17 @@ H     Sequencing      H--'   \-->H       DetNet Control Word       H
            note that the 6man IPv6 solution already operates on the edge of the 
            ability of h/w to see that far into the packet.
            </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   RFC8200 describes extension header ordering - there is not much to agree there.
+		   Agree on the hardware lookup challenges. However, the issues of SR header are
+		   not this I-D to fix.
   	 </t>
 	   <t hangText="Comment #23">
            SB> I am not sure the above is needed since it is by definition correct.
 	   </t>
 	  <t hangText="Discussion:">
-  	 </t>
+	      (next header) agree.
+	  </t>
      </list>
   </t>
   <t>
@@ -934,7 +950,8 @@ H DetNet Control Word DstOpt Hdr  H
 	   <t hangText="Comment #24">
             SB> Can an SR node look at a DO?
 	   </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   Yes.
   	 </t>
      </list>
   </t>
@@ -970,7 +987,11 @@ H DetNet Control Word DstOpt Hdr  H
             SB> So I wonder if the right place to put the FI is in the IPv6 FI, or
             in the IPv6 address itself?
 	   </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   Each flow having different address is challenging if we want to terminate
+		   multiple flows into the same node with one address or originate multiple
+		   flows from a node with one address (note, we are aware of the one /64 per node
+		   discussion but cannot assume it here, at least not yet).
   	 </t>
      </list>
   </t>
@@ -996,7 +1017,8 @@ H DetNet Control Word DstOpt Hdr  H
             receive packets concurrently on two paths. It seems fine to state the
             the requirement that a single label is used for both paths.
 	   </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   OK with the same label comment. OK to remove the FRR reference here.
   	 </t>
      </list>
    </t>
@@ -1013,7 +1035,11 @@ H DetNet Control Word DstOpt Hdr  H
 	   SB> See earlier. If there are enough IPv6 addresses to address video
            fragments, why not DN flows? Then this problem goes away.
            </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   See the earlier comment #25 discussion. If nodes get their addressies via
+		   DHCPv6 basically ruins this mechanism. Also the assumption for this to
+		   work is that the node has a full /64 to use, which is not always the case.
+		   Otherwise the idea is just fine.
   	 </t>
      </list>
     </t>
@@ -1044,7 +1070,8 @@ H DetNet Control Word DstOpt Hdr  H
 	   SB> I am not sure what you mean by triggered here. Hopefully we
              are not thinking of dataplane triggered configuration?
            </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   "Initiated" is probably more appropriate wording.
   	 </t>
      </list>
 
@@ -1076,6 +1103,7 @@ H DetNet Control Word DstOpt Hdr  H
            only happened at ingress and we managed the diversity of the paths.
           </t>
 	  <t hangText="Discussion:">
+		  Agree on hardening the loopback text considerations.
 	  </t>
      </list>
    </t>
@@ -1143,7 +1171,10 @@ Client AC   |    NSP      |           |    Single   | member Inst.
 	   <t hangText="Comment #31">
 		   SB> This would be a fine way to operate the PW system - edge to edge.
 	   </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+		   When it comes to use of NSPs, agree. Also for "island interconnect" this is
+		   a fine. However, when there is a need to do PREF in a middle, plain edge to edge
+		   is not enough.
   	 </t>
 	</list>
     </t>
@@ -1160,7 +1191,8 @@ Client AC   |    NSP      |           |    Single   | member Inst.
            a flow into a DN flow, which is what you are implying here. This seems
            like an ingress function.
            </t>
-	  <t hangText="Discussion:">
+	   <t hangText="Discussion:">
+
   	 </t>
 	</list>
      </t>
