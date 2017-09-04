@@ -136,7 +136,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
    13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  31
      13.1.  Normative references . . . . . . . . . . . . . . . . . .  31
      13.2.  Informative references . . . . . . . . . . . . . . . . .  33
-   Appendix A.  Example of DetNet data plane operation . . . . . . .  35
+   Appendix A.  Example of DetNet data plane operation . . . . . . .  34
    Appendix B.  Example of pinned paths using IPv6 . . . . . . . . .  35
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  35
 
@@ -400,7 +400,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 3.  Requirements language
 
-   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL" "SHALL NOT",
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
    document are to be interpreted as described in [RFC2119].
 
@@ -1760,11 +1760,6 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
               DOI 10.17487/RFC3473, January 2003,
               <https://www.rfc-editor.org/info/rfc3473>.
 
-   [RFC3985]  Bryant, S., Ed. and P. Pate, Ed., "Pseudo Wire Emulation
-              Edge-to-Edge (PWE3) Architecture", RFC 3985,
-              DOI 10.17487/RFC3985, March 2005,
-              <https://www.rfc-editor.org/info/rfc3985>.
-
    [RFC4206]  Kompella, K. and Y. Rekhter, "Label Switched Paths (LSP)
               Hierarchy with Generalized Multi-Protocol Label Switching
               (GMPLS) Traffic Engineering (TE)", RFC 4206,
@@ -1785,6 +1780,11 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
               Class" Field", RFC 5462, DOI 10.17487/RFC5462, February
               2009, <https://www.rfc-editor.org/info/rfc5462>.
 
+   [RFC6003]  Papadimitriou, D., "Ethernet Traffic Parameters",
+              RFC 6003, DOI 10.17487/RFC6003, October 2010,
+              <https://www.rfc-editor.org/info/rfc6003>.
+
+
 
 
 
@@ -1793,10 +1793,6 @@ Korhonen, et al.          Expires March 8, 2018                [Page 32]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
-
-   [RFC6003]  Papadimitriou, D., "Ethernet Traffic Parameters",
-              RFC 6003, DOI 10.17487/RFC6003, October 2010,
-              <https://www.rfc-editor.org/info/rfc6003>.
 
    [RFC6073]  Martini, L., Metz, C., Nadeau, T., Bocci, M., and M.
               Aissaoui, "Segmented Pseudowire", RFC 6073,
@@ -1807,11 +1803,6 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
               "Packet Pseudowire Encapsulation over an MPLS PSN",
               RFC 6658, DOI 10.17487/RFC6658, July 2012,
               <https://www.rfc-editor.org/info/rfc6658>.
-
-   [RFC7510]  Xu, X., Sheth, N., Yong, L., Callon, R., and D. Black,
-              "Encapsulating MPLS in UDP", RFC 7510,
-              DOI 10.17487/RFC7510, April 2015,
-              <https://www.rfc-editor.org/info/rfc7510>.
 
 13.2.  Informative references
 
@@ -1840,16 +1831,6 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
               Considerations, draft-sdt-detnet-security, work in
               progress", 2017.
 
-
-
-
-
-
-Korhonen, et al.          Expires March 8, 2018                [Page 33]
-
-Internet-Draft       DetNet Data Plane Encapsulation      September 2017
-
-
    [IEEE1588]
               IEEE, "IEEE 1588 Standard for a Precision Clock
               Synchronization Protocol for Networked Measurement and
@@ -1862,6 +1843,13 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
               <http://www.ieee802.org/1/files/private/cb-drafts/
               d2/802-1CB-d2-1.pdf>.
 
+
+
+Korhonen, et al.          Expires March 8, 2018                [Page 33]
+
+Internet-Draft       DetNet Data Plane Encapsulation      September 2017
+
+
    [IEEE8021Q]
               IEEE 802.1, "Standard for Local and metropolitan area
               networks--Bridges and Bridged Networks (IEEE Std 802.1Q-
@@ -1872,10 +1860,10 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
               Functional Specification", RFC 2205, DOI 10.17487/RFC2205,
               September 1997, <https://www.rfc-editor.org/info/rfc2205>.
 
-   [RFC4023]  Worster, T., Rekhter, Y., and E. Rosen, Ed.,
-              "Encapsulating MPLS in IP or Generic Routing Encapsulation
-              (GRE)", RFC 4023, DOI 10.17487/RFC4023, March 2005,
-              <https://www.rfc-editor.org/info/rfc4023>.
+   [RFC3985]  Bryant, S., Ed. and P. Pate, Ed., "Pseudo Wire Emulation
+              Edge-to-Edge (PWE3) Architecture", RFC 3985,
+              DOI 10.17487/RFC3985, March 2005,
+              <https://www.rfc-editor.org/info/rfc3985>.
 
    [RFC4090]  Pan, P., Ed., Swallow, G., Ed., and A. Atlas, Ed., "Fast
               Reroute Extensions to RSVP-TE for LSP Tunnels", RFC 4090,
@@ -1896,16 +1884,6 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
               Paths (LSPs)", RFC 7551, DOI 10.17487/RFC7551, May 2015,
               <https://www.rfc-editor.org/info/rfc7551>.
 
-
-
-
-
-
-Korhonen, et al.          Expires March 8, 2018                [Page 34]
-
-Internet-Draft       DetNet Data Plane Encapsulation      September 2017
-
-
    [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
               RFC 7950, DOI 10.17487/RFC7950, August 2016,
               <https://www.rfc-editor.org/info/rfc7950>.
@@ -1920,6 +1898,13 @@ Appendix A.  Example of DetNet data plane operation
    labels etc work in the case of MPLS-based PSN and utilizing PREF.
    The figure is subject to change depending on the further DT decisions
    on the label handling..]
+
+
+
+Korhonen, et al.          Expires March 8, 2018                [Page 34]
+
+Internet-Draft       DetNet Data Plane Encapsulation      September 2017
+
 
 Appendix B.  Example of pinned paths using IPv6
 
@@ -1954,14 +1939,6 @@ Authors' Addresses
    Email: norman.finn@mail01.huawei.com
 
 
-
-
-
-Korhonen, et al.          Expires March 8, 2018                [Page 35]
-
-Internet-Draft       DetNet Data Plane Encapsulation      September 2017
-
-
    Balazs Varga
    Ericsson
    Konyves Kalman krt. 11/B
@@ -1969,6 +1946,20 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
    Hungary
 
    Email: balazs.a.varga@ericsson.com
+
+
+
+
+
+
+
+
+
+
+
+Korhonen, et al.          Expires March 8, 2018                [Page 35]
+
+Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
    Janos Farkas
@@ -2004,6 +1995,15 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
    LabN Consulting, L.L.C.
 
    Email: lberger@labn.net
+
+
+
+
+
+
+
+
+
 
 
 

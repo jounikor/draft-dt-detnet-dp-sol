@@ -463,7 +463,7 @@
 
  <section title="Requirements language">
   <t>
-   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL"
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL",
    "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY",
    and "OPTIONAL" in this document are to be interpreted as
    described in <xref target="RFC2119"/>.
@@ -1793,7 +1793,6 @@ Client AC   |    NSP      |           |    Single   | member Inst.
    <?rfc include="reference.RFC.3270"?>
    <?rfc include="reference.RFC.3443"?>
    <?rfc include="reference.RFC.3473"?>
-   &rfc3985;
    <?rfc include="reference.RFC.4206"?>
    &rfc4448;
    <?rfc include="reference.RFC.5129"?>
@@ -1801,12 +1800,11 @@ Client AC   |    NSP      |           |    Single   | member Inst.
    <?rfc include="reference.RFC.6003"?>
    &rfc6073;
    &rfc6658;
-   &rfc7510;
   </references>
   <references title="Informative references">
    <?rfc include="reference.RFC.2205"?>
+   &rfc3985;
    &rfc4090;   
-   &rfc4023;
    &rfc5036;
    <?rfc include="reference.RFC.5654"?>
    <?rfc include="reference.RFC.7551"?>
