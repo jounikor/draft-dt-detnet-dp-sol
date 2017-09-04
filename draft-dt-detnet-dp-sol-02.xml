@@ -252,7 +252,7 @@
 	      LB> EVPN-based encapsulation is also a potential candidate. In general DetNet
 	      should look more closely to the delevopment around EVPN.
       </t>
-      <t hangText="Doscussion">
+      <t hangText="Discussion">
 	      Agree. EVPN could be a potential solution and the on-wire encapsuations
 	      are likely to be the same as PW-based encapsulation would be. EVPN even
 	      recommends using Control Word [RFC8214] (in the absence of entropy labels).
@@ -325,8 +325,9 @@
               Channel) works correctly in a network that has replication and
               elimination.
       </t>
-      <!--t hangText="Discussion:">
-      </t-->
+      <t hangText="Discussion:">
+	      --
+      </t>
     </list>
   </t>
  </section>
@@ -1492,6 +1493,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
             routing techniques that map certain addresses to certain paths.
            </t>
 	   <t hangText="Discussion:">
+		   --
   	 </t>
 	</list>
    </t>

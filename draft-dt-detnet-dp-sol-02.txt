@@ -5,7 +5,7 @@
 DetNet                                                  J. Korhonen, Ed.
 Internet-Draft                                                    Nordic
 Intended status: Standards Track                            L. Andersson
-Expires: March 7, 2018                                          Y. Jiang
+Expires: March 8, 2018                                          Y. Jiang
                                                                  N. Finn
                                                                   Huawei
                                                                 B. Varga
@@ -17,7 +17,7 @@ Expires: March 7, 2018                                          Y. Jiang
                                                                  Marvell
                                                                L. Berger
                                                                     LabN
-                                                       September 3, 2017
+                                                       September 4, 2017
 
 
                     DetNet Data Plane Encapsulation
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Korhonen, et al.          Expires March 7, 2018                 [Page 1]
+Korhonen, et al.          Expires March 8, 2018                 [Page 1]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -61,14 +61,14 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
    Internet-Drafts are working documents of the Internet Engineering
    Task Force (IETF).  Note that other groups may also distribute
    working documents as Internet-Drafts.  The list of current Internet-
-   Drafts is at http://datatracker.ietf.org/drafts/current/.
+   Drafts is at https://datatracker.ietf.org/drafts/current/.
 
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on March 7, 2018.
+   This Internet-Draft will expire on March 8, 2018.
 
 Copyright Notice
 
@@ -77,7 +77,7 @@ Copyright Notice
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
-   (http://trustee.ietf.org/license-info) in effect on the date of
+   (https://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
@@ -97,7 +97,7 @@ Table of Contents
    5.  DetNet data plane solution  . . . . . . . . . . . . . . . . .  12
      5.1.  DetNet specific packet fields . . . . . . . . . . . . . .  12
      5.2.  DetNet encapsulation  . . . . . . . . . . . . . . . . . .  12
-       5.2.1.  PseudoWire-based data plane encapsulation . . . . . .  12
+       5.2.1.  PseudoWire-based data plane encapsulation . . . . . .  13
        5.2.2.  Native IPv6-based data plane encapsulation  . . . . .  15
      5.3.  DetNet flow identification for duplicate detection  . . .  17
        5.3.1.  PseudoWire encapsulation  . . . . . . . . . . . . . .  17
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Korhonen, et al.          Expires March 7, 2018                 [Page 2]
+Korhonen, et al.          Expires March 8, 2018                 [Page 2]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -165,7 +165,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                 [Page 3]
+Korhonen, et al.          Expires March 8, 2018                 [Page 3]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -180,7 +180,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
      candidate.  In general DetNet should look more closely to the
      delevopment around EVPN.
 
-   Doscussion  Agree.  EVPN could be a potential solution and the on-
+   Discussion  Agree.  EVPN could be a potential solution and the on-
      wire encapsuations are likely to be the same as PW-based
      encapsulation would be.  EVPN even recommends using Control Word
      [RFC8214] (in the absence of entropy labels).
@@ -221,7 +221,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                 [Page 4]
+Korhonen, et al.          Expires March 8, 2018                 [Page 4]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -244,6 +244,8 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
      functions, we will need to verify that the GACh (Generalized
      Associate Channel) works correctly in a network that has
      replication and elimination.
+
+   Discussion:  --
 
 2.  Terminology
 
@@ -272,15 +274,16 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
       are most likely terminology related.  The relay concept is part of
       the DetNet architecture A DA-S-PE was intended to be a DetNet
       relay, which may do more than just swapping labels (PREF
-      functionality).  Current text is quite biased to MS-PW, which was
-      the starting point for the DetNet relay in a MPLS PW network.
 
 
 
-Korhonen, et al.          Expires March 7, 2018                 [Page 5]
+Korhonen, et al.          Expires March 8, 2018                 [Page 5]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
+
+      functionality).  Current text is quite biased to MS-PW, which was
+      the starting point for the DetNet relay in a MPLS PW network.
 
    T-Label       A label used to identify the LSP used to transport a
                  DetNet flow across an MPLS PSN, e.g., a hop-by-hop
@@ -327,16 +330,17 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
    Comment #10  SB> I wonder if 1+1 is the right way to go, or whether
       1+n is better.  A bunch of new techniques have emerged over the
       years and we really ought to look at creating paths with MRT.
-      With 1+2 on main + the two MRT paths you have a two failure
-      resiliency as far as it is possible to construct such paths in the
-      underlying topology.
 
 
 
-Korhonen, et al.          Expires March 7, 2018                 [Page 6]
+Korhonen, et al.          Expires March 8, 2018                 [Page 6]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
+
+      With 1+2 on main + the two MRT paths you have a two failure
+      resiliency as far as it is possible to construct such paths in the
+      underlying topology.
 
    Discussion:  As observed above, actually 1+n would be closer to what
       is needed. 1+1 was meant to be more an example showing there is
@@ -382,17 +386,17 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
    PW            PseudoWire.
 
-   QoS           Quality of Service.
-
-   TSN           Time-Sensitive Network.
 
 
 
-
-Korhonen, et al.          Expires March 7, 2018                 [Page 7]
+Korhonen, et al.          Expires March 8, 2018                 [Page 7]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
+
+   QoS           Quality of Service.
+
+   TSN           Time-Sensitive Network.
 
 3.  Requirements language
 
@@ -438,18 +442,17 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
    Figure 2 illustrates how DetNet can provide services for IEEE
    802.1TSN end systems over a DetNet enabled network.  The edge nodes
-   insert and remove required DetNet data plane encapsulation.  The 'X'
-   in the edge and relay nodes represents a potential DetNet flow packet
-   replication and elimination point.  This conceptually parallels L2VPN
 
 
 
-
-Korhonen, et al.          Expires March 7, 2018                 [Page 8]
+Korhonen, et al.          Expires March 8, 2018                 [Page 8]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
+   insert and remove required DetNet data plane encapsulation.  The 'X'
+   in the edge and relay nodes represents a potential DetNet flow packet
+   replication and elimination point.  This conceptually parallels L2VPN
    services, and could leverage existing related solutions as discussed
    below.
 
@@ -480,6 +483,29 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
    the underlying transport, for example tunneling IP over MPLS, or
    simply interconnect network segments.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Korhonen, et al.          Expires March 8, 2018                 [Page 9]
+
+Internet-Draft       DetNet Data Plane Encapsulation      September 2017
+
+
          DetNet                                             DetNet
          Service          Transit          Transit          Service
    DetNet  |             |<-Tnl->|        |<-Tnl->|            | DetNet
@@ -496,15 +522,6 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
        |<--------------- End to End DetNet Service -------------->|
 
                      Figure 3: PW-Based Native DetNet
-
-
-
-
-
-Korhonen, et al.          Expires March 7, 2018                 [Page 9]
-
-Internet-Draft       DetNet Data Plane Encapsulation      September 2017
-
 
    Figure 4 illustrates how end to end IP-based DetNet service can be
    provided.  In this case, the end systems are able to send and receive
@@ -536,6 +553,15 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
    1.  DetNet function related scenarios:
 
+
+
+
+
+Korhonen, et al.          Expires March 8, 2018                [Page 10]
+
+Internet-Draft       DetNet Data Plane Encapsulation      September 2017
+
+
        *  Congestion protection and latency control: usage of allocated
           resources (queuing, policing, shaping).
 
@@ -554,14 +580,6 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
        Comment #13  I think that there needs to be some clarification as
           to whether FG is is understood by the DN system exclusively or
-
-
-
-Korhonen, et al.          Expires March 7, 2018                [Page 10]
-
-Internet-Draft       DetNet Data Plane Encapsulation      September 2017
-
-
           whether there is an expectation that it is understood by the
           underlay.
 
@@ -592,6 +610,14 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
    The DetNet data plane allows for the aggregation of DetNet flows,
    e.g., via MPLS hierarchical LSPs, to improved scaling.  When DetNet
    flows are aggregated, transit nodes may have limited ability to
+
+
+
+Korhonen, et al.          Expires March 8, 2018                [Page 11]
+
+Internet-Draft       DetNet Data Plane Encapsulation      September 2017
+
+
    provide service on per-flow DetNet identifiers.  Therefore,
    identifying each individual DetNet flow on a transit node may not be
    achieved in some network scenarios, but DetNet service can still be
@@ -608,15 +634,6 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
    determine what local operation a packet goes through.  Therefore,
    local-IDs MUST be unique on each edge and relay nodes.  Local-ID MUST
    be unambiguously bound to the DetNet flow.
-
-
-
-
-
-Korhonen, et al.          Expires March 7, 2018                [Page 11]
-
-Internet-Draft       DetNet Data Plane Encapsulation      September 2017
-
 
    Comment #15  I am confused as to what you mean by local ID.  Is this
       an internal construct which packet parameters map to, in which
@@ -650,6 +667,13 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
    (1) PseudoWire (PW) for MPLS PSN and (2) native IPv6 based
    encapsulation for IP PSN.
 
+
+
+Korhonen, et al.          Expires March 8, 2018                [Page 12]
+
+Internet-Draft       DetNet Data Plane Encapsulation      September 2017
+
+
 5.2.1.  PseudoWire-based data plane encapsulation
 
    Figure 5 illustrates a DetNet PW encapsulation over an MPLS PSN.  The
@@ -665,14 +689,6 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
    Section 7.6.
 
    The PW-based DetNet data plane encapsulation consists of:
-
-
-
-
-Korhonen, et al.          Expires March 7, 2018                [Page 12]
-
-Internet-Draft       DetNet Data Plane Encapsulation      September 2017
-
 
    o  DetNet control word (d-CW) containing sequencing information for
       packet replication and duplicate elimination purposes.  There is a
@@ -709,23 +725,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Korhonen, et al.          Expires March 7, 2018                [Page 13]
+Korhonen, et al.          Expires March 8, 2018                [Page 13]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -781,7 +781,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 14]
+Korhonen, et al.          Expires March 8, 2018                [Page 14]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -837,7 +837,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 15]
+Korhonen, et al.          Expires March 8, 2018                [Page 15]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -893,7 +893,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 16]
+Korhonen, et al.          Expires March 8, 2018                [Page 16]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -949,7 +949,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 17]
+Korhonen, et al.          Expires March 8, 2018                [Page 17]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1005,7 +1005,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 18]
+Korhonen, et al.          Expires March 8, 2018                [Page 18]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1061,7 +1061,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 19]
+Korhonen, et al.          Expires March 8, 2018                [Page 19]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1117,7 +1117,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 20]
+Korhonen, et al.          Expires March 8, 2018                [Page 20]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1173,7 +1173,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 21]
+Korhonen, et al.          Expires March 8, 2018                [Page 21]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1229,7 +1229,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 22]
+Korhonen, et al.          Expires March 8, 2018                [Page 22]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1285,7 +1285,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 23]
+Korhonen, et al.          Expires March 8, 2018                [Page 23]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1341,7 +1341,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 24]
+Korhonen, et al.          Expires March 8, 2018                [Page 24]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1397,7 +1397,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 25]
+Korhonen, et al.          Expires March 8, 2018                [Page 25]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1413,7 +1413,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
       use of routing techniques that map certain addresses to certain
       paths.
 
-   Discussion:
+   Discussion:  --
 
    In both the MPLS and IP cases, additional details of the traffic
    control capabilities needed at a DetNet-aware node may be covered in
@@ -1453,7 +1453,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 26]
+Korhonen, et al.          Expires March 8, 2018                [Page 26]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1509,7 +1509,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 27]
+Korhonen, et al.          Expires March 8, 2018                [Page 27]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1565,7 +1565,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 28]
+Korhonen, et al.          Expires March 8, 2018                [Page 28]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1621,7 +1621,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 29]
+Korhonen, et al.          Expires March 8, 2018                [Page 29]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1677,7 +1677,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 30]
+Korhonen, et al.          Expires March 8, 2018                [Page 30]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1699,8 +1699,8 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997, <https://www.rfc-
-              editor.org/info/rfc2119>.
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
 
    [RFC2211]  Wroclawski, J., "Specification of the Controlled-Load
               Network Element Service", RFC 2211, DOI 10.17487/RFC2211,
@@ -1708,14 +1708,14 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
    [RFC2212]  Shenker, S., Partridge, C., and R. Guerin, "Specification
               of Guaranteed Quality of Service", RFC 2212,
-              DOI 10.17487/RFC2212, September 1997, <https://www.rfc-
-              editor.org/info/rfc2212>.
+              DOI 10.17487/RFC2212, September 1997,
+              <https://www.rfc-editor.org/info/rfc2212>.
 
    [RFC2474]  Nichols, K., Blake, S., Baker, F., and D. Black,
               "Definition of the Differentiated Services Field (DS
               Field) in the IPv4 and IPv6 Headers", RFC 2474,
-              DOI 10.17487/RFC2474, December 1998, <https://www.rfc-
-              editor.org/info/rfc2474>.
+              DOI 10.17487/RFC2474, December 1998,
+              <https://www.rfc-editor.org/info/rfc2474>.
 
    [RFC3032]  Rosen, E., Tappan, D., Fedorkow, G., Rekhter, Y.,
               Farinacci, D., Li, T., and A. Conta, "MPLS Label Stack
@@ -1733,7 +1733,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 31]
+Korhonen, et al.          Expires March 8, 2018                [Page 31]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1757,19 +1757,19 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
    [RFC3473]  Berger, L., Ed., "Generalized Multi-Protocol Label
               Switching (GMPLS) Signaling Resource ReserVation Protocol-
               Traffic Engineering (RSVP-TE) Extensions", RFC 3473,
-              DOI 10.17487/RFC3473, January 2003, <https://www.rfc-
-              editor.org/info/rfc3473>.
+              DOI 10.17487/RFC3473, January 2003,
+              <https://www.rfc-editor.org/info/rfc3473>.
 
    [RFC3985]  Bryant, S., Ed. and P. Pate, Ed., "Pseudo Wire Emulation
               Edge-to-Edge (PWE3) Architecture", RFC 3985,
-              DOI 10.17487/RFC3985, March 2005, <https://www.rfc-
-              editor.org/info/rfc3985>.
+              DOI 10.17487/RFC3985, March 2005,
+              <https://www.rfc-editor.org/info/rfc3985>.
 
    [RFC4206]  Kompella, K. and Y. Rekhter, "Label Switched Paths (LSP)
               Hierarchy with Generalized Multi-Protocol Label Switching
               (GMPLS) Traffic Engineering (TE)", RFC 4206,
-              DOI 10.17487/RFC4206, October 2005, <https://www.rfc-
-              editor.org/info/rfc4206>.
+              DOI 10.17487/RFC4206, October 2005,
+              <https://www.rfc-editor.org/info/rfc4206>.
 
    [RFC4448]  Martini, L., Ed., Rosen, E., El-Aawar, N., and G. Heron,
               "Encapsulation Methods for Transport of Ethernet over MPLS
@@ -1789,7 +1789,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 32]
+Korhonen, et al.          Expires March 8, 2018                [Page 32]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1800,8 +1800,8 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
    [RFC6073]  Martini, L., Metz, C., Nadeau, T., Bocci, M., and M.
               Aissaoui, "Segmented Pseudowire", RFC 6073,
-              DOI 10.17487/RFC6073, January 2011, <https://www.rfc-
-              editor.org/info/rfc6073>.
+              DOI 10.17487/RFC6073, January 2011,
+              <https://www.rfc-editor.org/info/rfc6073>.
 
    [RFC6658]  Bryant, S., Ed., Martini, L., Swallow, G., and A. Malis,
               "Packet Pseudowire Encapsulation over an MPLS PSN",
@@ -1810,8 +1810,8 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
    [RFC7510]  Xu, X., Sheth, N., Yong, L., Callon, R., and D. Black,
               "Encapsulating MPLS in UDP", RFC 7510,
-              DOI 10.17487/RFC7510, April 2015, <https://www.rfc-
-              editor.org/info/rfc7510>.
+              DOI 10.17487/RFC7510, April 2015,
+              <https://www.rfc-editor.org/info/rfc7510>.
 
 13.2.  Informative references
 
@@ -1845,7 +1845,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 33]
+Korhonen, et al.          Expires March 8, 2018                [Page 33]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1879,8 +1879,8 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
    [RFC4090]  Pan, P., Ed., Swallow, G., Ed., and A. Atlas, Ed., "Fast
               Reroute Extensions to RSVP-TE for LSP Tunnels", RFC 4090,
-              DOI 10.17487/RFC4090, May 2005, <https://www.rfc-
-              editor.org/info/rfc4090>.
+              DOI 10.17487/RFC4090, May 2005,
+              <https://www.rfc-editor.org/info/rfc4090>.
 
    [RFC5036]  Andersson, L., Ed., Minei, I., Ed., and B. Thomas, Ed.,
               "LDP Specification", RFC 5036, DOI 10.17487/RFC5036,
@@ -1901,7 +1901,7 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 34]
+Korhonen, et al.          Expires March 8, 2018                [Page 34]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -1957,7 +1957,7 @@ Authors' Addresses
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 35]
+Korhonen, et al.          Expires March 8, 2018                [Page 35]
 
 Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
@@ -2013,4 +2013,4 @@ Internet-Draft       DetNet Data Plane Encapsulation      September 2017
 
 
 
-Korhonen, et al.          Expires March 7, 2018                [Page 36]
+Korhonen, et al.          Expires March 8, 2018                [Page 36]
