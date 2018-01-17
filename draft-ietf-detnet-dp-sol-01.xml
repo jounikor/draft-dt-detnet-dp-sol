@@ -791,14 +791,15 @@ System  |    +--------+       +--------+       +--------+   | System
     </artwork></figure>
 
   <t>
-	  The DetNet control word (d-CW) is illustrated in  <xref
-		  target="fig_detnet_cw"/>. The upper nibble of the d-CW MUST
-	  be set to zero (0). The effective sequence number size is between 16
-	  and 28 bits, and configured either by a control plane or manually for
-	  each DetNet flow. The sequence number is aligned to the right and
-	  unused bits MUST be set to zero (0). The sequence number is
-	  incremented by one for each new packet. The d-CW MUST always be
-	  present in a packet.
+	  The DetNet control word (d-CW) conforms to the Generic PW MPLS
+	  Control Word (PWMCW) defined in <xref target="RFC4385"/> and is
+	  illustrated in  <xref target="fig_detnet_cw"/>.  The upper nibble of
+	  the d-CW MUST be set to zero (0). The effective sequence number size
+	  is between 16 and 28 bits, and configured either by a control plane
+	  or manually for each DetNet flow. The sequence number is aligned to
+	  the right and unused bits MUST be set to zero (0). The sequence
+	  number is incremented by one for each new packet. The d-CW MUST
+	  always be present in a packet.
   </t>
     <figure title="DetNet Control Word" anchor="fig_detnet_cw">
     <artwork align="center"><![CDATA[
@@ -809,8 +810,6 @@ System  |    +--------+       +--------+       +--------+   | System
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]>
     </artwork></figure>
-    <t>The d-CW is always present in a packet. 
-    </t>
  </section>
   
   
@@ -1509,6 +1508,7 @@ H DetNet Control Word DstOpt Hdr  H
    <?rfc include="reference.RFC.3443"?>
    <?rfc include="reference.RFC.3473"?>
    <?rfc include="reference.RFC.4206"?>
+   &rfc4385;
    &rfc4448;
    <?rfc include="reference.RFC.5129"?>
    <?rfc include="reference.RFC.5462"?>
