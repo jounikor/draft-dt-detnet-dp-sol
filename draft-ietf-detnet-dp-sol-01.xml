@@ -559,37 +559,40 @@ System  |    +--------+       +--------+       +--------+   | System
   	 </t>
         </list>
   </t>
-  
-    <figure title="Encapsulation of a DetNet flow in a PW with MPLS(-TP) PSN" anchor="fig_pw_mpls">
-    <artwork align="center"><![CDATA[
- RFC3985 Encapsulation                  DetNet PW Encapsulation
+ 
 
-+---------------------+
-|      Payload        |          +---------------------------------+
-/=====================\          |                                 |
-H Payload Convergence H--.       |           DetNet Flow           |
-H---------------------H  |       |         Payload  Packet         |
-H       Timing        H  +-\     |                                 |
-H---------------------H  |  \    /=================================\
-H     Sequencing      H--'   \-->H       DetNet Control Word       H
-\=====================/          \=================================/
-|  PW Demultiplexer   |--------->|            PW Label             |
-+---------------------+          +---------------------------------+
-|  PSN Convergence    |     .--->|      Optional MPLS S-Label      |
-+---------------------+     |    +---------------------------------+
-|         PSN         |-----+--->|         MPLS T-Label(s)         |
-+---------------------+          +---------------------------------+
-|      Data-Link      |
-+---------------------+
-|       Physical      |
-+---------------------+
+  <figure title="Encapsulation of a DetNet flow in a MPLS(-TP) PSN" anchor="fig_pw_mpls">
+  <artwork align="center"><![CDATA[
+  DetNet MPLS-based encapsulation
+                         
++---------------------------------+
+|                                 |
+|           DetNet Flow           |
+|         Payload  Packet         |
+|                                 |
++---------------------------------+
+|       DetNet Control Word       |
++---------------------------------+
+|          DetNet Label           |
++---------------------------------+
+|           S-Label(s)            |
++---------------------------------+
+|           T-Label(s)            |
++---------------------------------+
+|           Data-Link             |
++---------------------------------+
+|           Physical              |
++---------------------------------+
 ]]>
     </artwork></figure>
 
-  <t>**FIX**
-   The DetNet control word (d-CW) is identical to the control word defined for
-   Ethernet over MPLS networks in . The DetNet control
-   word is illustrated in <xref target="fig_detnet_cw"/>.
+  <t>
+   The DetNet control word (d-CW) conforms to the Generic PW MPLS Control Word (PWMCW) defined in
+   <xref target="RFC4385"/> and is illustrated in  <xref target="fig_detnet_cw"/>.  The upper nibble
+   of the d-CW MUST be set to zero (0). The effective sequence number size is between 16 and 28
+   bits, and configured either by a control plane or manually for each DetNet flow. The sequence
+   number is aligned to the right and unused bits MUST be set to zero (0). The sequence number is
+   incremented by one for each new packet. The d-CW MUST always be present in a packet.
   </t>
     <figure title="DetNet Control Word" anchor="fig_detnet_cw">
     <artwork align="center"><![CDATA[
