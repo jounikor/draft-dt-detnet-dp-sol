@@ -883,17 +883,17 @@ Client AC   |    NSP      |           |    Single   | member Inst.
    A DetNet-aware end station (a host) or an intermediate Detnet node initiating an (or adding a
    tunnelling) IPv6 packet is responsible for setting the Flow Label, adding the required DetNet
    Destination Option(s) for DetNet-s- or DetNet-st-flows, and possibly adding a routing header such
-   as the segment routing option (for pre-defined paths <xref
+   as the segment routing option (e.g., for pre-defined paths <xref
    target="I-D.ietf-6man-segment-routing-header"/>).  If a routing header is inserted into the IPv6
    packet for DetNet-s- or DetNet-st-flows then a second copy of the DetNet Destination Option MUST
    be added before the routing header (see Section 4.1 of <xref target="RFC8200"/>).
   </t>
   <t>
-   A DetNet-aware end station (a host) or an intermediate node receiving an IPv6 packet destined
-   to it and containing a DetNet Destination Option does the appropriate processing of the
-   packet. This may involve packet duplication and elimination (PREF processing), terminating a tunnel or
+   A DetNet-aware end station (a host) or an intermediate node receiving an IPv6 packet destined to
+   it and containing a DetNet Destination Option does the appropriate processing of the packet. This
+   may involve packet duplication and elimination (PREF processing), terminating a tunnel or
    delivering the packet to the upper layers/Applications.
-   </t>
+  </t>
    
    <figure title="Encapsulation of a native IPv6 DetNet-flows without routing header" anchor="fig_native_ip">
     <artwork align="center"><![CDATA[
@@ -910,6 +910,15 @@ H   Optional DetNet DstOpt Hdr    H
 +---------------------------------+
 ]]>
     </artwork></figure>
+
+  <t>
+   <xref target="fig_native_ip2"/> illustrates an IPv6 packet for the case where a routing header
+   has been added into the packet (again assuming DetNet-s- or DetNet-st-flows). Note that the use
+   of routing header such as the one with the segment routing option is not mandatory for explicit
+   routes. Similar functionality can be arranged using other means as well (e.g., using policy
+   routing or layer-2 means). 
+  </t>
+
 
    <figure title="Encapsulation of a native IPv6 DetNet-s- or DetNet-st-flows with routing header"
    anchor="fig_native_ip2">
@@ -931,6 +940,8 @@ H        DetNet DstOpt Hdr        H
 +---------------------------------+
 ]]>
     </artwork></figure>
+  </section>
+  <section title="DetNet destination option">
   <t>
    A DetNet flow must carry sequencing information for packet replication and elimination
    function (PREF) purposes. This document specifies a new IPv6 Destination Option: the DetNet
@@ -958,20 +969,20 @@ H        DetNet DstOpt Hdr        H
    </section>
    <section title="Flow identification">
     <t>
-        The DetNet flow identification is based on the IPv6 Flow Label and the source address
-        combination. The two fields uniquelly identify the end to end native IPv6 encapsulated
-        DetNet flow. Obviously, the identification fails if any intermediate node modifies
-        either the source address or the Flow Label.
+     The DetNet flow identification is based on the IPv6 Flow Label and the source address
+     combination. The two fields uniquelly identify the end to end native IPv6 encapsulated
+     DetNet flow. Obviously, the identification fails if any intermediate node modifies
+     either the source address or the Flow Label.
     <list style="hanging">
-	   <t hangText="Comment #27">
-	   SB> See earlier. If there are enough IPv6 addresses to address video
-           fragments, why not DN flows? Then this problem goes away.
-           </t>
-	   <t hangText="Discussion:">
-		   See the earlier comment #25 discussion. If nodes get their addressies via
-		   DHCPv6 basically ruins this mechanism. Also the assumption for this to
-		   work is that the node has a full /64 to use, which is not always the case.
-		   Otherwise the idea is just fine.
+	 <t hangText="Comment #27">
+	  SB> See earlier. If there are enough IPv6 addresses to address video
+        fragments, why not DN flows? Then this problem goes away.
+      </t>
+	  <t hangText="Discussion:">
+	   See the earlier comment #25 discussion. If nodes get their addressies via
+	   DHCPv6 basically ruins this mechanism. Also the assumption for this to
+	   work is that the node has a full /64 to use, which is not always the case.
+	   Otherwise the idea is just fine.
   	 </t>
      </list>
     </t>
@@ -981,9 +992,16 @@ H        DetNet DstOpt Hdr        H
    </section>
    <section title="Service layer considerations">
     <t>
-     [Editor's note: this section is TBD.]
+     [Editor's note: this section is TBD. It will detail the PREF functionality.]
     </t>
-   <section title="Transport node processing">
+    <t>
+     A DetNet service layer processing can be done at each DetNet node that matches the IPv6
+     packet's current destination address. Then, if the DetNet flow identification provides a
+     positive match for a DetNet flow that the node has a service layer state e.g., for PREF
+     purposes, further service layer processing takes place. In a case of PREF that means processing
+     the DetNet Destination Option for the matched DetNet flow. 
+    </t>
+  <section title="Transport node processing">
     <t>
      TBD.
     </t>
@@ -1071,7 +1089,7 @@ H        DetNet DstOpt Hdr        H
              the first reference I found to pinning.
             </t>
 	    <t hangText="Discussion:">
-		    Terminology isssue. Should use, for example, explicit paths which is
+		    Terminology isssue. Should use, for example, explicit routes which is
 		    used in the architecture I-D.
 
   	 </t>
