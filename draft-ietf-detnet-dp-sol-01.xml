@@ -619,6 +619,15 @@ System  |    +--------+       +--------+       +--------+   | System
     </t>
     <t>
      [Editor's note: Need major rework in this Section.]
+
+     <list style="symbols">
+      <t>
+       PREF - requires both flow identification and sequence numbering.
+      </t>
+      <t>
+       Packet reordeing - requires sequence numbering.
+      </t>
+     </list>
     </t>
     <t>
      Basically the forwarding entry has to be extended with a "PREF
@@ -654,11 +663,7 @@ System  |    +--------+       +--------+       +--------+   | System
      </list>
    </t>
 
-   <section title="Transport node processing">
-    <t>
-     TBD.
-    </t>
-   </section>
+
 
 
    <section title="Edge node processing" anchor="sec_t_pe">
@@ -825,8 +830,25 @@ Client AC   |    NSP      |           |    Single   | member Inst.
 	</list>
     </t>
     </section>
+    <section title="End system processing" anchor="sec_end_system">
+     <t>
+       TBD.
+     </t>
+    </section>
    </section>
-   
+   <section title="Transport node considerations">
+    <t>
+     <list style="symbols">
+      <t>
+       Congestion protection.
+      </t>
+      <t>
+       Explicit routes.
+      </t>
+     </list>
+     TBD.
+    </t>
+   </section>
  </section>
   
  <section title="IPv6-based DetNet data plane solution" anchor="v6Solution">
@@ -993,6 +1015,14 @@ H        DetNet DstOpt Hdr        H
    <section title="Service layer considerations">
     <t>
      [Editor's note: this section is TBD. It will detail the PREF functionality.]
+     <list style="symbols">
+      <t>
+       PREF - requires both flow identification and sequence numbering.
+      </t>
+      <t>
+       Packet reordeing - requires sequence numbering.
+      </t>
+     </list>
     </t>
     <t>
      A DetNet service layer processing can be done at each DetNet node that matches the IPv6
@@ -1001,7 +1031,7 @@ H        DetNet DstOpt Hdr        H
      purposes, further service layer processing takes place. In a case of PREF that means processing
      the DetNet Destination Option for the matched DetNet flow. 
     </t>
-  <section title="Transport node processing">
+  <section title="Ens system processing">
     <t>
      TBD.
     </t>
@@ -1016,6 +1046,19 @@ H        DetNet DstOpt Hdr        H
      TBD.
     </t>
    </section>
+   </section>
+  <section title="Transport node processing">
+    <t>
+     <list style="symbols">
+      <t>
+       Congestion protection.
+      </t>
+      <t>
+       Explicit routes.
+      </t>
+     </list>
+     TBD.
+    </t>
    </section>
   </section>
  
