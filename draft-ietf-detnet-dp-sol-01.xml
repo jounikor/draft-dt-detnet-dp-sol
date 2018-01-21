@@ -502,19 +502,19 @@ System  |    +--------+       +--------+       +--------+   | System
  <section title="DetNet specific packet fields">
   <t>
    The DetNet data plane encapsulation MUST include two DetNet specific information elements in each
-   packet of a DetNet flow: (1) flow identification and (2) sequence number. 
+   packet of a DetNet flow: (1) a flow identification and (2) a sequence number. 
   </t>
   <t>
-   The DetNet data plane encapsulation may consists further elements used 
-   for overlay tunneling, to distinguish between DetNet member flows of the same 
-   DetNet compound flow or to support OAM functions. 
+   The DetNet data plane encapsulation may consists further elements used for overlay tunneling, to
+   distinguish between DetNet member flows of the same DetNet compound flow or to support OAM
+   functions. 
   </t>
  </section>
 
   <section title="Data plane encapsulation" anchor="pwSolution">
    <t>
-    <xref target="fig_pw_mpls"/> illustrates a DetNet MPLS encapsulation.  The MPLS-based
-    encapsulation of the DetNet flows fits perfectly for the Layer-2 interconnect deployment cases
+    <xref target="fig_pw_mpls"/> illustrates a DetNet data plane MPLS encapsulation.  The MPLS-based
+    encapsulation of the DetNet flows is a good fit for the Layer-2 interconnect deployment cases
     (see <xref target="fig_8021_detnet"/>).  Furthermore, end to end DetNet service i.e., native
     DetNet deployment (see <xref target="fig_pw_detnet"/>) is also possible if DetNet end systems
     are capable of initiating and termination MPLS encapsulated packets. Transport of IP
@@ -525,43 +525,29 @@ System  |    +--------+       +--------+       +--------+   | System
    <t> 
     The MPLS-based DetNet data plane encapsulation consists of: 
     <list style="symbols">
-     <t>DetNet control word (d-CW) containing sequencing information for
-      packet replication and duplicate elimination purposes. There is a separate
-      sequence number space for each DetNet flow.</t>
-     <t>DetNet Label that is  a standard MPLS label identifies a 
-       DetNet flow within a DetNet Edge or a Relay node.</t>
-       <t>An optional S-Label that represents DetNet Service LSP used between
-       (DA-)T-PE or (DA-)S-PE nodes. One possible use of an S-Label is
-       to identify the different DetNet member flows used to provide
-       protection to a DetNet composite flow, perhaps even when both
-       LSPs appear on the same link for some reason.</t>
-     </list>
-     <list style="hanging">
-	   <t hangText="Comment #17">
-             This needs some discussion by the WG.
-	   </t>
-	   <t hangText="Discussion:">
-		   Agree, specifically if the I-D becomes WG document.
-  	 </t>
-        </list>
-        <list style="symbols">
-     <t>MPLS transport LSP label(s) (T-label) which may be a hop-by-hop
-     label used between LSRs.</t>
+     <t>
+      DetNet control word (d-CW) containing sequencing information for packet replication and
+      duplicate elimination purposes. There MUST a separate sequence number space for each DetNet
+      flow.</t>
+     <t>
+      DetNet Label that identifies a DetNet flow within a DetNet Edge or a Relay node. The DetNet
+      label MUST be at the bottom of the label stack.</t>
+     <t>
+      An optional DetNet service lable (S-Label) that represents DetNet Service LSP used between
+      DetNet Egde and/or Relay nodes.  One possible use of an S-Label is to identify DetNet member
+      flows used to provide protection to a DetNet compound flow, perhaps even when both LSPs appear
+      on the same link for some reason.</t>
     </list>
-     <list style="hanging">
-	   <t hangText="Comment #18">
-	   Ordinarily this will of course be PHPed before arrival at an x-PE.
-	   </t>
-	   <t hangText="Discussion:">
-		   In most cases yes - depends on the network configuration.
-		   PHP is not mandatory and TP does not even
-		   have PHP. 
-  	 </t>
-        </list>
-  </t>
+    </t>
+    <t>
+     One or more MPLS transport LSP label(s) (T-label) which may be a hop-by-hop label used between
+     LSR and MUST appear higher in the label stack than S-labels. A top of stack T-label may be
+     PHPed before arriving at a DetNet node. In general T-labels should be considered to be part of
+     the underlying transport network rather the actual DetNet data plane encapsulation.
+    </t>
  
 
-  <figure title="Encapsulation of a DetNet flow in a MPLS(-TP) PSN" anchor="fig_pw_mpls">
+  <figure title="Encapsulation of a DetNet flow in an MPLS(-TP) PSN" anchor="fig_pw_mpls">
   <artwork align="center"><![CDATA[
   DetNet MPLS-based encapsulation
                          
@@ -570,13 +556,13 @@ System  |    +--------+       +--------+       +--------+   | System
 |           DetNet Flow           |
 |         Payload  Packet         |
 |                                 |
-+---------------------------------+
-|       DetNet Control Word       |
-+---------------------------------+
-|          DetNet Label           |
-+---------------------------------+
-|           S-Label(s)            |
-+---------------------------------+
++---------------------------------+ <--\
+|       DetNet Control Word       |    |
++---------------------------------+    |
+|          DetNet Label           |    +--> DetNet data plane
++---------------------------------+    |    MPLS encapsulation
+|        Optional S-Label         |    |
++---------------------------------+ <--/
 |           T-Label(s)            |
 +---------------------------------+
 |           Data-Link             |
@@ -586,8 +572,10 @@ System  |    +--------+       +--------+       +--------+   | System
 ]]>
     </artwork></figure>
 
+  </section>
+  <section title="DetNet control word">
   <t>
-   The DetNet control word (d-CW) conforms to the Generic PW MPLS Control Word (PWMCW) defined in
+   A DetNet control word (d-CW) conforms to the Generic PW MPLS Control Word (PWMCW) defined in
    <xref target="RFC4385"/> and is illustrated in  <xref target="fig_detnet_cw"/>.  The upper nibble
    of the d-CW MUST be set to zero (0). The effective sequence number size is between 16 and 28
    bits, and configured either by a control plane or manually for each DetNet flow. The sequence
@@ -603,20 +591,6 @@ System  |    +--------+       +--------+       +--------+   | System
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]>
     </artwork></figure>
-    <t>
-    <list style="hanging">
-	   <t hangText="Comment #19">
-	   We need to think about whether "identical is the correct term.
-           The Ethernet S/N skips zero (it uses zero to mean no S/N in use).
-           is that the behaviour that we want?
-	   </t>
-	   <t hangText="Discussion:">
-		   Good point. Identical is a wrong statement. The format is
-		   the same the behaviour of SN is slightly different as 0 is
-		   assumed to be a valid SN.
-  	 </t>
-     </list>
-    </t>
   </section>
   <section title="Flow identification">   
       
@@ -1016,9 +990,9 @@ H DetNet Control Word DstOpt Hdr  H
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|     TBD1      |       4       |           Reserved            |
+|     TBD1      |       4       |   0   |    28 bit sequence            
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|     16 bit Sequence Number    |
+   number                       |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]>
     </artwork></figure>
