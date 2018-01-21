@@ -895,7 +895,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
    delivering the packet to the upper layers/Applications.
    </t>
    
-   <figure title="Encapsulation of a native IPv6 DetNet flow" anchor="fig_native_ip">
+   <figure title="Encapsulation of a native IPv6 DetNet-flows without routing header" anchor="fig_native_ip">
     <artwork align="center"><![CDATA[
 +---------------------------------+
 |                                 |
@@ -903,7 +903,7 @@ Client AC   |    NSP      |           |    Single   | member Inst.
 |             Payload             |
 |                                 |
 /---------------------------------\
-H DetNet Control Word DstOpt Hdr  H
+H   Optional DetNet DstOpt Hdr    H
 \---------------------------------/
 |          IPv6 header            |
 |     (with set Flow label)       |
@@ -911,6 +911,26 @@ H DetNet Control Word DstOpt Hdr  H
 ]]>
     </artwork></figure>
 
+   <figure title="Encapsulation of a native IPv6 DetNet-s- or DetNet-st-flows with routing header"
+   anchor="fig_native_ip2">
+    <artwork align="center"><![CDATA[
++---------------------------------+
+|                                 |
+|           DetNet Flow           |
+|             Payload             |
+|                                 |
+/---------------------------------\
+H        DetNet DstOpt Hdr        H
+\---------------------------------/
+|          Routing header         |
+/---------------------------------\
+H        DetNet DstOpt Hdr        H
+\---------------------------------/
+|          IPv6 header            |
+|     (with set Flow label)       |
++---------------------------------+
+]]>
+    </artwork></figure>
   <t>
    A DetNet flow must carry sequencing information for packet replication and elimination
    function (PREF) purposes. This document specifies a new IPv6 Destination Option: the DetNet
