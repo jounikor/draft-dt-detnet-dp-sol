@@ -854,15 +854,6 @@ Client AC   |    NSP      |           |    Single   | member Inst.
  <section title="IPv6-based DetNet data plane solution" anchor="v6Solution">
   <section title="Data plane encapsulation">
    <t>
-    <list style="hanging">
-	   <t hangText="Comment #20">
-	   SB> This part of the design needs to be marked as provisional until it has
-               a more thorough WG review.
-           </t>
-	  <t hangText="Discussion:">
-	       Ok, however, this is still an individual I-D.
-	  </t>
-     </list>
     <xref target="fig_native_ip"/> illustrates a DetNet native IPv6 encapsulation.  The native IPv6
     encapsulation is meant for end to end Detnet service use cases, where the end stations are
     DetNet-aware (see <xref target="fig_ip_detnet"/>). Technically it is possible to use the
@@ -1543,20 +1534,16 @@ H        DetNet DstOpt Hdr        H
    <?rfc include="reference.RFC.3443"?>
    <?rfc include="reference.RFC.3473"?>
    <?rfc include="reference.RFC.4206"?>
-   &rfc4448;
    <?rfc include="reference.RFC.5129"?>
    <?rfc include="reference.RFC.5462"?>
    <?rfc include="reference.RFC.6003"?>
    &rfc6073;
-   &rfc6658;
    &rfc4385;
    <?rfc include="reference.RFC.8200"?>
   </references>
   <references title="Informative references">
    <?rfc include="reference.RFC.2205"?>
    &rfc3985;
-   &rfc4090;   
-   &rfc5036;
    <?rfc include="reference.RFC.5654"?>
    <?rfc include="reference.RFC.7551"?>
    <?rfc include="reference.RFC.7950"?>
