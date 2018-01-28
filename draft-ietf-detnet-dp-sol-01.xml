@@ -647,6 +647,9 @@ System  |    +--------+       +--------+       +--------+   | System
   
    <section title="Service layer considerations">
    <t>
+    [Editor's note: quite a bit of unfinished and old text in the following sections.]
+   </t>
+   <t>
      The edge and relay node internal procedures of the PREF are implementation specific.  The order
      of a packet elimination or replication is out of scope in this specification. However, care
      should be taken that the replication function does not actually loopback packets as "replicas".
@@ -874,7 +877,7 @@ Client AC   |             |           |             |
      IPv6 header as the transport protocol.</t>
     <t>
      IPv6 header Flow Label that is used to help to identify a DetNet flow (i.e., roughly an
-     equivalent to a DetNet Label for the MPLS encapsulation). A Flow Label together with the IPv6
+     equivalent to an S-Label for the MPLS encapsulation). A Flow Label together with the IPv6
      source address uniquely identifies a DetNet flow.</t>
     </list>
     <list style="hanging">
@@ -891,19 +894,22 @@ Client AC   |             |           |             |
 
     <list style="symbols">
      <t>
-      One or two DetNet Control Word IPv6 Destination Options containing sequencing information for
-      packet replication and duplicate elimination function (PREF) purposes.  The DetNet Destination
-      Option is equivalent to the DetNet Control Word.</t>
+      Zero, one or two DetNet Destination Options containing sequencing information for packet
+      replication and duplicate elimination function (PREF), and/or packet reordering purposes.  The
+      DetNet Destination Option is equivalent to the DetNet Control Word. If PREF or packet
+      reordering is not needed for the DetNet flow then no DetNet Destination Option is inserted
+      into the IPv6 header.
+     </t>
    </list>
   </t>
 
   <t>
    A DetNet-aware end station (a host) or an intermediate Detnet node initiating an (or adding a
-   tunnelling) IPv6 packet is responsible for setting the Flow Label, adding the required DetNet
+   tunnelling) IPv6 packet is responsible for setting the Flow Label, adding the optional DetNet
    Destination Option(s) for DetNet-s- or DetNet-st-flows, and possibly adding a routing header such
    as the segment routing option (e.g., for pre-defined paths <xref
    target="I-D.ietf-6man-segment-routing-header"/>).  If a routing header is inserted into the IPv6
-   packet for DetNet-s- or DetNet-st-flows then a second copy of the DetNet Destination Option MUST
+   packet for DetNet-s- or DetNet-st-flows then a second instance of the DetNet Destination Option MUST
    be added before the routing header (see Section 4.1 of <xref target="RFC8200"/>).
   </t>
   <t>
@@ -913,7 +919,7 @@ Client AC   |             |           |             |
    delivering the packet to the upper layers/Applications.
   </t>
    
-   <figure title="Encapsulation of a native IPv6 DetNet-flows without routing header" anchor="fig_native_ip">
+   <figure title="Encapsulation of a native IPv6 DetNet-s- or DetNet-st-flow without a routing header" anchor="fig_native_ip">
     <artwork align="center"><![CDATA[
 +---------------------------------+
 |                                 |
@@ -1023,10 +1029,8 @@ H        DetNet DstOpt Hdr        H
   	 </t>
      </list>
     </t>
-    <!-- LB: I think there needs to be more text on how PREF works with
-         IPv6 flows. --> 
-
    </section>
+   
    <section title="Service layer considerations">
     <t>
      [Editor's note: this section is TBD. It will detail the PREF functionality.]
@@ -1041,19 +1045,54 @@ H        DetNet DstOpt Hdr        H
     </t>
     <t>
      A DetNet service layer processing can be done at each DetNet node that matches the IPv6
-     packet's current destination address. Then, if the DetNet flow identification provides a
-     positive match for a DetNet flow that the node has a service layer state e.g., for PREF or
-     packet reordering purposes, further service layer processing takes place. In a case of PREF or
-     packet reordering that means processing the DetNet Destination Option for the matched DetNet
-     flow. 
+     header's Destination Address. Then, if the DetNet flow identification provides a positive match
+     for the DetNet flow that the node has a service layer state installed e.g., for PREF or packet
+         reordering purposes, further service layer processing takes place. In a case of PREF or
+         packet reordering that means processing the DetNet Destination Option for the identified
+         DetNet flow. 
     </t>
    <section title="Edge node processing" anchor="sec_ipv6_edge">
     <t>
-     TBD.
+     [Editor's note: This is the start of the IPv6 handling text - there are errors and bad
+     language. The founding assumption is the use of source routing when intermediate nodes
+     (relays/edges) need to modify packets. This is due the text in RFC8200 and the fact that
+     without hph options only routing+dsthdr is usable with intermediates under strict RFC8200.. ]
     </t>
-   <figure title="Encapsulation of a native IPv6 DetNet-s- or DetNet-st-flows with outer IPv6 tunnel
-   for explicit routes"
-   anchor="fig_ipv6_edge">
+    <t>
+     For a DetNet Edge node there are several scenarios that involve modifications to the DetNet
+     flow IPv6 packets. The assumption is that a DetNet-aware end system has always set the IPv6
+     header flow label properly for the flow identification purposes. A DetNet- or DetNet-t-flow
+     does not include the DetNet Destination Option. Following cases have been identified:
+     <list style="numbers">
+      <t>
+       A DetNet App-flow or a DetNet-2-flow packet arrives at an ingress DetNet Edge node and DetNet
+       service layer functions are done only at DetNet Edge nodes. Possible explicit routes between
+       edge nodes are arranged by other than IPv6 specific means.  </t>
+      <t>
+       A DetNet App-flow or DetNet-t-flow packet arrives at an ingress DetNet Edge node and multiple
+       DetNet Relay nodes may process DetNet flow packets before reaching an egress DetNet Edge
+       node.  Explicit routes between edge nodes has to be arranged by IPv6 specific means.
+      </t>
+      <t>
+       A DetNet-s- or DetNet-st-flow packet arrives at an ingress DetNet Edge node and DetNet service layer 
+       functions are done only at DetNet Edge nodes. Possible explicit routes between
+       edge nodes are arranged by other than IPv6 specific means.
+      </t>
+      <t>
+       A DetNet-s- or DetNet-st-flow packet arrives at an ingress DetNet Edge node and multiple DetNet Relay
+       nodes may process DetNet flow packets before reaching an egress DetNet Edge node.
+       Explicit routes between edge nodes has to be arranged by IPv6 specific means.
+      </t>
+     </list>
+    </t>
+    <t>
+     A generic DetNet IPv6 encapsulation for a DetNet flow packet between DetNet Edge nodes is shown
+     in <xref target="fig_ipv6_edge"/>. Essentially every time an igress DetNet Edge node has to
+     insert something into the DetNet flow packet it has to add an outer tunneling IPv6 header,
+     which then contain possible additional extension headers.
+    </t>
+   <figure title="
+    Encapsulation of a DetNet-flow IPv6 packet at the DetNet Edge node" anchor="fig_ipv6_edge">
     <artwork align="center"><![CDATA[
 +---------------------------------+
 |                                 |
@@ -1061,20 +1100,67 @@ H        DetNet DstOpt Hdr        H
 |             Payload             |
 |                                 |
 +---------------------------------+
-|     DetNet DstOpt Hdr (1)       |
+| Optional DetNet DstOpt Hdr (1)  |
 +---------------------------------+
 |        Inner IPv6 header        |
 |    (with set Flow label) (1)    |
 +---------------------------------+ <--+
-|          Routing header         |    |
+|   Optional  Routing header      |    |
 +---------------------------------+    |
-|     DetNet DstOpt Hdr (2)       |    +-- Added/removed by
-+---------------------------------+    |   Ende node
+| Optional DetNet DstOpt Hdr (2)  |    +-- Added/removed by
++---------------------------------+    |   DetNet Edge node
 |        Outer  IPv6 header       |    |
 |   (with set Flow label) (2)     |    |
 +---------------------------------+ <--+
 ]]>
     </artwork></figure>
+
+    <section title="Ingress DetNet Edge node processing">
+    <t>
+     Case 1) MAY require an addition of the DetNet Destination Option if packet reordering is
+     requested at the egress DetNet Edge node. Otherwise, no modifications except rewriting the IPv6
+     header flow label to the packet is done. If modifications are required then:
+     <list style="symbols">
+      <t>
+       The outer IPv6 header is added with the Source Address set to the ingress DetNet Edge node
+       address and the Destination Address set to the egress DetNet Edge node address.</t>
+      <t>
+       The flow label of the outer IPv6 header SHOULD be set to a value maintained by the edge node.
+       </t>
+      <t>
+       The DetNet Destination Option with the edge node managed per DetNet flow sequence number
+       value  is inserted into the outer IPv6 header.</t>
+     </list>
+    </t>
+   <t>
+    Case 2) requires an addition of the DetNet Destination Option unless neither packet reordeing or
+    PREF is enable at any DetNet Edge/Relay node. A source routing header has to be added for the
+    explicit route purposes.  An example of the source routing header is the Segment Routing header.
+    The following modifications to DetNet flow IPv6 packets are required:
+     <list style="symbols">
+      <t>
+       An outer IPv6 header is added with the Source Address set to the ingress DetNet Edge node
+       address and the Destination Address set to the egress DetNet Edge node address.</t>
+      <t>
+       The flow label of the outer IPv6 header SHOULD be set to a value maintained by the edge node.
+       </t>
+      <t>
+       The DetNet Destination Option with the edge node managed per DetNet flow sequence number
+       value MAY be inserted into the outer IPv6 header.</t>
+      <t>
+       A source routing header with addresses of those DetNet Relay nodes that must be traversed is
+       inserted into the outer IPv6 header.</t>
+     </list>
+   </t>
+   <t>
+    Case 3) ...
+   </t>
+   <t>
+    Case 4) ...
+   </t>
+   </section>
+   <section title="Engress DetNet Edge node processing">
+   </section>
 
    </section>
    <section title="Relay node processing" anchor="sec_ipv6_relay">
