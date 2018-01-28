@@ -680,26 +680,26 @@ System  |    +--------+       +--------+       +--------+   | System
     <artwork align="center"><![CDATA[
             +---------------------------------------+
             |           DetNet Edge Node            |
-            +---------------------------------------+   Egress/
-            |             | Forwarder |             |   Ingress
-            |             |           |    Single   | member Inst.
-Client PSN  |   "Packet   o <-X-----> o   Service   o<---------->
-tunnels     |    NSP"     |   | Repl. |   Instance  |
-<---------->o             |   | Elim. +-------------+ Duplicate
-            |             |   :       |             |   Egress
-            |             |   .       |    Single   | member Inst.
-            |             |       +-> o   Service   o<---------->
-            |             |       |   |   Instance  |
-            +-------------+       |   +-------------+   Egress/
-            |             |       |   |             |   Ingress
-Client AC   |    NSP      | Repl. |   |    Single   | member Inst.
-<---------->o             o <-----X-> o   Service   o<---------->
-            |             | Elim.     |   Instance  |
-            +-------------+           +-------------+   Egress/
-            |             |           |             |   Ingress
-Client AC   |    NSP      |           |    Single   | member Inst.
-<---------->o             o <-------> o   Service   o<---------->
-            |             |           |   Instance  |
+            +---------------------------------------+  
+            |             |           |             |   
+            |             |           |             |             
+Client AC   |         +---o <-------> o             o<---------->
+            |   Elim. |   |           |             |
+<---------->o <-------|   |           +-------------+ 
+            |         |   |           |             |
+            |         +---o <-------> o             |
+            |             |           |             o<---------->
+            |             |       +-> o             |
+            +-------------+       |   +-------------+
+            |             |       |   |             |
+Client AC   |             | Repl. |   |             |
+<---------->o             o <-----X-> o             o<---------->
+            |             | Elim.     |             |
+            +-------------+           +-------------+
+            |             |           |             |
+Client AC   |             |           |             |
+<---------->o             o <-------> o             o<---------->
+            |             |           |             |
             +---------------------------------------+
 ]]>
     </artwork></figure>
@@ -798,25 +798,25 @@ Client AC   |    NSP      |           |    Single   | member Inst.
             +---------------------------------------+
             |          DetNet Relay Node            |
   Ingress   +---------------------------------------+
-  member    |             | Forwarder |             |   Egress
-  instance  |   Single    |           |   Single    | member Inst.
------------>o  Service    o --X-----> o  Service    o----------->
-            |  Instance   |   | Elim. |  Instance   |
-  Ingress   +-------------+   |       +-------------+ Duplicate
-  member    |             |   |       |             |   Egress
-  instance  |   Single    |   |       |   Single    | member Inst.
------------>o  Service    o --+   +-> o  Service    o----------->
-            |  Instance   |       |   |  Instance   |
+            |             |           |             |   Egress
+            |             o---------> o--+  Elim.   | 
+----------->o             |           |  +--------->o----------->
+            |             |   +-----> o--+          |
+  Ingress   +-------------+   |       +-------------+ 
+            |             |   |       |             |   Egress
+            |             |   |       |             |
+----------->o             o --+   +-> o             o----------->
+            |             |       |   |             |
   Ingress   +-------------+       |   +-------------+
-  member    |             |       |   |             |   Egress
-  instance  |   Single    | Repl. |   |   Single    | member Inst.
------------>o  Service    o ------X-> o  Service    o----------->
-            |  Instance   |           |  Instance   |
+            |             |       |   |             |   Egress
+            |             | Repl. |   |             |
+----------->o             o ------+-> o             o----------->
+            |             |           |             |
   Ingress   +-------------+           +-------------+
-  member    |             |           |             |   Egress
-  instance  |   Single    |           |   Single    | member Inst.
------------>o  Service    o --------> o  Service    o----------->
-            |  Instance   |           |  Instance   |
+            |             |           |             |   Egress
+            |             |           |             |
+----------->o             o --------> o             o----------->
+            |             |           |             |
             +---------------------------------------+
 ]]>
     </artwork></figure>
@@ -1023,9 +1023,10 @@ H        DetNet DstOpt Hdr        H
     <t>
      A DetNet service layer processing can be done at each DetNet node that matches the IPv6
      packet's current destination address. Then, if the DetNet flow identification provides a
-     positive match for a DetNet flow that the node has a service layer state e.g., for PREF
-     purposes, further service layer processing takes place. In a case of PREF that means processing
-     the DetNet Destination Option for the matched DetNet flow. 
+     positive match for a DetNet flow that the node has a service layer state e.g., for PREF or
+     packet reordering purposes, further service layer processing takes place. In a case of PREF or
+     packet reordering that means processing the DetNet Destination Option for the matched DetNet
+     flow. 
     </t>
   <section title="End system processing">
     <t>
@@ -1105,43 +1106,23 @@ H        DetNet DstOpt Hdr        H
 
  <section title="Quality of Service">
     <t>
-     Quality of Service (QoS) mechanisms for flow specific traffic treatment
-     typically includes a guarantee/agreement for the service, and allocation of
-     resources to support the service.  Example QoS mechanisms include discrete
-     resource allocation, admission control, flow identification and isolation,
-     and sometimes path control, traffic protection, shaping, policing and
-     remarking. Example protocols that support QoS control include <xref
-     target="RFC2205">Resource ReSerVation Protocol (RSVP)</xref> (RSVP) and
-     RSVP-TE <xref target="RFC3209"/> and <xref target="RFC3473"/>.  The
-     existing MPLS mechanisms defined to support CoS <xref
-     target="RFC3270"/> can also be used to reserve resources for
-     specific traffic classes. 
+     Quality of Service (QoS) mechanisms for flow specific traffic treatment typically includes a
+     guarantee/agreement for the service, and allocation of resources to support the service.
+     Example QoS mechanisms include discrete resource allocation, admission control, flow
+     identification and isolation, and sometimes path control, traffic protection, shaping, policing
+     and remarking. Example protocols that support QoS control include <xref
+     target="RFC2205">Resource ReSerVation Protocol (RSVP)</xref> (RSVP) and RSVP-TE <xref
+     target="RFC3209"/> and <xref target="RFC3473"/>.  The existing MPLS mechanisms defined to
+     support CoS <xref target="RFC3270"/> can also be used to reserve resources for specific traffic
+     classes. 
     </t>
     <t>
-      In addition to path pinning and packet replication and
-      elimination, described in <xref target="dn-dt-solution"/> above,
-      DetNet provides zero congestion loss and bounded latency and
-      jitter.
-    <list style="hanging">
-	   <t hangText="Comment #36">
-            SB> I just searched from the beginning of the document and this was the 
-             the first reference I found to pinning.
-            </t>
-	    <t hangText="Discussion:">
-		    Terminology isssue. Should use, for example, explicit routes which is
-		    used in the architecture I-D.
-
-  	 </t>
-	</list>
-      </t>
-
-      <t>As described in <xref
-      target="I-D.ietf-detnet-architecture"/>, there are different
-      mechanisms that maybe used separately or in combination to deliver
-      a zero congestion loss service.  These mechanisms are provided by
-      the either the MPLS or IP layers, and may be combined with the
-      mechanisms defined by the underlying network layer such as
-      802.1TSN.
+     In addition to explicit routes, and packet replication and elimination, described in <xref
+     target="dn-dt-solution"/> above, DetNet provides zero congestion loss and bounded latency and
+     jitter.  As described in <xref target="I-D.ietf-detnet-architecture"/>, there are different
+     mechanisms that maybe used separately or in combination to deliver a zero congestion loss
+     service.  These mechanisms are provided by the either the MPLS or IP layers, and may be
+     combined with the mechanisms defined by the underlying network layer such as 802.1TSN.
     </t>
    <t>
      A baseline set of QoS capabilities for DetNet flows carried in PWs
@@ -1170,19 +1151,11 @@ H        DetNet DstOpt Hdr        H
      flow.
    </t>
    <t>
-   Packets that are marked with a DetNet Class of Service value, but that have not been
-   the subject of a completed reservation, can disrupt the QoS offered to properly
-   reserved DetNet flows by using resources allocated to the reserved flows.  Therefore,
-   the network nodes of a DetNet network SHOULD:
-    <list style="hanging">
-	   <t hangText="Comment #37">
-		   SB> Why not MUST?
-	   </t>
-	   <t hangText="Discussion:">
-		   OK with MUST.
-  	 </t>
-	</list>
-  </t><t>
+    Packets that are marked with a DetNet Class of Service value, but that have not been
+    the subject of a completed reservation, can disrupt the QoS offered to properly
+    reserved DetNet flows by using resources allocated to the reserved flows.  Therefore,
+    the network nodes of a DetNet network MUST:
+    
     <list style="symbols">
       <t>
           Defend the DetNet QoS by discarding or remarking (to a non-DetNet CoS)
