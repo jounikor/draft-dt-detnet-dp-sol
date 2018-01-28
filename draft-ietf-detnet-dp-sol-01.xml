@@ -931,10 +931,10 @@ H   Optional DetNet DstOpt Hdr    H
 
   <t>
    <xref target="fig_native_ip2"/> illustrates an IPv6 packet for the case where a routing header
-   has been added into the packet (again assuming DetNet-s- or DetNet-st-flows). Note that the use
-   of routing header such as the one with the segment routing option is not mandatory for explicit
-   routes. Similar functionality can be arranged using other means as well (e.g., using policy
-   routing or layer-2 means). 
+   has been added into the packet by a DetNet-aware end system (again assuming DetNet-s- or
+   DetNet-st-flows). Note that the use of routing header such as the one with the segment routing
+   option is not mandatory for explicit routes. Similar functionality can be arranged using other
+   means as well (e.g., using policy routing or layer-2 means). 
   </t>
 
 
@@ -958,6 +958,19 @@ H        DetNet DstOpt Hdr        H
 +---------------------------------+
 ]]>
     </artwork></figure>
+
+  <t>
+   IPv6 extension headers can only be inserted by a node that initiated the IPv6 packet. IPv6
+   extension headers, except for the Hop-by-Hop Option headers, can only be processed by an IPv6 node 
+   that is identified by the Destination Address field of the IPv6 header (see Section 0 of <xref
+   target="RFC8200"/>. Therefore, if a DetNet-aware end system only inserted the DetNet Destination
+   Option into the IPv6 but e.g., a DetNet Edge node is configured to enforce an explicit route for
+   the IPv6 packet using a source routing header, then it has no other possibility than add an outer
+   tunneling IPv6 header with required extension headers in it. The processing of IPv6 packets in a
+   DetNet Edge node is discussed further in <xref target="sec_ipv6_edge"/>.
+  </t>
+
+
   </section>
   <section title="DetNet destination option">
   <t>
@@ -983,6 +996,12 @@ H        DetNet DstOpt Hdr        H
    The Option Type for the DetNet Destination Option is set to TBD1. [To be removed from the final
    version of the document: The Option Type MUST have the two most significant bits set to 10b]
   </t>
+  <t>
+   If an IPv6 packet gets dropped due the DetNet Service layer processing based on the DetNet
+   Destination Option an ICMPv6 packet of any type MUST NOT be sent back to the source of the
+   packet.
+  </t>
+
 
    </section>
    <section title="Flow identification">
@@ -1028,37 +1047,55 @@ H        DetNet DstOpt Hdr        H
      packet reordering that means processing the DetNet Destination Option for the matched DetNet
      flow. 
     </t>
+   <section title="Edge node processing" anchor="sec_ipv6_edge">
+    <t>
+     TBD.
+    </t>
+   <figure title="Encapsulation of a native IPv6 DetNet-s- or DetNet-st-flows with outer IPv6 tunnel
+   for explicit routes"
+   anchor="fig_ipv6_edge">
+    <artwork align="center"><![CDATA[
++---------------------------------+
+|                                 |
+|           DetNet Flow           |
+|             Payload             |
+|                                 |
++---------------------------------+
+|     DetNet DstOpt Hdr (1)       |
++---------------------------------+
+|        Inner IPv6 header        |
+|    (with set Flow label) (1)    |
++---------------------------------+ <--+
+|          Routing header         |    |
++---------------------------------+    |
+|     DetNet DstOpt Hdr (2)       |    +-- Added/removed by
++---------------------------------+    |   Ende node
+|        Outer  IPv6 header       |    |
+|   (with set Flow label) (2)     |    |
++---------------------------------+ <--+
+]]>
+    </artwork></figure>
+
+   </section>
+   <section title="Relay node processing" anchor="sec_ipv6_relay">
+    <t>
+     TBD.
+    </t>
+   </section>
   <section title="End system processing">
     <t>
      TBD.
     </t>
    </section>
-   <section title="Edge node processing">
-    <t>
-     TBD.
-    </t>
-   </section>
-   <section title="Relay node processing">
-    <t>
-     TBD.
-    </t>
-   </section>
-   </section>
+  </section>
   <section title="Transport node processing">
-    <t>
-     <list style="symbols">
-      <t>
-       Congestion protection.
-      </t>
-      <t>
-       Explicit routes.
-      </t>
-     </list>
-     TBD.
-    </t>
+   <section title="Congestion protection">
+   </section>
+   <section title="Explicit routes">
    </section>
   </section>
- 
+  </section>
+  
 <section title="Other DetNet data plane considerations">
  <section title="Class of Service">
    <t>
