@@ -678,6 +678,12 @@ System  |    +--------+       +--------+       +--------+   | System
     <t>
      TBD.
     </t>
+    <t>
+     [Editor's note: Since we are not defining the inner workings and implementation of the DetNet
+     Egde node - rather only what goes in and what comes out, and of course the on-wire details,
+     then the figures shown in the coming section would not need to detail the inner architecture of
+     a DetNet Node.]
+    </t>
 
     <figure title="DetNet Edge Node processing" anchor="fig_detnet_edge">
     <artwork align="center"><![CDATA[
@@ -845,17 +851,16 @@ Client AC   |             |           |             |
     </section>
    </section>
    <section title="Transport node considerations">
-    <t>
-     <list style="symbols">
-      <t>
-       Congestion protection.
-      </t>
-      <t>
-       Explicit routes.
-      </t>
-     </list>
-     TBD.
-    </t>
+    <section title="Congestion protection">
+     <t>
+      TBD.
+     </t>
+    </section>
+    <section title="Explicit routes">
+     <t>
+      TBD.
+     </t>
+    </section>
    </section>
  </section>
   
@@ -1039,7 +1044,7 @@ H        DetNet DstOpt Hdr        H
        PREF - requires both flow identification and sequence numbering.
       </t>
       <t>
-       Packet reordeing - requires sequence numbering.
+       Packet reordeing - requires both flow identification and sequence numbering.
       </t>
      </list>
     </t>
@@ -1047,9 +1052,8 @@ H        DetNet DstOpt Hdr        H
      A DetNet service layer processing can be done at each DetNet node that matches the IPv6
      header's Destination Address. Then, if the DetNet flow identification provides a positive match
      for the DetNet flow that the node has a service layer state installed e.g., for PREF or packet
-         reordering purposes, further service layer processing takes place. In a case of PREF or
-         packet reordering that means processing the DetNet Destination Option for the identified
-         DetNet flow. 
+     reordering purposes, further service layer processing takes place. In a case of PREF or packet
+     reordering that means processing the DetNet Destination Option for the identified DetNet flow. 
     </t>
    <section title="Edge node processing" anchor="sec_ipv6_edge">
     <t>
@@ -1059,29 +1063,37 @@ H        DetNet DstOpt Hdr        H
      without hph options only routing+dsthdr is usable with intermediates under strict RFC8200.. ]
     </t>
     <t>
+     [Editor's note: Regrading the source routing and the "example" SRv6 approach. Current text is
+     based on the assumption that intermediates cannot add/delete extension headers such as the
+     SRv6. That said adding adding a header implies adding a tunneling outer IPv6 header and
+     deleting a header implies a tunnel decapsulation. This is not probably desired due to the
+     involved overhead and to be discussed whether it is possible/acceptable to just "process" the
+     Application flow packets.]
+    </t>
+    <t>
      For a DetNet Edge node there are several scenarios that involve modifications to the DetNet
      flow IPv6 packets. The assumption is that a DetNet-aware end system has always set the IPv6
      header flow label properly for the flow identification purposes. A DetNet- or DetNet-t-flow
      does not include the DetNet Destination Option. Following cases have been identified:
      <list style="numbers">
       <t>
-       A DetNet App-flow or a DetNet-2-flow packet arrives at an ingress DetNet Edge node and DetNet
+       A DetNet App-flow or a DetNet-t-flow packet arrives at an ingress DetNet Edge node and DetNet
        service layer functions are done only at DetNet Edge nodes. Possible explicit routes between
        edge nodes are arranged by other than IPv6 specific means.  </t>
       <t>
-       A DetNet App-flow or DetNet-t-flow packet arrives at an ingress DetNet Edge node and multiple
+       A DetNet App-flow or a DetNet-t-flow packet arrives at an ingress DetNet Edge node and multiple
        DetNet Relay nodes may process DetNet flow packets before reaching an egress DetNet Edge
        node.  Explicit routes between edge nodes has to be arranged by IPv6 specific means.
       </t>
       <t>
-       A DetNet-s- or DetNet-st-flow packet arrives at an ingress DetNet Edge node and DetNet service layer 
-       functions are done only at DetNet Edge nodes. Possible explicit routes between
+       A DetNet-s- or a DetNet-st-flow packet arrives at an ingress DetNet Edge node and DetNet
+       service layer functions are done only at DetNet Edge nodes. Possible explicit routes between
        edge nodes are arranged by other than IPv6 specific means.
       </t>
       <t>
-       A DetNet-s- or DetNet-st-flow packet arrives at an ingress DetNet Edge node and multiple DetNet Relay
-       nodes may process DetNet flow packets before reaching an egress DetNet Edge node.
-       Explicit routes between edge nodes has to be arranged by IPv6 specific means.
+       A DetNet-s- or a DetNet-st-flow packet arrives at an ingress DetNet Edge node and multiple
+       DetNet Relay nodes may process DetNet flow packets before reaching an egress DetNet Edge
+       node.  Explicit routes between edge nodes has to be arranged by IPv6 specific means.
       </t>
      </list>
     </t>
@@ -1146,14 +1158,15 @@ H        DetNet DstOpt Hdr        H
        </t>
       <t>
        The DetNet Destination Option with the edge node managed per DetNet flow sequence number
-       value MAY be inserted into the outer IPv6 header.</t>
+       value MAY be inserted into the outer IPv6 header. </t>
       <t>
        A source routing header with addresses of those DetNet Relay nodes that must be traversed is
        inserted into the outer IPv6 header.</t>
      </list>
    </t>
    <t>
-    Case 3) ...
+    Case 3) ...[Editor's note: is it OK if the sequece number added here by the edge node has only
+    local significance between the edge nodes and not end to end between end systems? ]
    </t>
    <t>
     Case 4) ...
@@ -1180,7 +1193,7 @@ H        DetNet DstOpt Hdr        H
    <section title="Explicit routes">
    </section>
   </section>
-  </section>
+ </section>
   
 <section title="Other DetNet data plane considerations">
  <section title="Class of Service">
@@ -1430,6 +1443,12 @@ H        DetNet DstOpt Hdr        H
    DetNet encapsuations.]
   </t>
  </section>
+ <section title="IPv4 considerations">
+  <t>
+   [Editor's note: The fact is that there are and will be deployments using IPv4. Neglecting it
+   entirely is not feasible.]
+  </t>
+ </section>
 
 
 
@@ -1445,7 +1464,8 @@ H        DetNet DstOpt Hdr        H
             concept in IP.
            </t>
 	   <t hangText="Discussion:">
-		   agree.
+		   Agree. For IP we could reference to PTPv2 or v3 over UDP/IP, since it measures
+		   residence time among other things. 
   	 </t>
 	</list>
    [Editor's note: describe a bit of issues and deployment considerations
@@ -1524,6 +1544,10 @@ H        DetNet DstOpt Hdr        H
 
 <section title="Management and control considerations">
   <t>
+   [Editor's note: This section needs to be different for MPLS and IPv6 solutions. Most solutions
+   are technology dependant,]		 
+  </t>
+  <t>
     While management plane and control planes are traditionally
     considered separately, from the Data Plane perspective there is no
     practical difference based on the origin of flow provisioning
@@ -1540,31 +1564,56 @@ H        DetNet DstOpt Hdr        H
    control. Need to cover both traffic control (queuing) and connection
    control (control plane).]
  </t>
- 
- <section title="DetNet Label and IPv6 Flow Label assignment and distribution">
-  <t>
-   The PW label distribution follows the same mechanisms specified for MS-PW <xref
-   target="RFC6073"/>. The details of the control plane protocol solution required for the label
-   distribution and the management of the label number space are out of scope of this document. 
-  </t>
-  <t>
-   The IPv6 Flow Label distribution and the label number space are out of scope of this document.
-   However, it should be noted that the combination of the IPv6 source address and the IPv6 Flow
-   Label is assumed to be unique within the DetNet-enabled network. Therefore, as long as each node
-   is able to assign unique Flow Labels for the source address(es) it is using the DetNet-enabled
-   network wide flow identification uniqueness is guaranteed. 
-  </t>
+ <section title="MPLS-based data plane">
+  <section title="S-Label assignment and distribution">
+   <t>
+    [Editor's note: Outdated and MPLS specific.. and needs more work.]		 
+   </t>
+   <t>
+    The DetNet S-Label distribution follows the same mechanisms specified for XYZ . The details of
+    the control plane protocol solution required for the label distribution and the management of the
+    label number space are out of scope of this document. 
+   </t>
+  </section>
+  <section title="Explicit routes">
+   <t>
+    [Editor's note: Outdated.. and needs more work.]		 
+   </t>
+   <t>
+    [TBD: based on MPLS TE and possibly IPv6 SR]
+   </t>
+  </section>
+ </section>
+ <section title="IPv6-based data plane">
+  <section title="Flow Label assignment and distribution">
+   <t>
+   [Editor's note: Outdated and IPv6 Specific.. and needs more work.]		 
+   </t>
+   <t>
+    The IPv6 Flow Label distribution and the label number space are out of scope of this document.
+    However, it should be noted that the combination of the IPv6 source address and the IPv6 Flow
+    Label is assumed to be unique within the DetNet-enabled network. Therefore, as long as each node
+    is able to assign unique Flow Labels for the source address(es) it is using the DetNet-enabled
+    network wide flow identification uniqueness is guaranteed. 
+   </t>
+  </section>
+  <section title="Explicit routes">
+   <t>
+    [Editor's note: Outdated.. and needs more work.]		 
+   </t>
+   <t>
+    [TBD: What we have there for IPv6 and explicit routes]
+   </t>
+  </section>
  </section>
  <section title="Packet replication and elimination">
-     <t>
-         The control plane protocol solution required for managing the PREF processing
-         is outside the scope of this document.
-     </t>
- </section>
- <section title="Explicit paths">
-     <t>
-         [TBD: based on MPLS TE and SR.]
-     </t>
+  <t>
+   [Editor's note: Outdated and at the functional level technology independent.. but needs more work.]		 
+  </t>
+  <t>
+   The control plane protocol solution required for managing the PREF processing
+   is outside the scope of this document.
+  </t>
  </section>
  <section title="Congestion protection and latency control">
      <t>
