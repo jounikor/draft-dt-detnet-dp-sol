@@ -658,7 +658,7 @@ Examples
   </t>
   </section>
 
- <section title="DetNet Routing Service">
+ <section title="DetNet Routing Service" anchor="detrouting">
 
   <t>DetNet Routing service provides routing, therefore available only for L3 hosts that are in different BC domains. Forwarding over the DetNet domain is based on L3 (IP) addresses (i.e. dst-IP).
   </t>
@@ -736,7 +736,7 @@ DetNet                    |  IP  |          |  IP  |
   </section>
   
   
-  <section title="Simplified IP Service">
+  <section title="Simplified IP Service" anchor="simplifiedip">
   <t>
    In this case there is no "tunneling" below the DetNet Service, but the DetNet Service flows are
    mapped to each link / sub net using its technology specific methods. The DetNet IP header
@@ -1199,6 +1199,10 @@ Client AC   |             |           |             |
   <t>
    [Editor's note: describe the 6 tuple way of doing DetNet service flows. Also stress that PREF is
    per network segment as described in <xref target="nwsegments"/>]
+  </t>
+
+  <t>
+   <xref target="simplifiedip"/> illustrated the case for DetNet simplified IP data plane solution. 
   </t>
  </section>
   

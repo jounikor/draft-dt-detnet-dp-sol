@@ -5,7 +5,7 @@
 DetNet                                                  J. Korhonen, Ed.
 Internet-Draft                                                    Nordic
 Intended status: Standards Track                            L. Andersson
-Expires: September 19, 2018                                     Y. Jiang
+Expires: September 23, 2018                                     Y. Jiang
                                                                  N. Finn
                                                                   Huawei
                                                                 B. Varga
@@ -17,7 +17,7 @@ Expires: September 19, 2018                                     Y. Jiang
                                                                  Marvell
                                                                L. Berger
                                                                     LabN
-                                                          March 18, 2018
+                                                          March 22, 2018
 
 
                     DetNet Data Plane Encapsulation
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 19, 2018.
+   This Internet-Draft will expire on September 23, 2018.
 
 
 
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Korhonen, et al.       Expires September 19, 2018               [Page 1]
+Korhonen, et al.       Expires September 23, 2018               [Page 1]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Korhonen, et al.       Expires September 19, 2018               [Page 2]
+Korhonen, et al.       Expires September 23, 2018               [Page 2]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -165,7 +165,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018               [Page 3]
+Korhonen, et al.       Expires September 23, 2018               [Page 3]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -221,7 +221,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018               [Page 4]
+Korhonen, et al.       Expires September 23, 2018               [Page 4]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -277,7 +277,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018               [Page 5]
+Korhonen, et al.       Expires September 23, 2018               [Page 5]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -333,7 +333,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018               [Page 6]
+Korhonen, et al.       Expires September 23, 2018               [Page 6]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -389,7 +389,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018               [Page 7]
+Korhonen, et al.       Expires September 23, 2018               [Page 7]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -445,7 +445,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018               [Page 8]
+Korhonen, et al.       Expires September 23, 2018               [Page 8]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -501,7 +501,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018               [Page 9]
+Korhonen, et al.       Expires September 23, 2018               [Page 9]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -557,7 +557,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 10]
+Korhonen, et al.       Expires September 23, 2018              [Page 10]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -613,7 +613,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 11]
+Korhonen, et al.       Expires September 23, 2018              [Page 11]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -669,7 +669,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 12]
+Korhonen, et al.       Expires September 23, 2018              [Page 12]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -725,7 +725,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 13]
+Korhonen, et al.       Expires September 23, 2018              [Page 13]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -781,7 +781,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 14]
+Korhonen, et al.       Expires September 23, 2018              [Page 14]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -837,7 +837,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 15]
+Korhonen, et al.       Expires September 23, 2018              [Page 15]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -893,7 +893,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 16]
+Korhonen, et al.       Expires September 23, 2018              [Page 16]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -949,7 +949,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 17]
+Korhonen, et al.       Expires September 23, 2018              [Page 17]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1005,7 +1005,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 18]
+Korhonen, et al.       Expires September 23, 2018              [Page 18]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1061,7 +1061,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 19]
+Korhonen, et al.       Expires September 23, 2018              [Page 19]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1117,7 +1117,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 20]
+Korhonen, et al.       Expires September 23, 2018              [Page 20]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1173,7 +1173,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 21]
+Korhonen, et al.       Expires September 23, 2018              [Page 21]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1229,7 +1229,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 22]
+Korhonen, et al.       Expires September 23, 2018              [Page 22]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1285,7 +1285,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 23]
+Korhonen, et al.       Expires September 23, 2018              [Page 23]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1341,7 +1341,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 24]
+Korhonen, et al.       Expires September 23, 2018              [Page 24]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1372,6 +1372,9 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
    flows.  Also stress that PREF is per network segment as described in
    Section 5.3.1]
 
+   Section 5.2.2.3 illustrated the case for DetNet simplified IP data
+   plane solution.
+
 8.  Other DetNet data plane considerations
 
 8.1.  Class of Service
@@ -1391,17 +1394,17 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
    existing MPLS Differentiated Services (DiffServ) architecture
    [RFC3270].  Both E-LSP and L-LSP MPLS DiffServ modes MAY be used to
    support DetNet flows.  The Traffic Class field (formerly the EXP
-   field) of an MPLS label follows the definition of [RFC5462] and
-   [RFC3270].  The Uniform, Pipe, and Short Pipe DiffServ tunneling and
-   TTL processing models are described in [RFC3270] and [RFC3443] and
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 25]
+Korhonen, et al.       Expires September 23, 2018              [Page 25]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
+   field) of an MPLS label follows the definition of [RFC5462] and
+   [RFC3270].  The Uniform, Pipe, and Short Pipe DiffServ tunneling and
+   TTL processing models are described in [RFC3270] and [RFC3443] and
    MAY be used for MPLS LSPs supporting DetNet flows.  MPLS ECN MAY also
    be used as defined in ECN [RFC5129] and updated by [RFC5462].
 
@@ -1447,17 +1450,16 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
    Service", [RFC2211], "Specification of Guaranteed Quality of
    Service", [RFC2212], and "Ethernet Traffic Parameters", [RFC6003].
    Additional service definitions are expected in future documents to
-   support the full range of DetNet services.  In all cases, the
-   existing label-based marking mechanisms defined for TE-LSPs and even
 
 
 
-
-Korhonen, et al.       Expires September 19, 2018              [Page 26]
+Korhonen, et al.       Expires September 23, 2018              [Page 26]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
+   support the full range of DetNet services.  In all cases, the
+   existing label-based marking mechanisms defined for TE-LSPs and even
    E-LSPs are use to support the identification of flows requiring
    DetNet QoS.
 
@@ -1504,16 +1506,16 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
    levels of aggregation naturally falls out of the definition for
    hierarchy and the MPLS label stack [RFC3032].  DetNet nodes which
    support aggregation (LSP hierarchy) map one or more LSPs (labels)
-   into and from an H-LSP.  Both carried LSPs and H-LSPs may or may not
-   use the TC field, i.e., L-LSPs or E-LSPs.  Such nodes will need to
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 27]
+Korhonen, et al.       Expires September 23, 2018              [Page 27]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
+   into and from an H-LSP.  Both carried LSPs and H-LSPs may or may not
+   use the TC field, i.e., L-LSPs or E-LSPs.  Such nodes will need to
    ensure that traffic from aggregated LSPs are placed (shaped/policed/
    enqueued) onto the H-LSPs in a fashion that ensures the required
    DetNet service is preserved.
@@ -1563,9 +1565,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-
-
-Korhonen, et al.       Expires September 19, 2018              [Page 28]
+Korhonen, et al.       Expires September 23, 2018              [Page 28]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1621,7 +1621,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 29]
+Korhonen, et al.       Expires September 23, 2018              [Page 29]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1677,7 +1677,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 30]
+Korhonen, et al.       Expires September 23, 2018              [Page 30]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1733,7 +1733,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 31]
+Korhonen, et al.       Expires September 23, 2018              [Page 31]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1789,7 +1789,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 32]
+Korhonen, et al.       Expires September 23, 2018              [Page 32]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1845,7 +1845,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 33]
+Korhonen, et al.       Expires September 23, 2018              [Page 33]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1901,7 +1901,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 34]
+Korhonen, et al.       Expires September 23, 2018              [Page 34]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -1957,7 +1957,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 35]
+Korhonen, et al.       Expires September 23, 2018              [Page 35]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -2013,7 +2013,7 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 36]
+Korhonen, et al.       Expires September 23, 2018              [Page 36]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -2069,7 +2069,7 @@ Appendix B.  Example of pinned paths using IPv6
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 37]
+Korhonen, et al.       Expires September 23, 2018              [Page 37]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -2125,7 +2125,7 @@ Authors' Addresses
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 38]
+Korhonen, et al.       Expires September 23, 2018              [Page 38]
 
 Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
@@ -2181,4 +2181,4 @@ Internet-Draft       DetNet Data Plane Encapsulation          March 2018
 
 
 
-Korhonen, et al.       Expires September 19, 2018              [Page 39]
+Korhonen, et al.       Expires September 23, 2018              [Page 39]
