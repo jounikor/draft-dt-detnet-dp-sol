@@ -93,7 +93,7 @@
 	</address>
 	</author>
   
-  <author fullname="Donald Fauntleroy Duck" initials="D. F." surname="Duck">
+  <!--author fullname="Donald Fauntleroy Duck" initials="D. F." surname="Duck">
    <organization abbrev="Royal Bros.">Royal Bros.</organization>
    <address>
     <postal>
@@ -103,7 +103,7 @@
      <country>USA</country>
     </postal>
    </address>
-  </author>
+  </author-->
   <date />
   <workgroup>DetNet</workgroup>
 
@@ -125,7 +125,7 @@
   </t>
   <t>
     This document specifies the DetNet data plane and the on-wire encapsulation of DetNet flows over
-    on IP network. The specified encapsulation provides the building blocks to enable the DetNet
+    an IP network. The specified encapsulation provides the building blocks to enable the DetNet
     service layer functions and allow flow identification as described in the DetNet Architecture. 
   </t>
   <!--t>
@@ -142,7 +142,7 @@
   <t>
    Furthermore, this document also describes how DetNet flows are identified, how a DetNet
    Relay/Edge/Transit nodes work, and how the Packet Replication and Elimination function (PREF) is
-   implemented with the two data plane solutions.
+   implemented with the IP data plane solution(s).
   </t>
   <t>
    This document does not define the associated control plane functions, or Operations,
@@ -184,7 +184,7 @@
     <t hangText="PREF">
      A Packet Replication and Elimination Function (PREF) does the replication
      and elimination processing of DetNet flow packets in edge or relay
-     nodes. The replication function is essentially the existing 1+1 protection
+     nodes. The replication function is essentially the existing 1+n protection
      mechanism. The elimination function reuses and extends the existing duplicate 
 	 detection mechanism to operate over multiple (separate) DetNet member flows of a 
 	 DetNet compound flow.</t>
@@ -237,8 +237,8 @@
 
  <section title="DetNet data plane overview" anchor="sec_dt_dp">
   <t>
-   This document describes how to use IP and/or MPLS to support a data plane method of flow
-   identification and packet formwarding over layer-3. Two different cases are covered: (i) the
+   This document describes how to use IP to support a data plane method of flow
+   identification and packet forwarding over layer-3. Two different cases are covered: (i) the
    inter-connect scenario, in which IEEE802.1 TSN is routed over a layer-3 network (i.e., to enlarge
    the layer-2 domain), and (ii) native connectivity between DetNet-aware end systems.
   </t>
@@ -271,6 +271,7 @@ System |    +--------+          +--------+       +--------+   |  System
 </artwork>
 </figure>
 
+ <!-- MPLS TEXT TO BE DELETED
  <t>
   <xref target="fig_pw_detnet"/> illustrates how end to end MPLS-based DetNet service can be
   provided.  In this case, the end systems are able to send and receive DetNet flows.  For example,
@@ -279,32 +280,18 @@ System |    +--------+          +--------+       +--------+   |  System
   relay nodes may change the underlying transport, for example tunneling IP over MPLS, or simply
   interconnect network segments.
  </t>
-
-<figure align="center" anchor="fig_pw_detnet"
+  -->
+  <!-- FIGURE WAS DELETED
+  <figure align="center" anchor="fig_pw_detnet"
  title="MPLS-Based Native DetNet">
 <artwork><![CDATA[
-      DetNet                                             DetNet
-      Service          Transit          Transit          Service
-DetNet  |             |<-Tnl->|        |<-Tnl->|            | DetNet
-End     |             V   1   V        V   2   V            | End
-System  |    +--------+       +--------+       +--------+   | System
-+---+   |    |   R1   |=======|   R2   |=======|   R3   |   |  +---+
-|  X...DFa...|._X_....|..DF1..|.__ ___.|..DF3..|...._X_.|.DFa..|.X |
-|CE1|========|    \   |       |   X    |       |   /    |======|CE2|
-|   |   |    |     \_.|..DF2..|._/ \__.|..DF4..|._/     |   |  |   |
-+---+        |        |=======|        |=======|        |      +---+
-    ^        +--------+       +--------+       +--------+      ^
-    |        Relay Node       Relay Node       Relay Node      |
-    |                                                          |
-    |<--------------- End to End DetNet Service -------------->|
-]]></artwork>
-</figure>
-
+  -->
 
  <t>
   <xref target="fig_ip_detnet"/> illustrates how end to end IP-based DetNet service
   can be provided. In this case, the end systems are able to send and receive
-  DetNet flows.  [Editor's note: TBD]  
+  DetNet flows.  [Editor's note: TBD, we may need here 2 figures (1) simplified IP 
+  and (2) tunneled IP]  
  </t>
 
 <figure align="center" anchor="fig_ip_detnet"
@@ -572,7 +559,7 @@ Examples
   <t>DetNet Routing service provides routing, therefore available only for L3 hosts that are in different BC domains. Forwarding over the DetNet domain is based on L3 (IP) addresses (i.e. dst-IP).
   </t>
 
-  <section title="IP PSN">
+  <section title="IP PSN with tunneling" anchor="iptunneling">
   <t> In case of an IP PSN the same tunneling concept can be used as for an MPLS PSN, but the tunnel is constructed by a new IP header (and possible upper layer fields). The data-flow IP header MUST be preserved as-is.   
   </t>
 
@@ -592,9 +579,10 @@ DetNet                    |  IP  |          |  IP  |
   
   <t>
    DetNet IP header contains the IP addresses of the ingress/egress PE nodes of DetNet domain. The
-   End-system IP header contains the IP addresses of the end-systems.    
+   End-system IP header contains the IP addresses of the end-systems. Therefore all DetNet specific 
+   functions can be used.
   </t>
-
+  <!-- CONSIDER TO DELETE THIS TEXT
   <t>
    Note: In case of IP PSN one may consider avoiding the additional IP encapsulation, however there
    are many issues with such an approach. First, the DetNet nodes MUST be able to extract from the
@@ -609,29 +597,32 @@ DetNet                    |  IP  |          |  IP  |
    MUST be capable to forward any Data-flows and the DetNet domain MUST NOT intend to mandate
    end-system encapsulation format).
   </t>
-  
+  -->
+  <!-- CONSIDER TO DELETE THIS TEXT
   <t>
    Another approach with IP PSN can be based on MPLS over IP <xref target="RFC4023"/> and/or MPLS
    over UDP/IP <xref target="RFC7510"/>. In this case the encapsulations over the PSNs were the same
    i.e., basically the DetNet MPLS-based data plane encapsulation.
   </t>
+  -->
   
   </section>
   
   
   <section title="Simplified IP Service" anchor="simplifiedip">
   <t>
-   In this case there is no "tunneling" below the DetNet Service, but the DetNet Service flows are
+   One may consider avoiding the additional IP encapsulation defined in the previous sub-chapter.
+   In this case there is no "DetNet service specific tunneling", but the DetNet Service flows are
    mapped to each link / sub net using its technology specific methods. The DetNet IP header
    containes the IP address destination DetNet end system. The data-flow IP header MUST be preserved
-   as-is.
+   as-is when crossing the DetNet domain.
   </t>
   <t>
-   This solution provides end to end DetNet service consisting of congestion protection and latency
-   control and the rouse allocation (queuing, policing, shaping) done using the underlying link /
-   sub net specific mechanisms. Compared to previously described DetNet routing services, the
-   service protections (packet replication and packet emilination functions) and not provided end to
-   end, but per underlying layer-2 link / sub net.
+   This solution provides some DetNet functions end to end, but some DetNet functions are segmented.
+   Congestion protection and latency control and the resource allocation (queuing, policing, shaping) 
+   done using the underlying link / sub net specific mechanisms and they are provided end to end.
+   However, service protections (packet replication and packet emilination functions) are not provided 
+   end to end, but per underlying layer-2 link / sub net.
   </t>
   
   <figure title="Encapsulation of DetNet Routing in simplified IP service L3 end-systems"
@@ -650,7 +641,7 @@ DetNet                    |L2/SbN|          |L2/SbN|
   <t> 
     Note: the DetNet Service Flow MUST be mapped to the link / sub net specific resources using an
     underlying system specific means. This implies each DetNet aware node on path MUST look into the
-    transported DetNet Service Flow packet and utilize e.g., a five tuple to find out the required
+    transported DetNet Service Flow packet and utilize e.g., a five (or six) tuple to find out the required
     mapping in a node.  As noted earlier, the Service Protection is done within each link / sub net
     independently using the domain specific mechanisms (due the lack of a unified end to end
     sequencing information that would be available for intermediate nodes). If end to end service
@@ -668,6 +659,12 @@ DetNet                    |L2/SbN|          |L2/SbN|
 
   
 <section title="DetNet Inter-Working Function (DN-IWF)">
+
+  <t> 
+    Note: DN-IWF are not considered for the simplified IP scenario. DN-IWF is more relevant for IP PSN 
+	with tunneling. 
+  </t>
+
 
 <section title="Networks with multiple technology segments" anchor="nwsegments">
 
@@ -753,14 +750,43 @@ Placeholder
  <section title="Simplified IP based DetNet data plane solution" anchor="simple-ip-solution">
   <t>
    [Editor's note: describe the 6 tuple way of doing DetNet service flows. Also stress that PREF is
-   per network segment as described in <xref target="nwsegments"/>]
+   per network segment as described in <xref target="nwsegments"/>
+   <list style="symbols">
+		<t>DetNet flows are recognized based on 6 tuple.</t>
+		<t>No end to end Seq.Number present in the packet.</t>
+		<t>Links / sub nets may use their technology specific methods.</t>
+		<t>TE information does not travel with the packet (e.g., nailed down path ensured via Policy-Based-Routing).</t>
+		<t>etc.</t>
+   </list>
+   ]
   </t>
 
   <t>
    <xref target="simplifiedip"/> illustrated the case for DetNet simplified IP data plane solution. 
   </t>
  </section>
-  
+
+ 
+<!-- ================================================================= -->
+
+ <section title="IP PSN tunnel based data plane solution" anchor="ip-tunnel-solution">
+  <t>
+   [Editor's note: here to place !!! draft-malis-detnet-ip-dp-00.txt !!! 
+   <list style="symbols">
+		<t>Additional IP header added with DetNet domain specific information.</t>
+		<t>Encapsulation: PW over UDP over IP</t>
+		<t>Flow-ID encoded in PW-label+IP-dst, Seq.Number encoded in PW-CW</t>
+		<t>etc.</t>
+   </list>
+   ]
+  </t>
+
+  <t>
+   <xref target="iptunneling"/> illustrated the case for IP tunneling based data plane solution. 
+  </t>
+ </section>
+
+ 
 <section title="Other DetNet data plane considerations">
  <section title="Class of Service">
    <t>
@@ -1286,6 +1312,10 @@ Placeholder
     <t>Lou Berger</t>
     <t>Pat Thaler</t>
    </list></t>
+   <t>
+    Thanks for Stewart Bryant for his extensive review of the previous
+    versions of the document.
+   </t>
 </section>
 </middle>
 

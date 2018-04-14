@@ -93,7 +93,7 @@
 	</address>
 	</author>
   
-  <author fullname="Donald Fauntleroy Duck" initials="D. F." surname="Duck">
+  <!--author fullname="Donald Fauntleroy Duck" initials="D. F." surname="Duck">
    <organization abbrev="Royal Bros.">Royal Bros.</organization>
    <address>
     <postal>
@@ -103,7 +103,7 @@
      <country>USA</country>
     </postal>
    </address>
-  </author>
+  </author-->
   <date />
   <workgroup>DetNet</workgroup>
 
@@ -185,7 +185,7 @@
     <t hangText="PREF">
      A Packet Replication and Elimination Function (PREF) does the replication
      and elimination processing of DetNet flow packets in edge or relay
-     nodes. The replication function is essentially the existing 1+1 protection
+     nodes. The replication function is essentially the existing 1+n protection
      mechanism. The elimination function reuses and extends the existing duplicate 
 	 detection mechanism to operate over multiple (separate) DetNet member flows of a 
 	 DetNet compound flow.</t>
@@ -301,34 +301,18 @@ System  |    +--------+       +--------+       +--------+   | System
 ]]></artwork>
 </figure>
 
-
+<!-- TEXT AND FIGURE ARE IP SPECIFIC, TO BE DELETED
  <t>
   <xref target="fig_ip_detnet"/> illustrates how end to end IP-based DetNet service
   can be provided. In this case, the end systems are able to send and receive
   DetNet flows.  [Editor's note: TBD]  
  </t>
-
-<figure align="center" anchor="fig_ip_detnet"
+-->
+<!--<figure align="center" anchor="fig_ip_detnet"
  title="IP-Based Native DetNet">
 <artwork><![CDATA[
 NOTE: This figures is TBD
-
-      DetNet                                             DetNet
-      Service          Transit          Transit          Service
-DetNet  |             |<-Tnl->|        |<-Tnl->|            | DetNet
-End     |             V   1   V        V   2   V            | End
-System  |    +--------+       +--------+       +--------+   | System
-+---+   |    |   R1   |=======|   R2   |=======|   R3   |   |  +---+
-|  X...DFa...|        |       |        |       |        |     .|.X |
-| H1|========|        |       |        |       |        |======| H2|
-|   |   |    |        |       |        |       |        |   |  |   |
-+---+        |        |=======|        |=======|        |      +---+
-    ^        +--------+       +--------+       +--------+      ^
-    |        Relay Node       Relay Node       Relay Node      |
-    |                                                          |
-    |<--------------- End to End DetNet Service -------------->|
-]]></artwork>
-</figure>
+-->
  
 <section title="DetNet data plane encapsulation requirements">
  <t>
@@ -592,25 +576,13 @@ DetNet                    | MPLS |          | MPLS |
     </artwork></figure>
   
   </section>
-
+<!--
   <section title="IP PSN">
   <t> In case of an IP PSN the same tunneling concept can be used as for an MPLS PSN, but the tunnel is constructed by a new IP header (and possible upper layer fields). The data-flow IP header MUST be preserved as-is.   
   </t>
-
-  <figure title="Encapsulation format for DetNet Routing in IP PSN for L3 end-systems" anchor="fig_ip_DN_routing">
-  <artwork align="center"><![CDATA[
-           +------+                         +------+
-           |  X   |                         |  X   |
-           +======+                         +------+
-End-system |  IP  |                         |  IP  |
-      -----+------+-------+======+---     --+======+--
-DetNet                    |  IP  |          |  IP  |
-                          +------+          +------+
-                          |  L2  |          |  L2  |
-                          +------+          +------+
-  ]]>
-    </artwork></figure>
-  
+-->
+  <!-- FIGURE DELETED --> 
+<!--
   <t>
    DetNet IP header contains the IP addresses of the ingress/egress PE nodes of DetNet domain. The
    End-system IP header contains the IP addresses of the end-systems.    
@@ -644,6 +616,7 @@ DetNet                    |  IP  |          |  IP  |
   </t>
   
   </section>
+  -->
  </section> <!-- -->
 </section>
 
@@ -817,6 +790,10 @@ Placeholder
    DetNet-t-flows) the control plane or the manual configuration has to define zero (0) bit length
    seqeunce number and the value of the sequence number MUST be set to zero (0).
   </t>
+  <t>
+   [Editor's'note: TSN compatibility to be ensured (16 bits vs. 28 bits).]
+  </t>
+  
     <figure title="DetNet Control Word" anchor="fig_detnet_cw">
     <artwork align="center"><![CDATA[
  0                   1                   2                   3
@@ -1570,6 +1547,10 @@ Client AC   |             |           |             |
     <t>Lou Berger</t>
     <t>Pat Thaler</t>
    </list></t>
+   <t>
+    Thanks for Stewart Bryant for his extensive review of the previous
+    versions of the document.
+   </t>
 </section>
 </middle>
 
