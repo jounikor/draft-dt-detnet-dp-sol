@@ -5,8 +5,8 @@
 DetNet                                                  J. Korhonen, Ed.
 Internet-Draft
 Intended status: Standards Track                           B. Varga, Ed.
-Expires: October 16, 2018                                       Ericsson
-                                                          April 14, 2018
+Expires: October 17, 2018                                       Ericsson
+                                                          April 15, 2018
 
 
                    DetNet IP Data Plane Encapsulation
@@ -33,7 +33,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on October 16, 2018.
+   This Internet-Draft will expire on October 17, 2018.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Korhonen & Varga        Expires October 16, 2018                [Page 1]
+Korhonen & Varga        Expires October 17, 2018                [Page 1]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
@@ -66,9 +66,9 @@ Table of Contents
      2.2.  Abbreviations . . . . . . . . . . . . . . . . . . . . . .   4
    3.  Requirements language . . . . . . . . . . . . . . . . . . . .   5
    4.  DetNet data plane overview  . . . . . . . . . . . . . . . . .   5
-     4.1.  DetNet data plane encapsulation requirements  . . . . . .   6
+     4.1.  DetNet data plane encapsulation requirements  . . . . . .   7
      4.2.  Packet replication and elimination considerations . . . .   8
-     4.3.  Packet reordering considerations  . . . . . . . . . . . .   8
+     4.3.  Packet reordering considerations  . . . . . . . . . . . .   9
    5.  DetNet encapsulation  . . . . . . . . . . . . . . . . . . . .   9
      5.1.  End-system specific considerations  . . . . . . . . . . .   9
      5.2.  DetNet domain specific considerations . . . . . . . . . .  10
@@ -77,45 +77,42 @@ Table of Contents
      5.3.  DetNet Inter-Working Function (DN-IWF)  . . . . . . . . .  14
        5.3.1.  Networks with multiple technology segments  . . . . .  14
        5.3.2.  DN-IWF related considerations . . . . . . . . . . . .  15
-   6.  Simplified IP based DetNet data plane solution  . . . . . . .  16
+   6.  Simplified IP related DetNet data plane solution  . . . . . .  16
    7.  IP PSN tunnel based data plane solution . . . . . . . . . . .  16
    8.  Other DetNet data plane considerations  . . . . . . . . . . .  17
      8.1.  Class of Service  . . . . . . . . . . . . . . . . . . . .  17
-     8.2.  Quality of Service  . . . . . . . . . . . . . . . . . . .  17
+     8.2.  Quality of Service  . . . . . . . . . . . . . . . . . . .  18
      8.3.  Cross-DetNet flow resource aggregation  . . . . . . . . .  19
      8.4.  Bidirectional traffic . . . . . . . . . . . . . . . . . .  20
-     8.5.  Layer 2 addressing and QoS Considerations . . . . . . . .  20
-     8.6.  Interworking between MPLS- and IPv6-based encapsulations   21
-     8.7.  IPv4 considerations . . . . . . . . . . . . . . . . . . .  21
-   9.  Time synchronization  . . . . . . . . . . . . . . . . . . . .  21
-   10. Management and control considerations . . . . . . . . . . . .  23
-     10.1.  MPLS-based data plane  . . . . . . . . . . . . . . . . .  23
-       10.1.1.  S-Label assignment and distribution  . . . . . . . .  23
-       10.1.2.  Explicit routes  . . . . . . . . . . . . . . . . . .  23
-     10.2.  IPv6-based data plane  . . . . . . . . . . . . . . . . .  23
-       10.2.1.  Flow Label assignment and distribution . . . . . . .  23
-       10.2.2.  Explicit routes  . . . . . . . . . . . . . . . . . .  24
-     10.3.  Packet replication and elimination . . . . . . . . . . .  24
-     10.4.  Congestion protection and latency control  . . . . . . .  24
-     10.5.  Flow aggregation control . . . . . . . . . . . . . . . .  24
+     8.5.  Layer 2 addressing and QoS Considerations . . . . . . . .  21
+     8.6.  IPv4 considerations . . . . . . . . . . . . . . . . . . .  21
+     8.7.  IPv6 considerations . . . . . . . . . . . . . . . . . . .  22
+     8.8.  Interworking between MPLS and IP encapsulations . . . . .  22
+   9.  Time synchronization  . . . . . . . . . . . . . . . . . . . .  22
+   10. Management and control plane considerations . . . . . . . . .  23
+     10.1.  IP-based data plane  . . . . . . . . . . . . . . . . . .  24
+       10.1.1.  Flow Label assignment and distribution . . . . . . .  24
+       10.1.2.  Explicit routes  . . . . . . . . . . . . . . . . . .  24
+     10.2.  Packet replication and elimination . . . . . . . . . . .  24
+     10.3.  Congestion protection and latency control  . . . . . . .  24
+     10.4.  Flow aggregation control . . . . . . . . . . . . . . . .  24
    11. Security considerations . . . . . . . . . . . . . . . . . . .  24
-   12. IANA considerations . . . . . . . . . . . . . . . . . . . . .  24
-   13. Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  24
-   14. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  25
-   15. References  . . . . . . . . . . . . . . . . . . . . . . . . .  26
-     15.1.  Normative references . . . . . . . . . . . . . . . . . .  26
-     15.2.  Informative references . . . . . . . . . . . . . . . . .  28
-   Appendix A.  Example of DetNet data plane operation . . . . . . .  30
+   12. IANA considerations . . . . . . . . . . . . . . . . . . . . .  25
+   13. Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  25
+   14. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  26
+   15. References  . . . . . . . . . . . . . . . . . . . . . . . . .  27
+     15.1.  Normative references . . . . . . . . . . . . . . . . . .  27
+     15.2.  Informative references . . . . . . . . . . . . . . . . .  29
+   Appendix A.  Example of DetNet data plane operation . . . . . . .  31
+   Appendix B.  Example of pinned paths using IPv6 . . . . . . . . .  31
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  31
 
 
 
-Korhonen & Varga        Expires October 16, 2018                [Page 2]
+Korhonen & Varga        Expires October 17, 2018                [Page 2]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
-
-   Appendix B.  Example of pinned paths using IPv6 . . . . . . . . .  30
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  30
 
 1.  Introduction
 
@@ -154,27 +151,25 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    architecture [I-D.ietf-detnet-architecture] and the DetNet Data Plane
    Solution Alternatives [I-D.ietf-detnet-dp-alt].
 
-   T-Label       A label used to identify the LSP used to transport a
-                 DetNet flow across an MPLS PSN, e.g., a hop-by-hop
-                 label used between label switching routers (LSR).
-
    S-Label       A DetNet "service" label that is used between DetNet
                  nodes that implment also the DetNet service layer
                  functions.  An S-Label is also used to identify a
                  DetNet flow at DetNet service layer.
-
-
-
-Korhonen & Varga        Expires October 16, 2018                [Page 3]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
 
    Flow Label    IPv6 header field that is used to identify a DetNet
                  flow (together with the source IP address field).
 
    Local-ID      A DetNet Edge and Relay node internal construct that
                  uniquely identifies a DetNet flow within a node and
+
+
+
+
+Korhonen & Varga        Expires October 17, 2018                [Page 3]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
+
                  never appear on-wire.  It may be used to select proper
                  forwarding and/or DetNet specific service function.
 
@@ -219,16 +214,17 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
    MS-PW         Multi-Segment PseudoWire (MS-PW).
 
-
-
-Korhonen & Varga        Expires October 16, 2018                [Page 4]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
-
    NSP           Native Service Processing.
 
    OAM           Operations, Administration, and Maintenance.
+
+
+
+
+Korhonen & Varga        Expires October 17, 2018                [Page 4]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
 
    PE            Provider Edge.
 
@@ -257,6 +253,9 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    layer-2 domain), and (ii) native connectivity between DetNet-aware
    end systems.
 
+   [Editor's note: these two scenarios does not cover all the defined
+   use-cases.]
+
    Figure 1 illustrates how DetNet can provide services for IEEE
    802.1TSN end systems over a DetNet enabled network.  The edge nodes
    insert and remove required DetNet data plane encapsulation.  The 'X'
@@ -277,7 +276,8 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 
 
-Korhonen & Varga        Expires October 16, 2018                [Page 5]
+
+Korhonen & Varga        Expires October 17, 2018                [Page 5]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
@@ -302,8 +302,10 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
    Figure 2 illustrates how end to end IP-based DetNet service can be
    provided.  In this case, the end systems are able to send and receive
-   DetNet flows.  [Editor's note: TBD, we may need here 2 figures (1)
-   simplified IP and (2) tunneled IP]
+   DetNet flows.
+
+   [Editor's note: TBD, we may need here 2 figures (1) simplified IP and
+   (2) tunneled IP]
 
    NOTE: This figures is TBD
 
@@ -324,19 +326,24 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
                      Figure 2: IP-Based Native DetNet
 
+
+
+
+
+
+
+
+Korhonen & Varga        Expires October 17, 2018                [Page 6]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
+
 4.1.  DetNet data plane encapsulation requirements
 
    Two major groups of scenarios can be distinguished which require flow
    identification during transport:
 
    1.  DetNet function related scenarios:
-
-
-
-Korhonen & Varga        Expires October 16, 2018                [Page 6]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
 
        *  Congestion protection and latency control: usage of allocated
           resources (queuing, policing, shaping).
@@ -346,7 +353,7 @@ Internet-Draft            DetNet IP Data Plane                April 2018
        *  Service protection: recognize DetNet compound and member flows
           for replication an elimination.
 
-       Comment #12  I am not sure whether the correct architectural
+       Comment #1  I am not sure whether the correct architectural
           construct is flow or flow group.  Flow suggests that sharing/
           aggregation is not allowed but whether this is allowed or not
           is an application specific issue.
@@ -354,8 +361,8 @@ Internet-Draft            DetNet IP Data Plane                April 2018
        Discussion:  Agree that a flow group would be a better
           characterization.
 
-       Comment #13  I think that there needs to be some clarification as
-          to whether FG is is understood by the DN system exclusively or
+       Comment #2  I think that there needs to be some clarification as
+          to whether FG is understood by the DN system exclusively or
           whether there is an expectation that it is understood by the
           underlay.
 
@@ -376,31 +383,31 @@ Internet-Draft            DetNet IP Data Plane                April 2018
        *  etc.
 
    Each DetNet node (edge, relay and transit) use an internal/
-   implementation specific local-ID of the DetNet-(compound)-flow in
+   implementation specific local-ID of the DetNet(-compound)-flow in
    order to accomplish its role during transport.  Recognizing the
    DetNet flow is more relaxed for edge and relay nodes, as they are
+
+
+
+Korhonen & Varga        Expires October 17, 2018                [Page 7]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
+
    fully aware of both the DetNet service and transport layers.  The
    primary DetNet role of intermediate transport nodes is limited to
    ensuring congestion protection and latency control for the above
    listed DetNet functions.
 
    The DetNet data plane allows for the aggregation of DetNet flows,
-   e.g., via MPLS hierarchical LSPs, to improved scaling.  When DetNet
-
-
-
-Korhonen & Varga        Expires October 16, 2018                [Page 7]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
-
+   e.g., via additional tunneling, to improved scaling.  When DetNet
    flows are aggregated, transit nodes may have limited ability to
    provide service on per-flow DetNet identifiers.  Therefore,
    identifying each individual DetNet flow on a transit node may not be
    achieved in some network scenarios, but DetNet service can still be
    assured in these scenarios through resource allocation and control.
 
-   Comment #14  You could introduce the concept of a flow group
+   Comment #3  You could introduce the concept of a flow group
       identified into the packet.  You may also include a flow id at a
       lower layer.
 
@@ -423,7 +430,7 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
    At a DetNet node level the output of the PREF elimination function is
    always a single packet.  The output of the PREF replication function
-   at a DetNet node level is always one or more packets (i.e., 1:M
+   at a DetNet node level is always one or more packets (i.e., 1:N
    replication).  The replicated packets MUST share the same d-CW i.e.,
    the sequence number is the same for each member flow of the compound
    flow.  The location and mechanism on the packet processing pipeline
@@ -434,6 +441,15 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    ingress DetNet member flows (to a node) MUST have the same local-ID
    if they belong to the same DetNet (compound) flow and share the same
    sequence number counter and the history information.  The location of
+
+
+
+
+Korhonen & Varga        Expires October 17, 2018                [Page 8]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
+
    the packet elimination on the packet processing pipeline is
    implementation specific.
 
@@ -442,14 +458,6 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    DetNet service layer introduces also packet reordering functionality
    for use in DetNet edge and relay node and end system packet
    processing.  The reordering functionality MAY be enabled in a DetNet
-
-
-
-Korhonen & Varga        Expires October 16, 2018                [Page 8]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
-
    node.  The reordeing functionality relies on a presence of sequence
    numbers in a DetNet (compound) flows.  The reordering processing is
    only applied to packets with a positive flow identification at the
@@ -463,15 +471,15 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    end-systems.  Encapsulation depends on application and its
    preferences.  In a DetNet (or even a TSN) domain the DN (TSN)
    functions use at most two flow parameters, namely Flow-ID and
-   Seq.Number.  However, an application may exchange further flow
+   Sequence Number.  However, an application may exchange further flow
    related parameters (e.g., time-stamp), which are not considered by DN
    functions.
 
    Two types of end-systems are distinguished:
 
-   o  L3 (IP) end-system: application over L3
-
    o  L2 (Ethernet) end-system: application directly over L2
+
+   o  L3 (IP) end-system: application over L3
 
    In case of Ethernet end-systems the application data is encapsulated
    directly in L2.  From the DN domain perspective no upper layer
@@ -485,8 +493,18 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    may be application specific how the IP header fields are used.  Also,
    usage of further upper layer protocols depends on application
    requirements (e.g., time-stamp).  Some examples for encoding of Flow-
-   ID or Seq.Number attributes: IP address, IPv6-Flow-label, L4 ports,
-   RTP-header, etc.
+   ID or Sequence Number attributes: IP address, IPv6-Flow-label, L4
+   ports, RTP-header, etc.
+
+
+
+
+
+
+Korhonen & Varga        Expires October 17, 2018                [Page 9]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
 
    As a general rule, DetNet domains MUST be capable to forward any
    Data-flows and the DetNet domain MUST NOT intend to mandate end-
@@ -496,17 +514,9 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    the DetNet domain, so end-systems peer with end-systems using the
    same application encapsulation format (see figure below):
 
-   o  L3 end-systems peer with L3 end-systems and
+   o  L2 end-systems peer with L2 end-systems and
 
-
-
-
-Korhonen & Varga        Expires October 16, 2018                [Page 9]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
-
-   o  L2 end-systems peer with L2 end-systems
+   o  L3 end-systems peer with L3 end-systems.
 
              +-----+
              |  X  |                               +-----+
@@ -544,23 +554,20 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
    L3 end-systems may use any of these connection types, however L2 end-
    systems may use only the first two (directly or indirectly attached).
+
+
+
+Korhonen & Varga        Expires October 17, 2018               [Page 10]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
+
    DetNet domain MUST allow communication between any end-systems of the
    same type (L2-L2, L3-L3), independent of their connection type and
    DetNet capability.  However directly attached and indirectly attached
    end-systems have no knowledge about the DetNet domain and its
    encapsulation format at all.  See the figure below for L3 end-system
-   scenarios.
-
-
-
-
-
-
-
-Korhonen & Varga        Expires October 16, 2018               [Page 10]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
+   connection scenarios.
 
                                                ____+----+
                        +----+        _____    /    | ES3|
@@ -606,14 +613,7 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 
 
-
-
-
-
-
-
-
-Korhonen & Varga        Expires October 16, 2018               [Page 11]
+Korhonen & Varga        Expires October 17, 2018               [Page 11]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
@@ -669,7 +669,7 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 
 
-Korhonen & Varga        Expires October 16, 2018               [Page 12]
+Korhonen & Varga        Expires October 17, 2018               [Page 12]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
@@ -685,23 +685,22 @@ Internet-Draft            DetNet IP Data Plane                April 2018
                                     +------+          +------+
 
 
-    Figure 6: Encapsulation format for DetNet Routing in IP PSN for L3
-                                end-systems
+   Figure 6: Tunneling based encapsulation format for DetNet Routing in
+                         IP PSN for L3 end-systems
 
    DetNet IP header contains the IP addresses of the ingress/egress PE
    nodes of DetNet domain.  The End-system IP header contains the IP
    addresses of the end-systems.  Therefore all DetNet specific
    functions can be used.
 
-5.2.2.2.  Simplified IP Service
+5.2.2.2.  IP PSN with simplified IP Service
 
    One may consider avoiding the additional IP encapsulation defined in
    the previous sub-chapter.  In this case there is no "DetNet service
    specific tunneling", but the DetNet Service flows are mapped to each
-   link / sub net using its technology specific methods.  The DetNet IP
-   header containes the IP address destination DetNet end system.  The
-   data-flow IP header MUST be preserved as-is when crossing the DetNet
-   domain.
+   link / sub net using its technology specific methods.  No DetNet IP
+   header is used.  The data-flow IP header MUST be preserved and it is
+   used as-is when crossing the DetNet domain.
 
    This solution provides some DetNet functions end to end, but some
    DetNet functions are segmented.  Congestion protection and latency
@@ -725,7 +724,8 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 
 
-Korhonen & Varga        Expires October 16, 2018               [Page 13]
+
+Korhonen & Varga        Expires October 17, 2018               [Page 13]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
@@ -734,7 +734,7 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    specific resources using an underlying system specific means.  This
    implies each DetNet aware node on path MUST look into the transported
    DetNet Service Flow packet and utilize e.g., a five (or six) tuple to
-   find out the required mapping in a node.  As noted earlier, the
+   find out the required mapping within a node.  As noted earlier, the
    Service Protection is done within each link / sub net independently
    using the domain specific mechanisms (due the lack of a unified end
    to end sequencing information that would be available for
@@ -766,11 +766,11 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
    DN-IWF may ensure that flow attributes are correlated across segment
    borders.  For example, there are two DetNet functions which require
-   Seq.Numbers: (1) Elimination: removes duplications from flows and (2)
-   IOD: ensures in-order-delivery of packet in a flow.  Stitching flows
-   together and correlating attributes means for example that
-   replication of packets can happen in one segment and elimination of
-   duplicates in a different one.
+   Sequence Numbers: (1) Elimination: removes duplications from flows
+   and (2) IOD: ensures in-order-delivery of packet in a flow.
+   Stitching flows together and correlating attributes means for example
+   that replication of packets can happen in one segment and elimination
+   of duplicates in a different one.
 
 
 
@@ -781,7 +781,7 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 
 
-Korhonen & Varga        Expires October 16, 2018               [Page 14]
+Korhonen & Varga        Expires October 17, 2018               [Page 14]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
@@ -822,28 +822,30 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
    o  Flow-ID: it is same in all packets of a flow
 
-   o  Seq.Number: it is different packet-by-packet
+   o  Sequence Number: it is different packet-by-packet
 
    For the Flow-ID the DN-IWF can implement a static mapping.  The
-   situation is more complicated for Seq.Number as it is different
+   situation is more complicated for Sequence Number as it is different
    packet-by-packet, so it may need more sophisticated translation
    unless its format is exactly the same in the two technology segments.
-   In this later case the DN-IWF can simple copy the Seq.Number field
-   between the tunneling encapsulation of the two technology segments.
+   In this later case the DN-IWF can simple copy the Sequence Number
+   field between the tunneling encapsulation of the two technology
+   segments.
 
    In case of three technology segments (IP, MPLS and TSN) three DN-IWF
    functions can be specified.  In the rest of this section the focus is
-   on the (1) IP - MPLS network scenario.  Note: the use-cases are out-
 
 
 
-Korhonen & Varga        Expires October 16, 2018               [Page 15]
+Korhonen & Varga        Expires October 17, 2018               [Page 15]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
 
-   of-scope for (2) TSN - IP, (3) TSN - MPLS.  Note2: incompatible
-   format of Seq.Number with TSN.
+   on the (1) IP - MPLS network scenario.  Note: the use-cases are out-
+   of-scope for (2) TSN - IP, (3) TSN - MPLS.  Note2: in current
+   discussions the DetNet Sequence Number has an incompatible format
+   with TSN.
 
    Simplest implementation of DN-IWF is provided if the flow attributes
    have the same format.  Such a common denominator of the tunnel
@@ -855,17 +857,21 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
                   Figure 9: FIGURE Placeholder PW over X
 
-6.  Simplified IP based DetNet data plane solution
+6.  Simplified IP related DetNet data plane solution
 
-   [Editor's note: describe the 6 tuple way of doing DetNet service
-   flows.  Also stress that PREF is per network segment as described in
-   Section 5.3.1
+   This section is the placeholder for the conclusion discussed during
+   IETF 101.
+
+   [Editor's note: describe the 6 tuple way of identifying DetNet
+   service flows.  Also stress that PREF is per network segment as
+   described in Section 5.3.1
 
    o  DetNet flows are recognized based on 6 tuple.
 
-   o  No end to end Seq.Number present in the packet.
+   o  No end to end DN Sequence Number present in the packet.
 
-   o  Links / sub nets may use their technology specific methods.
+   o  Links / sub nets may use their technology specific methods to
+      achieve DN service.
 
    o  TE information does not travel with the packet (e.g., nailed down
       path ensured via Policy-Based-Routing).
@@ -879,33 +885,42 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 7.  IP PSN tunnel based data plane solution
 
+   This section is the placeholder for the data plane using tunneling,
+   i.e., an additional IP header is added to Data-flow IP packets
+   requering DetNet service.
+
    [Editor's note: here to place !!! draft-malis-detnet-ip-dp-00.txt !!!
 
-   o  Additional IP header added with DetNet domain specific
-      information.
-
-   o  Encapsulation: PW over UDP over IP
-
-   o  Flow-ID encoded in PW-label+IP-dst, Seq.Number encoded in PW-CW
-
-   o  etc.
 
 
-
-
-Korhonen & Varga        Expires October 16, 2018               [Page 16]
+Korhonen & Varga        Expires October 17, 2018               [Page 16]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
 
+   o  Additional IP header added with DetNet domain specific
+      information.
+
+   o  Encapsulation format: PW over UDP over IP
+
+   o  Flow-ID encoded in PW-label+IP-dst, Sequence Number encoded in
+      d-CW
+
+   o  etc.
+
    ]
 
-   Section 5.2.2.1 illustrated the case for IP tunneling based data
+   Section 5.2.2.1 illustrated the case for IP tunneling based DN data
    plane solution.
 
 8.  Other DetNet data plane considerations
 
+   NOTE: these sections are simple copy pasted from earlier document.
+   They may not be needed.
+
 8.1.  Class of Service
+
+   [Editor's NOTE: delete this section.]
 
    Class and quality of service, i.e., CoS and QoS, are terms that are
    often used interchangeably and confused.  In the context of DetNet,
@@ -930,6 +945,15 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
    CoS for DetNet flows carried in IPv6 is provided using the standard
    differentiated services code point (DSCP) field [RFC2474] and related
+
+
+
+
+Korhonen & Varga        Expires October 17, 2018               [Page 17]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
+
    mechanisms.  The 2-bit explicit congestion notification (ECN)
    [RFC3168] field MAY also be used.
 
@@ -942,18 +966,12 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 8.2.  Quality of Service
 
+   [Editor's NOTE: delete this section.]
+
    Quality of Service (QoS) mechanisms for flow specific traffic
    treatment typically includes a guarantee/agreement for the service,
    and allocation of resources to support the service.  Example QoS
    mechanisms include discrete resource allocation, admission control,
-
-
-
-Korhonen & Varga        Expires October 16, 2018               [Page 17]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
-
    flow identification and isolation, and sometimes path control,
    traffic protection, shaping, policing and remarking.  Example
    protocols that support QoS control include Resource ReSerVation
@@ -983,6 +1001,15 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    E-LSPs are use to support the identification of flows requiring
    DetNet QoS.
 
+
+
+
+
+Korhonen & Varga        Expires October 17, 2018               [Page 18]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
+
    QoS for DetNet service flows carried in IP MUST be provided locally
    by the DetNet-aware hosts and routers supporting DetNet flows.  Such
    support will leverage the underlying network layer such as 802.1TSN.
@@ -1003,18 +1030,13 @@ Internet-Draft            DetNet IP Data Plane                April 2018
       CoS) packets received that are not the subject of a completed
       reservation.
 
-
-
-Korhonen & Varga        Expires October 16, 2018               [Page 18]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
-
    o  Not use a DetNet reserved resource, e.g. a queue or shaper
       reserved for DetNet flows, for any packet that does not carry a
       DetNet Class of Service marker.
 
 8.3.  Cross-DetNet flow resource aggregation
+
+   [Editor's NOTE: keep and extend this section.]
 
    The ability to aggregate individual flows, and their associated
    resource control, into a larger aggregate is an important technique
@@ -1036,6 +1058,14 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    into and from an H-LSP.  Both carried LSPs and H-LSPs may or may not
    use the TC field, i.e., L-LSPs or E-LSPs.  Such nodes will need to
    ensure that traffic from aggregated LSPs are placed (shaped/policed/
+
+
+
+Korhonen & Varga        Expires October 17, 2018               [Page 19]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
+
    enqueued) onto the H-LSPs in a fashion that ensures the required
    DetNet service is preserved.
 
@@ -1048,7 +1078,7 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    traffic from aggregated LSPs are placed (shaped/policed/enqueued) in
    a fashion that ensures the required DetNet service is preserved.
 
-   Comment #38  SB> I am sure we can do better than this with SR, or the
+   Comment #4  SB> I am sure we can do better than this with SR, or the
       use of routing techniques that map certain addresses to certain
       paths.
 
@@ -1058,19 +1088,13 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    control capabilities needed at a DetNet-aware node may be covered in
    the new service descriptions mentioned above or in separate future
    documents.  Management and control plane mechanisms will also need to
-
-
-
-Korhonen & Varga        Expires October 16, 2018               [Page 19]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
-
    ensure that the service required on the aggregate flow (H-LSP or
    DSCP) are provided, which may include the discarding or remarking
    mentioned in the previous sections.
 
 8.4.  Bidirectional traffic
+
+   [Editor's NOTE: delete this section.]
 
    Some DetNet applications generate bidirectional traffic.  Using MPLS
    definitions [RFC5654] there are associated bidirectional flows, and
@@ -1090,6 +1114,14 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    flows and co-routed bidirectional flows can be applied to DetNet
    flows as well whether IPv6 or MPLS is used.
 
+
+
+
+Korhonen & Varga        Expires October 17, 2018               [Page 20]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
+
    While the IPv6 and MPLS data planes must support bidirectional DetNet
    flows, there are no special bidirectional features with respect to
    the data plane other than need for the two directions take the same
@@ -1103,6 +1135,8 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 8.5.  Layer 2 addressing and QoS Considerations
 
+   [Editor's NOTE: review and simplify this section.]
+
    The Time-Sensitive Networking (TSN) Task Group of the IEEE 802.1
    Working Group have defined (and are defining) a number of amendments
    to IEEE 802.1Q [IEEE8021Q] that provide zero congestion loss and
@@ -1113,15 +1147,6 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    As is the case for DetNet, a Layer 2 network node such as a bridge
    may need to identify the specific DetNet flow to which a packet
    belongs in order to provide the TSN/DetNet QoS for that packet.  It
-
-
-
-
-Korhonen & Varga        Expires October 16, 2018               [Page 20]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
-
    also will likely need a CoS marking, such as the priority field of an
    IEEE Std 802.1Q VLAN tag, to give the packet proper service.
 
@@ -1140,19 +1165,35 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    routers and edge label switches.  Edge nodes may also have to move
    sequence number fields among Layer 2, PW, and IPv6 encapsulations.
 
-8.6.  Interworking between MPLS- and IPv6-based encapsulations
-
-   [Editor's note: add considerations for interworking between MPLS-
-   based and native IPv6-based DetNet encapsuations.]
-
-8.7.  IPv4 considerations
+8.6.  IPv4 considerations
 
    [Editor's note: The fact is that there are and will be deployments
    using IPv4.  Neglecting it entirely is not feasible.]
 
+
+
+
+Korhonen & Varga        Expires October 17, 2018               [Page 21]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
+
+8.7.  IPv6 considerations
+
+   [Editor's note: Placeholder for IPv6 specific considerations (e.g.,
+   usage of Flow-label, etc.).]
+
+8.8.  Interworking between MPLS and IP encapsulations
+
+   [Editor's note: add considerations for interworking between MPLS-
+   based and IP-based DetNet encapsuations.]
+
 9.  Time synchronization
 
-   Comment #39  SB> This section should point the reader to RFC8169
+   [Editor's NOTE: delete this section (scope time synchronization
+   solution outside data plane).]
+
+   Comment #5  SB> This section should point the reader to RFC8169
       (residence time in MPLS n/w.  We need to consider if we need to
       introduce the same concept in IP.
 
@@ -1170,14 +1211,6 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    Time Protocol (PTP) [IEEE1588].  The relay nodes may or may not
    utilize clock synchronization in order to provide zero congestion
    loss and controlled latency delivery.  In either case, there are a
-
-
-
-Korhonen & Varga        Expires October 16, 2018               [Page 21]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
-
    few possible approaches of how synchronization protocol packets are
    forwarded and handled by the network:
 
@@ -1193,6 +1226,13 @@ Internet-Draft            DetNet IP Data Plane                April 2018
       that allows a low delay variation.  However, since intermediate
       nodes do not take part in the synchronization protocol, this
       approach provides a relatively low degree of accuracy.
+
+
+
+Korhonen & Varga        Expires October 17, 2018               [Page 22]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
 
    o  PTP with on-path support: in this approach PTP packets are sent as
       ordinary or as DetNet flows, and intermediate nodes take part in
@@ -1220,59 +1260,43 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    synchronization accuracy, since the observed path delay will be
    bivalent.
 
-   Comment #40  SB> I am not sure why we sould not use PREP.  We should
+   Comment #6  SB> I am not sure why we sould not use PREP.  We should
       explain to the reader.
 
    Discussion:  Agree that a this can be opened a bit more in detail.
       The issue is explained briefly in the last sentence but it could
       be more clear.
 
+10.  Management and control plane considerations
+
+   [Editor's note: This section needs to be different for MPLS and IP
+   solutions.  Most solutions are technology dependant,]
+
+   While management plane and control plane are traditionally considered
+   separately, from the Data Plane perspective there is no practical
+   difference based on the origin of flow provisioning information.
+   This document therefore does not distinguish between information
+   provided by a control plane protocol, e.g., RSVP-TE [RFC3209] and
+   [RFC3473], or by a network management mechanisms, e.g., RestConf
+   [RFC8040] and YANG [RFC7950].
+
+   [Editor's note: This section is a work in progress.  discuss here
+   what kind of enhancements are needed for DetNet and specifically for
 
 
-Korhonen & Varga        Expires October 16, 2018               [Page 22]
+
+Korhonen & Varga        Expires October 17, 2018               [Page 23]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
 
-10.  Management and control considerations
-
-   [Editor's note: This section needs to be different for MPLS and IPv6
-   solutions.  Most solutions are technology dependant,]
-
-   While management plane and control planes are traditionally
-   considered separately, from the Data Plane perspective there is no
-   practical difference based on the origin of flow provisioning
-   information.  This document therefore does not distinguish between
-   information provided by a control plane protocol, e.g., RSVP-TE
-   [RFC3209] and [RFC3473], or by a network management mechanisms, e.g.,
-   RestConf [RFC8040] and YANG [RFC7950].
-
-   [Editor's note: This section is a work in progress.  discuss here
-   what kind of enhancements are needed for DetNet and specifically for
    PREF and DetNet zero congest loss and latency control.  Need to cover
    both traffic control (queuing) and connection control (control
    plane).]
 
-10.1.  MPLS-based data plane
+10.1.  IP-based data plane
 
-10.1.1.  S-Label assignment and distribution
-
-   [Editor's note: Outdated and MPLS specific.. and needs more work.]
-
-   The DetNet S-Label distribution follows the same mechanisms specified
-   for XYZ . The details of the control plane protocol solution required
-   for the label distribution and the management of the label number
-   space are out of scope of this document.
-
-10.1.2.  Explicit routes
-
-   [Editor's note: Outdated.. and needs more work.]
-
-   [TBD: based on MPLS TE and possibly IPv6 SR]
-
-10.2.  IPv6-based data plane
-
-10.2.1.  Flow Label assignment and distribution
+10.1.1.  Flow Label assignment and distribution
 
    [Editor's note: Outdated and IPv6 Specific.. and needs more work.]
 
@@ -1281,25 +1305,17 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    combination of the IPv6 source address and the IPv6 Flow Label is
    assumed to be unique within the DetNet-enabled network.  Therefore,
    as long as each node is able to assign unique Flow Labels for the
-
-
-
-
-Korhonen & Varga        Expires October 16, 2018               [Page 23]
-
-Internet-Draft            DetNet IP Data Plane                April 2018
-
-
    source address(es) it is using the DetNet-enabled network wide flow
    identification uniqueness is guaranteed.
 
-10.2.2.  Explicit routes
+10.1.2.  Explicit routes
 
    [Editor's note: Outdated.. and needs more work.]
 
-   [TBD: What we have there for IPv6 and explicit routes]
+   [TBD: What we have there for IPv6 and explicit routes.  Also add IPv4
+   specific findings (i.e., limitations).]
 
-10.3.  Packet replication and elimination
+10.2.  Packet replication and elimination
 
    [Editor's note: Outdated and at the functional level technology
    independent.. but needs more work.]
@@ -1307,11 +1323,11 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    The control plane protocol solution required for managing the PREF
    processing is outside the scope of this document.
 
-10.4.  Congestion protection and latency control
+10.3.  Congestion protection and latency control
 
    [TBD]
 
-10.5.  Flow aggregation control
+10.4.  Flow aggregation control
 
    [TBD]
 
@@ -1321,6 +1337,14 @@ Internet-Draft            DetNet IP Data Plane                April 2018
    [I-D.ietf-detnet-architecture] and [I-D.sdt-detnet-security].  Other
    security considerations will be added in a future version of this
    draft.
+
+
+
+
+Korhonen & Varga        Expires October 17, 2018               [Page 24]
+
+Internet-Draft            DetNet IP Data Plane                April 2018
+
 
 12.  IANA considerations
 
@@ -1341,7 +1365,39 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 
 
-Korhonen & Varga        Expires October 16, 2018               [Page 24]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Korhonen & Varga        Expires October 17, 2018               [Page 25]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
@@ -1363,8 +1419,8 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
       Janos Farkas
       Ericsson
-      Konyves Kalman krt. 11/B
-      Budapest  1097
+      Magyar Tudosok krt. 11
+      Budapest  1117
       Hungary
       Email: janos.farkas@ericsson.com
 
@@ -1397,7 +1453,7 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 
 
-Korhonen & Varga        Expires October 16, 2018               [Page 25]
+Korhonen & Varga        Expires October 17, 2018               [Page 26]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
@@ -1453,7 +1509,7 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 
 
-Korhonen & Varga        Expires October 16, 2018               [Page 26]
+Korhonen & Varga        Expires October 17, 2018               [Page 27]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
@@ -1509,7 +1565,7 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 
 
-Korhonen & Varga        Expires October 16, 2018               [Page 27]
+Korhonen & Varga        Expires October 17, 2018               [Page 28]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
@@ -1565,7 +1621,7 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 
 
-Korhonen & Varga        Expires October 16, 2018               [Page 28]
+Korhonen & Varga        Expires October 17, 2018               [Page 29]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
@@ -1621,7 +1677,7 @@ Internet-Draft            DetNet IP Data Plane                April 2018
 
 
 
-Korhonen & Varga        Expires October 16, 2018               [Page 29]
+Korhonen & Varga        Expires October 17, 2018               [Page 30]
 
 Internet-Draft            DetNet IP Data Plane                April 2018
 
@@ -1654,8 +1710,8 @@ Authors' Addresses
 
    Balazs Varga (editor)
    Ericsson
-   Konyves Kalman krt. 11/B
-   Budapest  1097
+   Magyar Tudosok krt. 11.
+   Budapest  1117
    Hungary
 
    Email: balazs.a.varga@ericsson.com
@@ -1677,4 +1733,4 @@ Authors' Addresses
 
 
 
-Korhonen & Varga        Expires October 16, 2018               [Page 30]
+Korhonen & Varga        Expires October 17, 2018               [Page 31]
